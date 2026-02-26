@@ -229,9 +229,51 @@ See [docs/fine-tuning-cli.md](docs/fine-tuning-cli.md) for detailed training doc
 - **Validation**: ADS Search API
 - **Tools**: mise (runtimes), uv (Python), Bun (Node)
 
+## Colab Notebooks
+
+| Notebook | Purpose |
+|----------|---------|
+| [`scripts/train_colab.ipynb`](https://colab.research.google.com/github/sjarmak/nls-finetune-scix/blob/main/scripts/train_colab.ipynb) | Train / retrain the model (A100 GPU, ~90 min) |
+| [`scripts/serve_colab.ipynb`](https://colab.research.google.com/github/sjarmak/nls-finetune-scix/blob/main/scripts/serve_colab.ipynb) | Serve the model for testing (free T4 GPU + ngrok) |
+
+## Annotation & Review
+
+### Web UI (Playground, Dataset Browser, Evaluation)
+
+```bash
+mise run dev   # starts API (:8000) + web (:5173)
+```
+
+- **Playground** — test queries against the model interactively
+- **Dataset Browser** — browse training examples by category, view gold vs generated splits
+- **Evaluation** — review model accuracy metrics, inspect pass/fail per test case
+
+### NER Annotation Dashboard
+
+A standalone HTML dashboard for reviewing and curating named entity annotations on scientific abstracts.
+
+```bash
+# Generate the dashboard
+python scripts/generate_annotation_dashboard.py
+
+# Open in browser
+open data/evaluation/review_ner_annotations.html
+```
+
+Features: accept/reject entity spans, filter by domain/status, keyboard shortcuts, export to JSONL for training. See [docs/annotation-guide.md](docs/annotation-guide.md) for annotation guidelines.
+
+### Exporting Annotations to Training Data
+
+```bash
+python scripts/export_annotations_to_training.py \
+  --input ner_annotations_export.jsonl \
+  --output-dir data/datasets/enrichment
+```
+
 ## Documentation
 
 - [Docker Deployment](docker/README.md) - Local and Docker deployment
 - [Fine-Tuning & Training Guide](docs/fine-tuning-cli.md) - Model training and deployment
+- [Annotation Guidelines](docs/annotation-guide.md) - How to annotate scientific abstracts
 - [Hybrid Pipeline Architecture](docs/HYBRID_PIPELINE.md) - Deterministic NER pipeline (alternative to model)
 - [ADS Search Syntax](https://ui.adsabs.harvard.edu/help/search/search-syntax) - Official ADS docs
