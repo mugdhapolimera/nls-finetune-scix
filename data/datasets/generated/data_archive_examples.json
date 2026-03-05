@@ -1,0 +1,217 @@
+[
+  {
+    "natural_language": "NED observations of galaxy cluster",
+    "ads_query": "abs:\"galaxy cluster\" data:NED doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "NED observations of extragalactic distance",
+    "ads_query": "abs:\"extragalactic distance\" data:NED doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with NED data on galaxy redshift",
+    "ads_query": "abs:\"galaxy redshift\" data:NED doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "stellar photometry papers with VizieR data links",
+    "ads_query": "abs:\"stellar photometry\" data:VizieR",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to VizieR catalogs about variable stars",
+    "ads_query": "abs:\"variable stars\" data:VizieR doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using VizieR archive data on stellar catalog",
+    "ads_query": "abs:\"stellar catalog\" data:VizieR doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "infrared survey papers with IRSA data links",
+    "ads_query": "abs:\"infrared survey\" data:IRSA doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to IRSA catalogs about dust emission",
+    "ads_query": "abs:\"dust emission\" data:IRSA",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to IRSA catalogs about infrared photometry",
+    "ads_query": "abs:\"infrared photometry\" data:IRSA doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "HEASARC observations of X-ray binary",
+    "ads_query": "abs:\"X-ray binary\" data:HEASARC",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using HEASARC archive data on gamma-ray burst",
+    "ads_query": "abs:\"gamma-ray burst\" data:HEASARC doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to HEASARC catalogs about X-ray source",
+    "ads_query": "abs:\"X-ray source\" data:HEASARC doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "Hubble papers with MAST data links",
+    "ads_query": "abs:\"Hubble\" data:MAST",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with MAST data on planetary nebulae",
+    "ads_query": "abs:\"planetary nebulae\" data:MAST",
+    "category": "data"
+  },
+  {
+    "natural_language": "ultraviolet spectroscopy papers linked to MAST",
+    "ads_query": "abs:\"ultraviolet spectroscopy\" data:MAST doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with PDS data on Mars surface",
+    "ads_query": "abs:\"Mars surface\" data:PDS",
+    "category": "data"
+  },
+  {
+    "natural_language": "asteroid spectroscopy papers linked to PDS",
+    "ads_query": "abs:\"asteroid spectroscopy\" data:PDS doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using PDS archive data on lunar geology",
+    "ads_query": "abs:\"lunar geology\" data:PDS doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "exoplanet characterization papers linked to NExScI",
+    "ads_query": "abs:\"exoplanet characterization\" data:NExScI",
+    "category": "data"
+  },
+  {
+    "natural_language": "transit photometry papers with NExScI data links",
+    "ads_query": "abs:\"transit photometry\" data:NExScI",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to SIMBAD catalogs about globular clusters",
+    "ads_query": "abs:\"globular clusters\" data:SIMBAD doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using SIMBAD archive data on stellar classification",
+    "ads_query": "abs:\"stellar classification\" data:SIMBAD doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "binary stars papers linked to SIMBAD",
+    "ads_query": "abs:\"binary stars\" data:SIMBAD",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles linked to ESO catalogs about VLT spectroscopy",
+    "ads_query": "abs:\"VLT spectroscopy\" data:ESO",
+    "category": "data"
+  },
+  {
+    "natural_language": "galaxy morphology papers linked to ESO",
+    "ads_query": "abs:\"galaxy morphology\" data:ESO",
+    "category": "data"
+  },
+  {
+    "natural_language": "XMM observations of active galactic nuclei",
+    "ads_query": "abs:\"active galactic nuclei\" data:XMM doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "XMM observations of galaxy cluster",
+    "ads_query": "abs:\"galaxy cluster\" data:XMM doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "brown dwarfs papers linked to KOA",
+    "ads_query": "abs:\"brown dwarfs\" data:KOA",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with CXO data on Chandra X-ray",
+    "ads_query": "abs:\"Chandra X-ray\" data:CXO",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using CXO archive data on supernova remnant",
+    "ads_query": "abs:\"supernova remnant\" data:CXO doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "Herschel observations of far-infrared",
+    "ads_query": "abs:\"far-infrared\" data:Herschel",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with Herschel data on star formation",
+    "ads_query": "abs:\"star formation\" data:Herschel",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers with ESA data on Gaia astrometry",
+    "ads_query": "abs:\"Gaia astrometry\" data:ESA",
+    "category": "data"
+  },
+  {
+    "natural_language": "TNS observations of transient",
+    "ads_query": "abs:\"transient\" data:TNS",
+    "category": "data"
+  },
+  {
+    "natural_language": "extragalactic distance papers linked to NED",
+    "ads_query": "abs:\"extragalactic distance\" data:NED",
+    "category": "data"
+  },
+  {
+    "natural_language": "infrared survey papers with IRSA data",
+    "ads_query": "abs:\"infrared survey\" data:IRSA",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers using IRSA archive data on dust emission",
+    "ads_query": "abs:\"dust emission\" data:IRSA doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "Hubble papers with MAST archive data",
+    "ads_query": "abs:\"Hubble\" data:MAST doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "transit photometry articles linked to NExScI",
+    "ads_query": "abs:\"transit photometry\" data:NExScI doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "papers on globular clusters with SIMBAD links",
+    "ads_query": "abs:\"globular clusters\" data:SIMBAD",
+    "category": "data"
+  },
+  {
+    "natural_language": "articles using ESO data on galaxy morphology",
+    "ads_query": "abs:\"galaxy morphology\" data:ESO doctype:article",
+    "category": "data"
+  },
+  {
+    "natural_language": "active galactic nuclei papers with XMM data",
+    "ads_query": "abs:\"active galactic nuclei\" data:XMM",
+    "category": "data"
+  },
+  {
+    "natural_language": "transient discovery papers linked to TNS",
+    "ads_query": "abs:\"transient\" data:TNS doctype:article",
+    "category": "data"
+  }
+]

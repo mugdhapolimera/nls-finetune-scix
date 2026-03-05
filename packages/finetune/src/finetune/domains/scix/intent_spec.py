@@ -61,6 +61,7 @@ class IntentSpec:
     or_terms: list[str] = field(default_factory=list)  # Topics to combine with OR
     authors: list[str] = field(default_factory=list)
     affiliations: list[str] = field(default_factory=list)
+    bibstems: list[str] = field(default_factory=list)
     objects: list[str] = field(default_factory=list)
 
     # Year range
@@ -108,6 +109,7 @@ class IntentSpec:
             or self.or_terms
             or self.authors
             or self.affiliations
+            or self.bibstems
             or self.objects
             or self.year_from
             or self.year_to

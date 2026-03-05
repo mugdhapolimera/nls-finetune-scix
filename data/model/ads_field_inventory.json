@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "source": "ADS Solr Schema and Search Syntax Documentation",
-  "last_updated": "2026-01-22",
+  "last_updated": "2026-03-04",
   "references": [
     "https://ui.adsabs.harvard.edu/help/search/search-syntax",
     "https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list",
@@ -10,49 +10,128 @@
   "field_groups": {
     "content": {
       "description": "Fields for searching document content (abstract, title, body text)",
-      "fields": ["abs", "title", "abstract", "body", "full", "ack", "caption"]
+      "fields": [
+        "abs",
+        "title",
+        "abstract",
+        "body",
+        "full",
+        "ack",
+        "caption"
+      ]
     },
     "author": {
       "description": "Fields for author and affiliation searches",
-      "fields": ["author", "first_author", "author_count", "aff", "inst", "orcid", "orcid_pub", "orcid_user", "orcid_other"]
+      "fields": [
+        "author",
+        "first_author",
+        "author_count",
+        "aff",
+        "inst",
+        "orcid",
+        "orcid_pub",
+        "orcid_user",
+        "orcid_other"
+      ]
     },
     "enum": {
       "description": "Fields with constrained vocabulary (enumerated values)",
-      "fields": ["doctype", "property", "database", "bibgroup", "esources", "data"]
+      "fields": [
+        "doctype",
+        "property",
+        "database",
+        "bibgroup",
+        "esources",
+        "data"
+      ]
     },
     "identifier": {
       "description": "Fields for unique record identifiers",
-      "fields": ["bibcode", "alternate_bibcode", "doi", "arxiv", "identifier"]
+      "fields": [
+        "bibcode",
+        "alternate_bibcode",
+        "doi",
+        "arxiv",
+        "identifier"
+      ]
     },
     "metric": {
       "description": "Numeric fields for citation and engagement metrics",
-      "fields": ["citation_count", "citation_count_norm", "read_count", "author_count", "page_count"]
+      "fields": [
+        "citation_count",
+        "citation_count_norm",
+        "read_count",
+        "author_count",
+        "page_count"
+      ]
     },
     "date": {
       "description": "Fields for temporal/date searches",
-      "fields": ["year", "pubdate", "entry_date", "entdate"]
+      "fields": [
+        "year",
+        "pubdate",
+        "entry_date",
+        "entdate"
+      ]
     },
     "publication": {
       "description": "Fields for publication venue identification",
-      "fields": ["bibstem", "pub", "volume", "issue", "page"]
+      "fields": [
+        "bibstem",
+        "pub",
+        "volume",
+        "issue",
+        "page"
+      ]
     },
     "classification": {
       "description": "Fields for subject/topic classification",
-      "fields": ["keyword", "keyword_norm", "arxiv_class", "vizier", "object", "simbad"]
+      "fields": [
+        "keyword",
+        "keyword_norm",
+        "arxiv_class",
+        "vizier",
+        "object",
+        "simbad"
+      ]
     },
     "special": {
       "description": "Fields with special syntax or operator requirements",
-      "fields": ["citation", "references", "trending", "similar", "useful", "reviews", "topn", "pos"]
+      "fields": [
+        "citation",
+        "references",
+        "trending",
+        "similar",
+        "useful",
+        "reviews",
+        "topn",
+        "pos"
+      ]
+    },
+    "software": {
+      "description": "Fields for software and data mention/credit tracking",
+      "fields": [
+        "mention",
+        "mention_count",
+        "credit",
+        "credit_count"
+      ]
     }
   },
   "fields": {
     "abs": {
       "name": "abs",
-      "aliases": ["abstract_title_keywords"],
+      "aliases": [
+        "abstract_title_keywords"
+      ],
       "type": "text",
       "group": "content",
       "description": "Virtual field searching title, abstract, and keywords simultaneously",
-      "example_values": ["dark matter", "exoplanets", "gravitational waves"],
+      "example_values": [
+        "dark matter",
+        "exoplanets",
+        "gravitational waves"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -68,7 +147,10 @@
       "type": "text",
       "group": "content",
       "description": "Document title field only",
-      "example_values": ["Detection of gravitational waves", "Exoplanet atmospheres"],
+      "example_values": [
+        "Detection of gravitational waves",
+        "Exoplanet atmospheres"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -84,7 +166,10 @@
       "type": "text",
       "group": "content",
       "description": "Paper abstract content only",
-      "example_values": ["We present observations of", "In this paper we analyze"],
+      "example_values": [
+        "We present observations of",
+        "In this paper we analyze"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -100,7 +185,10 @@
       "type": "text",
       "group": "content",
       "description": "Full text body (excluding acknowledgments)",
-      "example_values": ["methodology", "results show"],
+      "example_values": [
+        "methodology",
+        "results show"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -112,11 +200,16 @@
     },
     "full": {
       "name": "full",
-      "aliases": ["fulltext"],
+      "aliases": [
+        "fulltext"
+      ],
       "type": "text",
       "group": "content",
       "description": "Searches title, abstract, body, acknowledgments, and keywords",
-      "example_values": ["HST observations", "Chandra data"],
+      "example_values": [
+        "HST observations",
+        "Chandra data"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -128,11 +221,17 @@
     },
     "ack": {
       "name": "ack",
-      "aliases": ["acknowledgments"],
+      "aliases": [
+        "acknowledgments"
+      ],
       "type": "text",
       "group": "content",
       "description": "Paper acknowledgment section text",
-      "example_values": ["NASA grant", "HST program", "NSF support"],
+      "example_values": [
+        "NASA grant",
+        "HST program",
+        "NSF support"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -148,7 +247,10 @@
       "type": "text",
       "group": "content",
       "description": "Figure and table caption text",
-      "example_values": ["color-magnitude diagram", "light curve"],
+      "example_values": [
+        "color-magnitude diagram",
+        "light curve"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -164,7 +266,11 @@
       "type": "text",
       "group": "author",
       "description": "Author names (surname first format)",
-      "example_values": ["Einstein, A", "Hawking, Stephen", "^Smith, John"],
+      "example_values": [
+        "Einstein, A",
+        "Hawking, Stephen",
+        "^Smith, John"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -181,7 +287,10 @@
       "type": "text",
       "group": "author",
       "description": "Lead author of the paper",
-      "example_values": ["Einstein, A", "Hawking, S"],
+      "example_values": [
+        "Einstein, A",
+        "Hawking, S"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -197,7 +306,11 @@
       "type": "metric",
       "group": "metric",
       "description": "Number of authors on the paper",
-      "example_values": ["1", "10", "[5 TO 20]"],
+      "example_values": [
+        "1",
+        "10",
+        "[5 TO 20]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -209,11 +322,17 @@
     },
     "aff": {
       "name": "aff",
-      "aliases": ["affiliation"],
+      "aliases": [
+        "affiliation"
+      ],
       "type": "text",
       "group": "author",
       "description": "Author affiliation strings (raw text)",
-      "example_values": ["Harvard", "MIT", "Caltech"],
+      "example_values": [
+        "Harvard",
+        "MIT",
+        "Caltech"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -225,11 +344,17 @@
     },
     "inst": {
       "name": "inst",
-      "aliases": ["institution"],
+      "aliases": [
+        "institution"
+      ],
       "type": "text",
       "group": "author",
       "description": "Curated institutional affiliation names",
-      "example_values": ["CfA", "Caltech", "UCLA/IGPP"],
+      "example_values": [
+        "CfA",
+        "Caltech",
+        "UCLA/IGPP"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -246,7 +371,9 @@
       "type": "identifier",
       "group": "author",
       "description": "Virtual field searching all ORCID variants",
-      "example_values": ["0000-0001-2345-6789"],
+      "example_values": [
+        "0000-0001-2345-6789"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -262,7 +389,9 @@
       "type": "identifier",
       "group": "author",
       "description": "Publisher-supplied ORCID identifiers",
-      "example_values": ["0000-0001-2345-6789"],
+      "example_values": [
+        "0000-0001-2345-6789"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -278,7 +407,9 @@
       "type": "identifier",
       "group": "author",
       "description": "User-claimed ORCID identifiers with consent",
-      "example_values": ["0000-0001-2345-6789"],
+      "example_values": [
+        "0000-0001-2345-6789"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -294,7 +425,9 @@
       "type": "identifier",
       "group": "author",
       "description": "Non-public ORCID claims",
-      "example_values": ["0000-0001-2345-6789"],
+      "example_values": [
+        "0000-0001-2345-6789"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -310,12 +443,37 @@
       "type": "enum",
       "group": "enum",
       "description": "Document type classification",
-      "example_values": ["article", "eprint", "inproceedings", "book", "phdthesis", "software"],
+      "example_values": [
+        "article",
+        "eprint",
+        "inproceedings",
+        "book",
+        "phdthesis",
+        "software"
+      ],
       "valid_values": [
-        "abstract", "article", "book", "bookreview", "catalog", "circular",
-        "editorial", "eprint", "erratum", "inbook", "inproceedings",
-        "mastersthesis", "misc", "newsletter", "obituary", "phdthesis",
-        "pressrelease", "proceedings", "proposal", "software", "talk", "techreport"
+        "abstract",
+        "article",
+        "book",
+        "bookreview",
+        "catalog",
+        "circular",
+        "editorial",
+        "eprint",
+        "erratum",
+        "inbook",
+        "inproceedings",
+        "mastersthesis",
+        "misc",
+        "newsletter",
+        "obituary",
+        "phdthesis",
+        "pressrelease",
+        "proceedings",
+        "proposal",
+        "software",
+        "talk",
+        "techreport"
       ],
       "syntax": {
         "supports_wildcards": false,
@@ -332,12 +490,35 @@
       "type": "enum",
       "group": "enum",
       "description": "Record property flags for filtering",
-      "example_values": ["refereed", "openaccess", "data", "eprint", "notrefereed"],
+      "example_values": [
+        "refereed",
+        "openaccess",
+        "data",
+        "eprint",
+        "notrefereed"
+      ],
       "valid_values": [
-        "ads_openaccess", "author_openaccess", "eprint_openaccess", "pub_openaccess",
-        "openaccess", "article", "nonarticle", "refereed", "notrefereed", "eprint",
-        "inproceedings", "software", "catalog", "associated", "data", "esource",
-        "inspire", "library_catalog", "presentation", "toc", "ocr_abstract"
+        "ads_openaccess",
+        "author_openaccess",
+        "eprint_openaccess",
+        "pub_openaccess",
+        "openaccess",
+        "article",
+        "nonarticle",
+        "refereed",
+        "notrefereed",
+        "eprint",
+        "inproceedings",
+        "software",
+        "catalog",
+        "associated",
+        "data",
+        "esource",
+        "inspire",
+        "library_catalog",
+        "presentation",
+        "toc",
+        "ocr_abstract"
       ],
       "syntax": {
         "supports_wildcards": false,
@@ -350,12 +531,23 @@
     },
     "database": {
       "name": "database",
-      "aliases": ["collection"],
+      "aliases": [
+        "collection"
+      ],
       "type": "enum",
       "group": "enum",
       "description": "Collection/database membership",
-      "example_values": ["astronomy", "physics", "general"],
-      "valid_values": ["astronomy", "physics", "general", "earthscience"],
+      "example_values": [
+        "astronomy",
+        "physics",
+        "general"
+      ],
+      "valid_values": [
+        "astronomy",
+        "physics",
+        "general",
+        "earthscience"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -371,15 +563,67 @@
       "type": "enum",
       "group": "enum",
       "description": "Curated bibliographic group membership",
-      "example_values": ["HST", "JWST", "ALMA", "Chandra", "Spitzer"],
+      "example_values": [
+        "HST",
+        "JWST",
+        "ALMA",
+        "Chandra",
+        "Spitzer"
+      ],
       "valid_values": [
-        "HST", "JWST", "Spitzer", "Chandra", "XMM", "GALEX", "Kepler", "K2",
-        "TESS", "FUSE", "IUE", "EUVE", "Copernicus", "IRAS", "WISE", "NEOWISE",
-        "Fermi", "Swift", "RXTE", "NuSTAR", "SOHO", "STEREO", "SDO",
-        "ESO/Telescopes", "CFHT", "Gemini", "Keck", "VLT", "Subaru", "NOAO",
-        "NOIRLab", "CTIO", "KPNO", "Pan-STARRS", "SDSS", "2MASS", "UKIRT",
-        "ALMA", "JCMT", "APEX", "ARECIBO", "VLA", "VLBA", "GBT", "LOFAR",
-        "MeerKAT", "SKA", "Gaia", "Hipparcos", "CfA", "NASA PubSpace", "LISA", "LIGO"
+        "HST",
+        "JWST",
+        "Spitzer",
+        "Chandra",
+        "XMM",
+        "GALEX",
+        "Kepler",
+        "K2",
+        "TESS",
+        "FUSE",
+        "IUE",
+        "EUVE",
+        "Copernicus",
+        "IRAS",
+        "WISE",
+        "NEOWISE",
+        "Fermi",
+        "Swift",
+        "RXTE",
+        "NuSTAR",
+        "SOHO",
+        "STEREO",
+        "SDO",
+        "ESO/Telescopes",
+        "CFHT",
+        "Gemini",
+        "Keck",
+        "VLT",
+        "Subaru",
+        "NOAO",
+        "NOIRLab",
+        "CTIO",
+        "KPNO",
+        "Pan-STARRS",
+        "SDSS",
+        "2MASS",
+        "UKIRT",
+        "ALMA",
+        "JCMT",
+        "APEX",
+        "ARECIBO",
+        "VLA",
+        "VLBA",
+        "GBT",
+        "LOFAR",
+        "MeerKAT",
+        "SKA",
+        "Gaia",
+        "Hipparcos",
+        "CfA",
+        "NASA PubSpace",
+        "LISA",
+        "LIGO"
       ],
       "syntax": {
         "supports_wildcards": false,
@@ -396,10 +640,20 @@
       "type": "enum",
       "group": "enum",
       "description": "Available electronic source formats",
-      "example_values": ["PUB_PDF", "EPRINT_PDF", "ADS_SCAN"],
+      "example_values": [
+        "PUB_PDF",
+        "EPRINT_PDF",
+        "ADS_SCAN"
+      ],
       "valid_values": [
-        "PUB_PDF", "PUB_HTML", "EPRINT_PDF", "EPRINT_HTML",
-        "AUTHOR_PDF", "AUTHOR_HTML", "ADS_PDF", "ADS_SCAN"
+        "PUB_PDF",
+        "PUB_HTML",
+        "EPRINT_PDF",
+        "EPRINT_HTML",
+        "AUTHOR_PDF",
+        "AUTHOR_HTML",
+        "ADS_PDF",
+        "ADS_SCAN"
       ],
       "syntax": {
         "supports_wildcards": false,
@@ -416,11 +670,37 @@
       "type": "enum",
       "group": "enum",
       "description": "Associated data archive sources",
-      "example_values": ["MAST", "NED", "SIMBAD", "Chandra"],
+      "example_values": [
+        "MAST",
+        "NED",
+        "SIMBAD",
+        "Chandra"
+      ],
       "valid_values": [
-        "ARI", "BICEP2", "Chandra", "CXO", "ESA", "ESO", "GCPD", "GTC",
-        "HEASARC", "Herschel", "INES", "IRSA", "ISO", "KOA", "MAST", "NED",
-        "NExScI", "NOAO", "PDS", "SIMBAD", "Spitzer", "TNS", "VizieR", "XMM"
+        "ARI",
+        "BICEP2",
+        "Chandra",
+        "CXO",
+        "ESA",
+        "ESO",
+        "GCPD",
+        "GTC",
+        "HEASARC",
+        "Herschel",
+        "INES",
+        "IRSA",
+        "ISO",
+        "KOA",
+        "MAST",
+        "NED",
+        "NExScI",
+        "NOAO",
+        "PDS",
+        "SIMBAD",
+        "Spitzer",
+        "TNS",
+        "VizieR",
+        "XMM"
       ],
       "syntax": {
         "supports_wildcards": false,
@@ -437,7 +717,10 @@
       "type": "identifier",
       "group": "identifier",
       "description": "ADS bibliographic code identifier",
-      "example_values": ["2020ApJ...900..100S", "2023Natur.615..605H"],
+      "example_values": [
+        "2020ApJ...900..100S",
+        "2023Natur.615..605H"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -453,7 +736,9 @@
       "type": "identifier",
       "group": "identifier",
       "description": "Alternative bibcode identifiers",
-      "example_values": ["2020arXiv200100001A"],
+      "example_values": [
+        "2020arXiv200100001A"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -469,7 +754,10 @@
       "type": "identifier",
       "group": "identifier",
       "description": "Digital Object Identifier",
-      "example_values": ["10.1086/345794", "10.1038/nature12917"],
+      "example_values": [
+        "10.1086/345794",
+        "10.1038/nature12917"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -481,11 +769,16 @@
     },
     "arxiv": {
       "name": "arxiv",
-      "aliases": ["arXiv"],
+      "aliases": [
+        "arXiv"
+      ],
       "type": "identifier",
       "group": "identifier",
       "description": "arXiv preprint identifier",
-      "example_values": ["2301.00001", "astro-ph/0401001"],
+      "example_values": [
+        "2301.00001",
+        "astro-ph/0401001"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -501,7 +794,10 @@
       "type": "identifier",
       "group": "identifier",
       "description": "Virtual field searching all identifier types",
-      "example_values": ["2020ApJ...900..100S", "10.1086/345794"],
+      "example_values": [
+        "2020ApJ...900..100S",
+        "10.1086/345794"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -517,7 +813,11 @@
       "type": "metric",
       "group": "metric",
       "description": "Total number of citations received",
-      "example_values": ["100", "[50 TO 200]", "[100 TO *]"],
+      "example_values": [
+        "100",
+        "[50 TO 200]",
+        "[100 TO *]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -533,7 +833,10 @@
       "type": "metric",
       "group": "metric",
       "description": "Citations normalized by author count",
-      "example_values": ["10.5", "[5.0 TO 20.0]"],
+      "example_values": [
+        "10.5",
+        "[5.0 TO 20.0]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -549,7 +852,10 @@
       "type": "metric",
       "group": "metric",
       "description": "Recent reader engagement metric",
-      "example_values": ["100", "[50 TO *]"],
+      "example_values": [
+        "100",
+        "[50 TO *]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -565,7 +871,10 @@
       "type": "metric",
       "group": "metric",
       "description": "Number of pages in the document",
-      "example_values": ["10", "[5 TO 20]"],
+      "example_values": [
+        "10",
+        "[5 TO 20]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -581,7 +890,11 @@
       "type": "date",
       "group": "date",
       "description": "Publication year",
-      "example_values": ["2023", "2020-2023", "[2020 TO 2023]"],
+      "example_values": [
+        "2023",
+        "2020-2023",
+        "[2020 TO 2023]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -598,7 +911,10 @@
       "type": "date",
       "group": "date",
       "description": "Publication date (year-month precision)",
-      "example_values": ["[2020-01 TO 2020-12]", "[2023-06 TO *]"],
+      "example_values": [
+        "[2020-01 TO 2020-12]",
+        "[2023-06 TO *]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -611,11 +927,15 @@
     },
     "entry_date": {
       "name": "entry_date",
-      "aliases": ["entdate"],
+      "aliases": [
+        "entdate"
+      ],
       "type": "date",
       "group": "date",
       "description": "Date record was added to ADS",
-      "example_values": ["[2023-01-01 TO 2023-12-31]"],
+      "example_values": [
+        "[2023-01-01 TO 2023-12-31]"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -632,7 +952,13 @@
       "type": "text",
       "group": "publication",
       "description": "Journal/publication abbreviation code",
-      "example_values": ["ApJ", "MNRAS", "A&A", "Nature", "Sci"],
+      "example_values": [
+        "ApJ",
+        "MNRAS",
+        "A&A",
+        "Nature",
+        "Sci"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -644,11 +970,16 @@
     },
     "pub": {
       "name": "pub",
-      "aliases": ["publication"],
+      "aliases": [
+        "publication"
+      ],
       "type": "text",
       "group": "publication",
       "description": "Full publication/journal name",
-      "example_values": ["Astrophysical Journal", "Monthly Notices"],
+      "example_values": [
+        "Astrophysical Journal",
+        "Monthly Notices"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -664,7 +995,10 @@
       "type": "text",
       "group": "publication",
       "description": "Journal volume number",
-      "example_values": ["900", "615"],
+      "example_values": [
+        "900",
+        "615"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -680,7 +1014,10 @@
       "type": "text",
       "group": "publication",
       "description": "Journal issue number",
-      "example_values": ["1", "12"],
+      "example_values": [
+        "1",
+        "12"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -696,7 +1033,11 @@
       "type": "text",
       "group": "publication",
       "description": "Page number or article ID",
-      "example_values": ["100", "L12", "123456"],
+      "example_values": [
+        "100",
+        "L12",
+        "123456"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -712,7 +1053,11 @@
       "type": "text",
       "group": "classification",
       "description": "Author/publisher-supplied keywords",
-      "example_values": ["black holes", "exoplanets", "gravitational waves"],
+      "example_values": [
+        "black holes",
+        "exoplanets",
+        "gravitational waves"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -728,7 +1073,10 @@
       "type": "text",
       "group": "classification",
       "description": "Controlled vocabulary keywords",
-      "example_values": ["stars: neutron", "galaxies: evolution"],
+      "example_values": [
+        "stars: neutron",
+        "galaxies: evolution"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -744,7 +1092,12 @@
       "type": "text",
       "group": "classification",
       "description": "arXiv classification category",
-      "example_values": ["astro-ph.GA", "astro-ph.CO", "gr-qc", "hep-th"],
+      "example_values": [
+        "astro-ph.GA",
+        "astro-ph.CO",
+        "gr-qc",
+        "hep-th"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -760,7 +1113,10 @@
       "type": "text",
       "group": "classification",
       "description": "VizieR catalog keywords",
-      "example_values": ["stellar", "photometry"],
+      "example_values": [
+        "stellar",
+        "photometry"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -776,7 +1132,12 @@
       "type": "special",
       "group": "classification",
       "description": "Astronomical object name or coordinate search",
-      "example_values": ["M31", "NGC 1234", "Proxima Centauri", "05 23 34.5 -69 45 22:0.166"],
+      "example_values": [
+        "M31",
+        "NGC 1234",
+        "Proxima Centauri",
+        "05 23 34.5 -69 45 22:0.166"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -793,7 +1154,10 @@
       "type": "text",
       "group": "classification",
       "description": "SIMBAD object identifiers",
-      "example_values": ["M 31", "* alf CMa"],
+      "example_values": [
+        "M 31",
+        "* alf CMa"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -809,7 +1173,9 @@
       "type": "special",
       "group": "special",
       "description": "List of bibcodes that cite this paper (used in citations() operator)",
-      "example_values": ["2020ApJ...900..100S"],
+      "example_values": [
+        "2020ApJ...900..100S"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -826,7 +1192,9 @@
       "type": "special",
       "group": "special",
       "description": "List of bibcodes referenced by this paper (used in references() operator)",
-      "example_values": ["2020ApJ...900..100S"],
+      "example_values": [
+        "2020ApJ...900..100S"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -911,7 +1279,10 @@
       "type": "special",
       "group": "special",
       "description": "Returns top N results by a sort criteria",
-      "example_values": ["10", "100"],
+      "example_values": [
+        "10",
+        "100"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -928,7 +1299,9 @@
       "type": "special",
       "group": "special",
       "description": "Positional search within author list",
-      "example_values": ["pos(author:\"Smith\", 1, 3)"],
+      "example_values": [
+        "pos(author:\"Smith\", 1, 3)"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -945,7 +1318,11 @@
       "type": "text",
       "group": "publication",
       "description": "Grant identifiers and funding agencies",
-      "example_values": ["NASA", "NSF", "NNX12AB34G"],
+      "example_values": [
+        "NASA",
+        "NSF",
+        "NNX12AB34G"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -961,7 +1338,11 @@
       "type": "text",
       "group": "publication",
       "description": "Observational facilities declared in paper",
-      "example_values": ["VLT", "HST", "Keck"],
+      "example_values": [
+        "VLT",
+        "HST",
+        "Keck"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": false,
@@ -973,11 +1354,18 @@
     },
     "lang": {
       "name": "lang",
-      "aliases": ["language"],
+      "aliases": [
+        "language"
+      ],
       "type": "text",
       "group": "publication",
       "description": "Document language (primarily title)",
-      "example_values": ["en", "de", "fr", "es"],
+      "example_values": [
+        "en",
+        "de",
+        "fr",
+        "es"
+      ],
       "syntax": {
         "supports_wildcards": false,
         "supports_proximity": false,
@@ -993,7 +1381,11 @@
       "type": "text",
       "group": "publication",
       "description": "Publisher copyright attribution",
-      "example_values": ["AAS", "IOP", "EDP Sciences"],
+      "example_values": [
+        "AAS",
+        "IOP",
+        "EDP Sciences"
+      ],
       "syntax": {
         "supports_wildcards": true,
         "supports_proximity": true,
@@ -1002,6 +1394,160 @@
         "exact_prefix": null
       },
       "notes": "Copyright holder text"
+    },
+    "mention": {
+      "name": "mention",
+      "aliases": [],
+      "type": "identifier_string",
+      "group": "software",
+      "description": "Bibcodes of software/data records mentioned in this paper. Stores bibcodes; inverse of credit field.",
+      "example_values": [
+        "1999ascl.soft10005A",
+        "2013A&A...558A..33A"
+      ],
+      "syntax": {
+        "supports_wildcards": true,
+        "supports_proximity": false,
+        "supports_phrase": false,
+        "supports_synonyms": false
+      },
+      "notes": "Part of the mentions/credits system for tracking software and data usage in papers"
+    },
+    "mention_count": {
+      "name": "mention_count",
+      "aliases": [],
+      "type": "int",
+      "group": "metric",
+      "description": "Number of software/data records mentioned in this paper",
+      "example_values": [
+        0,
+        1,
+        5,
+        10
+      ],
+      "syntax": {
+        "supports_wildcards": false,
+        "supports_proximity": false,
+        "supports_phrase": false,
+        "supports_range": true
+      },
+      "notes": "Use range syntax: mention_count:[5 TO *]"
+    },
+    "credit": {
+      "name": "credit",
+      "aliases": [],
+      "type": "identifier_string",
+      "group": "software",
+      "description": "Bibcodes of papers that credit this software/data record. Inverse of mention field.",
+      "example_values": [
+        "2022ApJ...938L...7D"
+      ],
+      "syntax": {
+        "supports_wildcards": true,
+        "supports_proximity": false,
+        "supports_phrase": false,
+        "supports_synonyms": false
+      },
+      "notes": "For software/data records, lists papers that mention this record"
+    },
+    "credit_count": {
+      "name": "credit_count",
+      "aliases": [],
+      "type": "int",
+      "group": "metric",
+      "description": "Number of papers that credit this software/data record",
+      "example_values": [
+        0,
+        5,
+        20,
+        100
+      ],
+      "syntax": {
+        "supports_wildcards": false,
+        "supports_proximity": false,
+        "supports_phrase": false,
+        "supports_range": true
+      },
+      "notes": "Use range syntax: credit_count:[20 TO *]"
+    },
+    "has": {
+      "name": "has",
+      "aliases": [],
+      "type": "special",
+      "group": "enum",
+      "description": "Filter by presence of metadata fields. Checks whether a record has alphanumeric content in the specified field.",
+      "example_values": [
+        "body",
+        "ack",
+        "data",
+        "grant",
+        "orcid_pub",
+        "mention",
+        "abstract"
+      ],
+      "syntax": {
+        "supports_wildcards": false,
+        "supports_proximity": false,
+        "supports_phrase": false,
+        "supports_synonyms": false
+      },
+      "valid_values": [
+        "abstract",
+        "ack",
+        "aff",
+        "aff_id",
+        "author",
+        "bibgroup",
+        "body",
+        "citation",
+        "comment",
+        "credit",
+        "data",
+        "database",
+        "doctype",
+        "doi",
+        "first_author",
+        "grant",
+        "identifier",
+        "institution",
+        "issue",
+        "keyword",
+        "mention",
+        "orcid_other",
+        "orcid_pub",
+        "orcid_user",
+        "origin",
+        "property",
+        "pub",
+        "pub_raw",
+        "publisher",
+        "reference",
+        "title",
+        "uat",
+        "volume"
+      ],
+      "notes": "Populated by ADSMasterPipeline. Example: has:body finds papers with searchable full text."
+    },
+    "affil": {
+      "name": "affil",
+      "aliases": [
+        "affiliation"
+      ],
+      "type": "text",
+      "group": "author",
+      "description": "Virtual field searching across aff, aff_abbrev, aff_canonical, aff_id, and institution fields simultaneously",
+      "example_values": [
+        "NASA Goddard",
+        "Berkeley",
+        "Max Planck"
+      ],
+      "syntax": {
+        "supports_wildcards": true,
+        "supports_proximity": true,
+        "supports_phrase": true,
+        "supports_synonyms": false
+      },
+      "notes": "Broadest affiliation search - searches all affiliation-related fields at once"
     }
   },
   "operators": {

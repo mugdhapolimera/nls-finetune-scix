@@ -1,0 +1,137 @@
+[
+  {
+    "natural_language": "papers in Astrophysical Journal on stellar evolution",
+    "ads_query": "bibstem:\"ApJ\" abs:\"stellar evolution\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "MNRAS papers on AGN feedback",
+    "ads_query": "bibstem:\"MNRAS\" abs:\"AGN feedback\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Astronomy and Astrophysics papers on chemical abundances",
+    "ads_query": "bibstem:\"A&A\" abs:\"chemical abundances\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Nature on gravitational waves",
+    "ads_query": "bibstem:\"Nature\" abs:\"gravitational waves\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Science on exoplanet discovery",
+    "ads_query": "bibstem:\"Science\" abs:\"exoplanet\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in PRL on neutrino oscillations",
+    "ads_query": "bibstem:\"PhRvL\" abs:\"neutrino oscillations\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Physical Review D on dark matter candidates",
+    "ads_query": "bibstem:\"PhRvD\" abs:\"dark matter\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Astronomical Journal papers on proper motions",
+    "ads_query": "bibstem:\"AJ\" abs:\"proper motions\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Astrophysical Journal Letters on fast radio bursts",
+    "ads_query": "bibstem:\"ApJL\" abs:\"fast radio bursts\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Astrophysical Journal Supplement Series on survey catalogs",
+    "ads_query": "bibstem:\"ApJS\" abs:\"survey catalog\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "JCAP papers on dark energy",
+    "ads_query": "bibstem:\"JCAP\" abs:\"dark energy\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Publications of the Astronomical Society of Japan on X-ray binaries",
+    "ads_query": "bibstem:\"PASJ\" abs:\"X-ray binaries\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Solar Physics on coronal mass ejections",
+    "ads_query": "bibstem:\"SoPh\" abs:\"coronal mass ejections\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Space Science Reviews articles on magnetospheric physics",
+    "ads_query": "bibstem:\"SSRv\" abs:\"magnetospheric physics\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers published in New Astronomy Reviews about galaxy morphology",
+    "ads_query": "bibstem:\"NewAR\" abs:\"galaxy morphology\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Geophysical Research Letters papers on atmospheric chemistry",
+    "ads_query": "bibstem:\"GeoRL\" abs:\"atmospheric chemistry\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Classical and Quantum Gravity on black hole mergers",
+    "ads_query": "bibstem:\"CQGra\" abs:\"black hole mergers\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Living Reviews in Relativity articles on general relativity tests",
+    "ads_query": "bibstem:\"LRR\" abs:\"general relativity\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers published in Experimental Astronomy about detector technology",
+    "ads_query": "bibstem:\"ExA\" abs:\"detector technology\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Astrobiology on habitability",
+    "ads_query": "bibstem:\"AsBio\" abs:\"habitability\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in ARA&A on star formation",
+    "ads_query": "bibstem:\"ARA&A\" abs:\"star formation\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in PASP on photometric calibration",
+    "ads_query": "bibstem:\"PASP\" abs:\"photometric calibration\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Physical Review C articles on nuclear astrophysics",
+    "ads_query": "bibstem:\"PhRvC\" abs:\"nuclear astrophysics\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Nuclear Physics B on neutrino mass",
+    "ads_query": "bibstem:\"NuPhB\" abs:\"neutrino mass\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in European Physical Journal C on Higgs boson",
+    "ads_query": "bibstem:\"EPJC\" abs:\"Higgs boson\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "publications in Icarus on Titan atmosphere",
+    "ads_query": "bibstem:\"Icar\" abs:\"Titan\" abs:\"atmosphere\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Planetary and Space Science on Mars geology",
+    "ads_query": "bibstem:\"P&SS\" abs:\"Mars\" abs:\"geology\"",
+    "category": "publication"
+  }
+]

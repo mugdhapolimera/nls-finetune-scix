@@ -1,0 +1,152 @@
+[
+  {
+    "natural_language": "papers from MIT on gravitational waves",
+    "ads_query": "inst:\"MIT\" abs:\"gravitational waves\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from Harvard-Smithsonian Center for Astrophysics",
+    "ads_query": "inst:\"CfA\" property:refereed",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from Caltech on exoplanets",
+    "ads_query": "inst:\"Caltech\" abs:\"exoplanets\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from Space Telescope Science Institute",
+    "ads_query": "inst:\"STScI\" property:refereed",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from European Southern Observatory on extragalactic astronomy",
+    "ads_query": "inst:\"ESO\" abs:\"extragalactic\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from Max Planck Institute for Astrophysics",
+    "ads_query": "inst:\"MPA\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from Princeton University on cosmology",
+    "ads_query": "inst:\"Princeton U\" abs:\"cosmology\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "Jet Propulsion Laboratory papers on Mars rovers",
+    "ads_query": "inst:\"JPL\" abs:\"Mars rover\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from Stanford about particle physics",
+    "ads_query": "inst:\"Stanford U\" abs:\"particle physics\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from NOAO",
+    "ads_query": "inst:\"NOAO\" property:refereed",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "research from Goddard Space Flight Center on X-ray astronomy",
+    "ads_query": "inst:\"GSFC\" abs:\"X-ray\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from NRAO",
+    "ads_query": "inst:\"NRAO\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "Institute for Advanced Study papers on string theory",
+    "ads_query": "inst:\"IAS\" abs:\"string theory\" property:refereed",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from the NAOJ",
+    "ads_query": "inst:\"NAOJ\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from Space Telescope Science Institute on Hubble observations",
+    "ads_query": "inst:\"STScI\" abs:\"Hubble\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from IPAC on infrared surveys",
+    "ads_query": "inst:\"IPAC\" abs:\"infrared survey\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "University of Tokyo papers on neutrinos",
+    "ads_query": "(inst:\"U Tokyo\" OR aff:\"University of Tokyo\") abs:\"neutrinos\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from CERN about dark matter detection",
+    "ads_query": "(inst:\"CERN\" OR aff:\"CERN\") abs:\"dark matter detection\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "research from University of Cambridge on quasars",
+    "ads_query": "(inst:\"U Cambridge\" OR aff:\"University of Cambridge\") abs:\"quasars\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from Inter-University Centre for Astronomy and Astrophysics",
+    "ads_query": "(inst:\"IUCAA\" OR aff:\"Inter-University Centre for Astronomy and Astrophysics\")",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from University of Hawaii about telescope",
+    "ads_query": "(inst:\"U Hawaii\" OR aff:\"University of Hawaii\") abs:\"telescope\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from any institution matching NASA Goddard on gamma-ray bursts",
+    "ads_query": "affil:\"NASA Goddard\" abs:\"gamma-ray burst\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from any institution matching Berkeley on supernovae",
+    "ads_query": "affil:\"Berkeley\" abs:\"supernova\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "joint MIT and Caltech publications on LIGO",
+    "ads_query": "inst:\"MIT\" inst:\"Caltech\" abs:\"LIGO\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "joint ESO and ESA publications on space missions",
+    "ads_query": "inst:\"ESO\" inst:\"ESA\" abs:\"space mission\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from the Harvard-Smithsonian Center for Astrophysics",
+    "ads_query": "inst:\"CfA\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from the Space Telescope Science Institute",
+    "ads_query": "inst:\"STScI\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from the National Optical Astronomy Observatory",
+    "ads_query": "inst:\"NOAO\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "papers from the Institute for Advanced Study about string theory",
+    "ads_query": "inst:\"IAS\" abs:\"string theory\"",
+    "category": "affiliation"
+  },
+  {
+    "natural_language": "publications from the Inter-University Centre for Astronomy and Astrophysics in India",
+    "ads_query": "(inst:\"IUCAA\" OR aff:\"IUCAA\")",
+    "category": "affiliation"
+  }
+]

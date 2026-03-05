@@ -1,0 +1,292 @@
+{
+  "version": "1.0.0",
+  "description": "Institution common name to ADS inst: abbreviation mappings",
+  "last_updated": "2026-03-04",
+  "references": [
+    "https://github.com/adsabs/CanonicalAffiliations",
+    "https://ui.adsabs.harvard.edu/help/search/search-syntax"
+  ],
+  "notes": "These mappings allow natural language queries using institution names to match curated inst: abbreviations. Can be expanded via scripts/collect_institutions.py parsing CanonicalAffiliations/parent_child.tsv.",
+  "synonyms": {
+    "MIT": {
+      "inst_abbrev": "MIT",
+      "common_names": ["Massachusetts Institute of Technology", "MIT", "M.I.T."],
+      "parent": null
+    },
+    "Caltech": {
+      "inst_abbrev": "Caltech",
+      "common_names": ["California Institute of Technology", "Caltech", "Cal Tech"],
+      "parent": null
+    },
+    "CfA": {
+      "inst_abbrev": "CfA",
+      "common_names": ["Harvard-Smithsonian Center for Astrophysics", "Center for Astrophysics", "CfA", "Harvard CfA"],
+      "parent": null
+    },
+    "STScI": {
+      "inst_abbrev": "STScI",
+      "common_names": ["Space Telescope Science Institute", "STScI", "ST ScI"],
+      "parent": null
+    },
+    "JPL": {
+      "inst_abbrev": "JPL",
+      "common_names": ["Jet Propulsion Laboratory", "JPL", "NASA JPL"],
+      "parent": "NASA"
+    },
+    "GSFC": {
+      "inst_abbrev": "GSFC",
+      "common_names": ["Goddard Space Flight Center", "GSFC", "NASA Goddard"],
+      "parent": "NASA"
+    },
+    "ESO": {
+      "inst_abbrev": "ESO",
+      "common_names": ["European Southern Observatory", "ESO"],
+      "parent": null
+    },
+    "ESA": {
+      "inst_abbrev": "ESA",
+      "common_names": ["European Space Agency", "ESA"],
+      "parent": null
+    },
+    "NRAO": {
+      "inst_abbrev": "NRAO",
+      "common_names": ["National Radio Astronomy Observatory", "NRAO"],
+      "parent": null
+    },
+    "NOAO": {
+      "inst_abbrev": "NOAO",
+      "common_names": ["National Optical Astronomy Observatory", "NOAO"],
+      "parent": null
+    },
+    "IPAC": {
+      "inst_abbrev": "IPAC",
+      "common_names": ["Infrared Processing and Analysis Center", "IPAC", "NASA/IPAC"],
+      "parent": "Caltech"
+    },
+    "IAS": {
+      "inst_abbrev": "IAS",
+      "common_names": ["Institute for Advanced Study", "IAS", "IAS Princeton"],
+      "parent": null
+    },
+    "MPA": {
+      "inst_abbrev": "MPA",
+      "common_names": ["Max Planck Institute for Astrophysics", "MPA", "Max-Planck-Institut fur Astrophysik"],
+      "parent": "MPG"
+    },
+    "MPE": {
+      "inst_abbrev": "MPE",
+      "common_names": ["Max Planck Institute for Extraterrestrial Physics", "MPE", "Max-Planck-Institut fur extraterrestrische Physik"],
+      "parent": "MPG"
+    },
+    "MPIA": {
+      "inst_abbrev": "MPIA",
+      "common_names": ["Max Planck Institute for Astronomy", "MPIA", "Max-Planck-Institut fur Astronomie"],
+      "parent": "MPG"
+    },
+    "NAOJ": {
+      "inst_abbrev": "NAOJ",
+      "common_names": ["National Astronomical Observatory of Japan", "NAOJ"],
+      "parent": null
+    },
+    "Princeton U": {
+      "inst_abbrev": "Princeton U",
+      "common_names": ["Princeton University", "Princeton"],
+      "parent": null
+    },
+    "Stanford U": {
+      "inst_abbrev": "Stanford U",
+      "common_names": ["Stanford University", "Stanford"],
+      "parent": null
+    },
+    "UC Berkeley": {
+      "inst_abbrev": "UC Berkeley",
+      "common_names": ["University of California, Berkeley", "UC Berkeley", "Berkeley", "UCB"],
+      "parent": "UC"
+    },
+    "UCLA": {
+      "inst_abbrev": "UCLA",
+      "common_names": ["University of California, Los Angeles", "UCLA"],
+      "parent": "UC"
+    },
+    "UCSC": {
+      "inst_abbrev": "UCSC",
+      "common_names": ["University of California, Santa Cruz", "UCSC", "UC Santa Cruz"],
+      "parent": "UC"
+    },
+    "U Hawaii": {
+      "inst_abbrev": "U Hawaii",
+      "common_names": ["University of Hawaii", "UH", "U of Hawaii"],
+      "parent": null
+    },
+    "U Arizona": {
+      "inst_abbrev": "U Arizona",
+      "common_names": ["University of Arizona", "UA", "UArizona"],
+      "parent": null
+    },
+    "U Michigan": {
+      "inst_abbrev": "U Michigan",
+      "common_names": ["University of Michigan", "UMich", "Michigan"],
+      "parent": null
+    },
+    "U Texas": {
+      "inst_abbrev": "U Texas",
+      "common_names": ["University of Texas at Austin", "UT Austin", "U Texas Austin"],
+      "parent": null
+    },
+    "Ohio State U": {
+      "inst_abbrev": "Ohio State U",
+      "common_names": ["Ohio State University", "OSU", "The Ohio State University"],
+      "parent": null
+    },
+    "Yale U": {
+      "inst_abbrev": "Yale U",
+      "common_names": ["Yale University", "Yale"],
+      "parent": null
+    },
+    "Columbia U": {
+      "inst_abbrev": "Columbia U",
+      "common_names": ["Columbia University", "Columbia"],
+      "parent": null
+    },
+    "U Chicago": {
+      "inst_abbrev": "U Chicago",
+      "common_names": ["University of Chicago", "UChicago"],
+      "parent": null
+    },
+    "U Maryland": {
+      "inst_abbrev": "U Maryland",
+      "common_names": ["University of Maryland", "UMD"],
+      "parent": null
+    },
+    "JHU": {
+      "inst_abbrev": "JHU",
+      "common_names": ["Johns Hopkins University", "JHU", "Johns Hopkins"],
+      "parent": null
+    },
+    "U Cambridge": {
+      "inst_abbrev": "U Cambridge",
+      "common_names": ["University of Cambridge", "Cambridge University", "Cambridge"],
+      "parent": null
+    },
+    "U Oxford": {
+      "inst_abbrev": "U Oxford",
+      "common_names": ["University of Oxford", "Oxford University", "Oxford"],
+      "parent": null
+    },
+    "UCL": {
+      "inst_abbrev": "UCL",
+      "common_names": ["University College London", "UCL"],
+      "parent": null
+    },
+    "U Edinburgh": {
+      "inst_abbrev": "U Edinburgh",
+      "common_names": ["University of Edinburgh", "Edinburgh"],
+      "parent": null
+    },
+    "IAC": {
+      "inst_abbrev": "IAC",
+      "common_names": ["Instituto de Astrofisica de Canarias", "IAC"],
+      "parent": null
+    },
+    "INAF": {
+      "inst_abbrev": "INAF",
+      "common_names": ["Istituto Nazionale di Astrofisica", "INAF", "National Institute for Astrophysics"],
+      "parent": null
+    },
+    "CEA": {
+      "inst_abbrev": "CEA",
+      "common_names": ["Commissariat a l'energie atomique", "CEA", "CEA Saclay"],
+      "parent": null
+    },
+    "CNRS": {
+      "inst_abbrev": "CNRS",
+      "common_names": ["Centre National de la Recherche Scientifique", "CNRS"],
+      "parent": null
+    },
+    "Leiden U": {
+      "inst_abbrev": "Leiden U",
+      "common_names": ["Leiden University", "Leiden Observatory", "Leiden"],
+      "parent": null
+    },
+    "ANU": {
+      "inst_abbrev": "ANU",
+      "common_names": ["Australian National University", "ANU"],
+      "parent": null
+    },
+    "U Tokyo": {
+      "inst_abbrev": "U Tokyo",
+      "common_names": ["University of Tokyo", "Tokyo University", "UTokyo"],
+      "parent": null
+    },
+    "Peking U": {
+      "inst_abbrev": "Peking U",
+      "common_names": ["Peking University", "PKU", "Beijing University"],
+      "parent": null
+    },
+    "Tsinghua U": {
+      "inst_abbrev": "Tsinghua U",
+      "common_names": ["Tsinghua University", "Tsinghua"],
+      "parent": null
+    },
+    "CERN": {
+      "inst_abbrev": "CERN",
+      "common_names": ["CERN", "European Organization for Nuclear Research"],
+      "parent": null
+    },
+    "Fermilab": {
+      "inst_abbrev": "Fermilab",
+      "common_names": ["Fermi National Accelerator Laboratory", "Fermilab", "FNAL"],
+      "parent": null
+    },
+    "SLAC": {
+      "inst_abbrev": "SLAC",
+      "common_names": ["SLAC National Accelerator Laboratory", "SLAC", "Stanford Linear Accelerator Center"],
+      "parent": "Stanford U"
+    },
+    "BNL": {
+      "inst_abbrev": "BNL",
+      "common_names": ["Brookhaven National Laboratory", "BNL", "Brookhaven"],
+      "parent": null
+    },
+    "LANL": {
+      "inst_abbrev": "LANL",
+      "common_names": ["Los Alamos National Laboratory", "LANL", "Los Alamos"],
+      "parent": null
+    },
+    "NOIRLab": {
+      "inst_abbrev": "NOIRLab",
+      "common_names": ["NSF NOIRLab", "National Optical-Infrared Astronomy Research Laboratory", "NOIRLab"],
+      "parent": null
+    },
+    "IUCAA": {
+      "inst_abbrev": "IUCAA",
+      "common_names": ["Inter-University Centre for Astronomy and Astrophysics", "IUCAA"],
+      "parent": null
+    },
+    "NASA Ames": {
+      "inst_abbrev": "NASA Ames",
+      "common_names": ["NASA Ames Research Center", "Ames Research Center"],
+      "parent": "NASA"
+    },
+    "MSFC": {
+      "inst_abbrev": "MSFC",
+      "common_names": ["Marshall Space Flight Center", "MSFC", "NASA Marshall"],
+      "parent": "NASA"
+    },
+    "UNAM": {
+      "inst_abbrev": "UNAM",
+      "common_names": ["Universidad Nacional Autónoma de México", "UNAM", "National Autonomous University of Mexico", "Instituto de Astronomía UNAM"],
+      "parent": null
+    },
+    "KIPAC": {
+      "inst_abbrev": "KIPAC",
+      "common_names": ["Kavli Institute for Particle Astrophysics and Cosmology", "KIPAC"],
+      "parent": "Stanford U"
+    },
+    "KITP": {
+      "inst_abbrev": "KITP",
+      "common_names": ["Kavli Institute for Theoretical Physics", "KITP"],
+      "parent": "UC Santa Barbara"
+    }
+  }
+}

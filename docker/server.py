@@ -46,9 +46,15 @@ try:
     sys.path.insert(0, "/app")
     from finetune.domains.scix.pipeline import process_query
     from finetune.domains.scix.validate import lint_query, validate_field_constraints
+    from finetune.domains.scix.institution_lookup import rewrite_aff_to_inst_or_aff
+    from finetune.domains.scix.bibstem_lookup import rewrite_bibstem_values
+    from finetune.domains.scix.assembler import rewrite_complex_author_wildcards
     PIPELINE_AVAILABLE = True
 except ImportError:
     PIPELINE_AVAILABLE = False
+    rewrite_aff_to_inst_or_aff = None  # type: ignore[assignment]
+    rewrite_bibstem_values = None  # type: ignore[assignment]
+    rewrite_complex_author_wildcards = None  # type: ignore[assignment]
     print("Pipeline modules not available - using model-only mode")
 
 app = FastAPI(
@@ -209,6 +215,18 @@ def generate_query(messages: list[ChatMessage], max_tokens: int = 256) -> tuple[
             response = data.get("query", response)
     except json.JSONDecodeError:
         pass
+
+    # Post-process: rewrite aff: to (inst: OR aff:) for known institutions
+    if rewrite_aff_to_inst_or_aff is not None:
+        response = rewrite_aff_to_inst_or_aff(response)
+
+    # Post-process: fix bibstem values (full names -> abbreviations, add quotes)
+    if rewrite_bibstem_values is not None:
+        response = rewrite_bibstem_values(response)
+
+    # Post-process: wildcard complex author names (hyphens, apostrophes)
+    if rewrite_complex_author_wildcards is not None:
+        response = rewrite_complex_author_wildcards(response)
 
     return response, prompt_tokens, completion_tokens
 

@@ -1,0 +1,247 @@
+[
+  {
+    "natural_language": "physics papers on superconductivity",
+    "ads_query": "abs:\"superconductivity\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics papers on quantum computing",
+    "ads_query": "abs:\"quantum computing\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "find condensed matter papers in the physics database",
+    "ads_query": "abs:\"condensed matter\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics database papers on particle physics",
+    "ads_query": "abs:\"particle physics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics database papers on quantum field theory",
+    "ads_query": "abs:\"quantum field theory\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics database papers on plasma physics",
+    "ads_query": "abs:\"plasma physics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics papers on nuclear physics",
+    "ads_query": "abs:\"nuclear physics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics literature on optics",
+    "ads_query": "abs:\"optics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics papers on semiconductor",
+    "ads_query": "abs:\"semiconductor\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics literature on topological insulator",
+    "ads_query": "abs:\"topological insulator\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "Bose-Einstein condensate research in physics",
+    "ads_query": "abs:\"Bose-Einstein condensate\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics papers on lattice QCD",
+    "ads_query": "abs:\"lattice QCD\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science papers on climate modeling",
+    "ads_query": "abs:\"climate model\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science papers on neural networks",
+    "ads_query": "abs:\"neural network\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "bioinformatics papers in the general science database",
+    "ads_query": "abs:\"bioinformatics\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "epidemiology papers in the general science database",
+    "ads_query": "abs:\"epidemiology\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science literature on ocean circulation",
+    "ads_query": "abs:\"ocean circulation\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science literature on seismology",
+    "ads_query": "abs:\"seismology\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science papers on atmospheric chemistry",
+    "ads_query": "abs:\"atmospheric chemistry\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science literature on remote sensing",
+    "ads_query": "abs:\"remote sensing\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "materials science papers in the general science database",
+    "ads_query": "abs:\"materials science\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science literature on fluid dynamics",
+    "ads_query": "abs:\"fluid dynamics\" database:general doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "astronomy papers about statistical methods",
+    "ads_query": "abs:\"statistical method\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "data analysis techniques used in astronomy",
+    "ads_query": "abs:\"data analysis\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "astronomy papers about signal processing",
+    "ads_query": "abs:\"signal processing\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "Bayesian statistics in the astronomy database",
+    "ads_query": "abs:\"Bayesian\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "astronomy papers about time series analysis",
+    "ads_query": "abs:\"time series\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "geophysics papers on seismic tomography",
+    "ads_query": "abs:\"seismic tomography\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers on mantle convection",
+    "ads_query": "abs:\"mantle convection\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "find plate tectonics papers in earth science",
+    "ads_query": "abs:\"plate tectonics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "geoscience research about geodynamics",
+    "ads_query": "abs:\"geodynamics\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "geoscience research about paleoclimate",
+    "ads_query": "abs:\"paleoclimate\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers on volcanology",
+    "ads_query": "abs:\"volcanology\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers on geodesy",
+    "ads_query": "abs:\"geodesy\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "geoscience research about geomagnetism",
+    "ads_query": "abs:\"geomagnetism\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "linear regression reference paper",
+    "ads_query": "useful(abs:\"linear regression\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the bootstrap method reference paper",
+    "ads_query": "useful(abs:\"bootstrap\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find the key paper on maximum likelihood estimation",
+    "ads_query": "useful(abs:\"maximum likelihood estimation\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Monte Carlo simulation reference paper",
+    "ads_query": "useful(abs:\"Monte Carlo\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "definitive reference for Fourier analysis",
+    "ads_query": "useful(abs:\"Fourier\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "definitive reference for principal component analysis",
+    "ads_query": "useful(abs:\"principal component analysis\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "neural network classification methods review",
+    "ads_query": "useful(abs:\"neural network\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "definitive reference for random forest",
+    "ads_query": "useful(abs:\"random forest\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Kalman filter reference paper",
+    "ads_query": "useful(abs:\"Kalman filter\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find the key paper on support vector machine",
+    "ads_query": "useful(abs:\"support vector machine\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "refereed astronomy papers on galaxy dynamics",
+    "ads_query": "abs:\"galaxy dynamics\" database:astronomy property:refereed doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers on meteorite composition",
+    "ads_query": "abs:\"meteorite composition\" database:earthscience",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics articles about neutrino mass",
+    "ads_query": "abs:\"neutrino mass\" database:physics doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "papers in the astronomy collection about machine learning applications",
+    "ads_query": "abs:\"machine learning\" database:astronomy doctype:article",
+    "category": "collection"
+  }
+]

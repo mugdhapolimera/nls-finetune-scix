@@ -1,0 +1,417 @@
+[
+  {
+    "natural_language": "de Groot-Hedlin papers about magnetotellurics",
+    "ads_query": "author:\"de Groot-Hedlin\" abs:\"magnetotelluric\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by de Groot-Hedlin on seismic",
+    "ads_query": "author:\"de Groot-Hedlin\" abs:\"seismic\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by de Groot-Hedlin as first author",
+    "ads_query": "author:\"^de Groot-Hedlin\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by de Groot-Hedlin from 2023",
+    "ads_query": "author:\"de Groot-Hedlin\" year:2023 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "van der Waals equation of state papers",
+    "ads_query": "author:\"van der Waals\" abs:\"equation of state\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "van der Waals intermolecular forces papers",
+    "ads_query": "author:\"van der Waals\" abs:\"intermolecular\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by van der Waals as first author",
+    "ads_query": "author:\"^van der Waals\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "van der Waals 1970 papers",
+    "ads_query": "author:\"van der Waals\" year:1970 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "García-Pérez papers about stellar atmospheres",
+    "ads_query": "author:\"Garcia Perez\" abs:\"stellar atmosphere\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by García-Pérez on chemical abundances",
+    "ads_query": "author:\"Garcia Perez\" abs:\"chemical abundance\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by García-Pérez as first author",
+    "ads_query": "author:\"^Garcia Perez\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by García-Pérez from 2022",
+    "ads_query": "author:\"Garcia Perez\" year:2022 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by López-Morales on exoplanets",
+    "ads_query": "author:\"Lopez-Morales\" abs:\"exoplanet\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by López-Morales on transiting planets",
+    "ads_query": "author:\"Lopez-Morales\" abs:\"transit\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by López-Morales as first author",
+    "ads_query": "author:\"^Lopez-Morales\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by López-Morales",
+    "ads_query": "author:\"Lopez-Morales\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by Martín-Pintado on millimeter observations",
+    "ads_query": "author:\"Martin-Pintado\" abs:\"millimeter\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by Martín-Pintado on molecular clouds",
+    "ads_query": "author:\"Martin-Pintado\" abs:\"molecular cloud\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by Martín-Pintado as first author",
+    "ads_query": "author:\"^Martin-Pintado\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by Martín-Pintado",
+    "ads_query": "author:\"Martin-Pintado\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "Ruiz-Lapuente papers about Type Ia supernovae",
+    "ads_query": "author:\"Ruiz-Lapuente\" abs:\"Type Ia supernova\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Ruiz-Lapuente papers about supernova remnants",
+    "ads_query": "author:\"Ruiz-Lapuente\" abs:\"supernova remnant\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by Ruiz-Lapuente",
+    "ads_query": "author:\"^Ruiz-Lapuente\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by Ruiz-Lapuente from 2022",
+    "ads_query": "author:\"Ruiz-Lapuente\" year:2022 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "de la Fuente Marcos asteroid dynamics papers",
+    "ads_query": "author:\"de la Fuente Marcos\" abs:\"asteroid\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "research by de la Fuente Marcos about near-Earth objects",
+    "ads_query": "author:\"de la Fuente Marcos\" abs:\"near-Earth\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by de la Fuente Marcos",
+    "ads_query": "author:\"^de la Fuente Marcos\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by de la Fuente Marcos",
+    "ads_query": "author:\"de la Fuente Marcos\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "El-Badry binary stars papers",
+    "ads_query": "author:\"El-Badry\" abs:\"binary\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "El-Badry papers about stellar companions",
+    "ads_query": "author:\"El-Badry\" abs:\"companion\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "El-Badry first author papers",
+    "ads_query": "author:\"^El-Badry\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by El-Badry from 2020",
+    "ads_query": "author:\"El-Badry\" year:2020 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "van de Hulst scattering papers",
+    "ads_query": "author:\"van de Hulst\" abs:\"scattering\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "van de Hulst interstellar medium papers",
+    "ads_query": "author:\"van de Hulst\" abs:\"interstellar\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "van de Hulst first author papers",
+    "ads_query": "author:\"^van de Hulst\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by van de Hulst",
+    "ads_query": "author:\"van de Hulst\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "research by de Gregorio-Monsalvo about protoplanetary disks",
+    "ads_query": "author:\"de Gregorio-Monsalvo\" abs:\"protoplanetary disk\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by de Gregorio-Monsalvo on ALMA observations",
+    "ads_query": "author:\"de Gregorio-Monsalvo\" abs:\"ALMA\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "de Gregorio-Monsalvo first author papers",
+    "ads_query": "author:\"^de Gregorio-Monsalvo\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by de Gregorio-Monsalvo from 2024",
+    "ads_query": "author:\"de Gregorio-Monsalvo\" year:2024 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by Pérez-González on high-redshift galaxies",
+    "ads_query": "author:\"Perez-Gonzalez\" abs:\"high-redshift\" abs:\"galaxy\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Pérez-González work on galaxy evolution",
+    "ads_query": "author:\"Perez-Gonzalez\" abs:\"galaxy evolution\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by Pérez-González as first author",
+    "ads_query": "author:\"^Perez-Gonzalez\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by Pérez-González from 2023",
+    "ads_query": "author:\"Perez-Gonzalez\" year:2023 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by Le Floc'h on infrared luminosity function",
+    "ads_query": "author:\"Le Floc'h\" abs:\"infrared\" abs:\"luminosity function\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by Le Floc'h on galaxy surveys",
+    "ads_query": "author:\"Le Floc'h\" abs:\"galaxy survey\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Le Floc'h first author papers",
+    "ads_query": "author:\"^Le Floc'h\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "Le Floc'h 2018 papers",
+    "ads_query": "author:\"Le Floc'h\" year:2018 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "García-Burillo work on AGN feeding",
+    "ads_query": "author:\"Garcia-Burillo\" abs:\"AGN\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "García-Burillo papers about molecular gas",
+    "ads_query": "author:\"Garcia-Burillo\" abs:\"molecular gas\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by García-Burillo",
+    "ads_query": "author:\"^Garcia-Burillo\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "papers by García-Burillo from 2024",
+    "ads_query": "author:\"Garcia-Burillo\" year:2024 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "find papers by Ortiz-León on VLBI astrometry",
+    "ads_query": "author:\"Ortiz-Leon\" abs:\"VLBI\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Ortiz-León star-forming regions papers",
+    "ads_query": "author:\"Ortiz-Leon\" abs:\"star-forming region\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by Ortiz-León",
+    "ads_query": "author:\"^Ortiz-Leon\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by Ortiz-León",
+    "ads_query": "author:\"Ortiz-Leon\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "al-Naimiy papers about eclipsing binaries",
+    "ads_query": "author:\"al-Naimiy\" abs:\"eclipsing binary\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "al-Naimiy limb darkening papers",
+    "ads_query": "author:\"al-Naimiy\" abs:\"limb darkening\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "al-Naimiy first author papers",
+    "ads_query": "author:\"^al-Naimiy\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by al-Naimiy",
+    "ads_query": "author:\"al-Naimiy\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by O'Brien on stellar evolution",
+    "ads_query": "author:\"O'Brien\" abs:\"stellar evolution\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "research by O'Brien about nova eruptions",
+    "ads_query": "author:\"O'Brien\" abs:\"nova\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "O'Brien first author papers",
+    "ads_query": "author:\"^O'Brien\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "O'Brien 2021 papers",
+    "ads_query": "author:\"O'Brien\" year:2021 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "O'Connell work on UV astronomy",
+    "ads_query": "author:\"O'Connell\" abs:\"ultraviolet\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "O'Connell galaxy photometry papers",
+    "ads_query": "author:\"O'Connell\" abs:\"galaxy photometry\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "O'Connell first author papers",
+    "ads_query": "author:\"^O'Connell\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by O'Connell",
+    "ads_query": "author:\"O'Connell\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "van den Bergh papers about galaxy classification",
+    "ads_query": "author:\"van den Bergh\" abs:\"galaxy classification\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "van den Bergh work on supernova rates",
+    "ads_query": "author:\"van den Bergh\" abs:\"supernova rate\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by van den Bergh",
+    "ads_query": "author:\"^van den Bergh\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "van den Bergh 1990 papers",
+    "ads_query": "author:\"van den Bergh\" year:1990 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "Di Matteo papers about black hole mergers",
+    "ads_query": "author:\"Di Matteo\" abs:\"black hole merger\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Di Matteo galaxy simulations papers",
+    "ads_query": "author:\"Di Matteo\" abs:\"galaxy simulation\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "first author papers by Di Matteo",
+    "ads_query": "author:\"^Di Matteo\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "recent publications by Di Matteo",
+    "ads_query": "author:\"Di Matteo\" pubdate:[2020 TO *] doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "Saint-Hilaire solar flares papers",
+    "ads_query": "author:\"Saint-Hilaire\" abs:\"solar flare\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "research by Saint-Hilaire about hard X-rays",
+    "ads_query": "author:\"Saint-Hilaire\" abs:\"hard X-ray\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Saint-Hilaire first author papers",
+    "ads_query": "author:\"^Saint-Hilaire\" doctype:article",
+    "category": "first_author"
+  },
+  {
+    "natural_language": "Saint-Hilaire 2020 papers",
+    "ads_query": "author:\"Saint-Hilaire\" year:2020 doctype:article",
+    "category": "author"
+  },
+  {
+    "natural_language": "de Groot-Hedlin and Constable papers on magnetotellurics",
+    "ads_query": "author:\"de Groot-Hedlin\" author:\"Constable\" abs:\"magnetotelluric\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "papers by El-Badry and Rix about binary stars",
+    "ads_query": "author:\"El-Badry\" author:\"Rix\" abs:\"binary\"",
+    "category": "author"
+  },
+  {
+    "natural_language": "Pinte and de Gregorio-Monsalvo papers on protoplanetary disks",
+    "ads_query": "author:\"Pinte\" author:\"de Gregorio-Monsalvo\" abs:\"protoplanetary disk\"",
+    "category": "author"
+  }
+]

@@ -1,0 +1,522 @@
+[
+  {
+    "natural_language": "refereed papers with Chandra data on AGN",
+    "ads_query": "property:refereed data:Chandra abs:\"AGN\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "peer-reviewed papers with MAST archive data on stellar winds",
+    "ads_query": "property:refereed data:MAST abs:\"stellar winds\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed publications using SIMBAD data on binary stars",
+    "ads_query": "property:refereed data:SIMBAD abs:\"binary stars\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with NED data on galaxy clusters",
+    "ads_query": "property:refereed data:NED abs:\"galaxy clusters\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "peer-reviewed articles with IRSA data on dust emission",
+    "ads_query": "property:refereed data:IRSA abs:\"dust emission\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "trending open access papers on exoplanets",
+    "ads_query": "trending(abs:\"exoplanet\") property:openaccess",
+    "category": "compound"
+  },
+  {
+    "natural_language": "useful refereed papers about dark energy",
+    "ads_query": "useful(abs:\"dark energy\") property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "reviews of peer-reviewed cosmology literature",
+    "ads_query": "reviews(abs:\"cosmology\") property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "trending non-refereed papers on machine learning in astronomy",
+    "ads_query": "trending(abs:\"machine learning\") property:notrefereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "highly cited peer-reviewed cosmology papers",
+    "ads_query": "abs:\"cosmology\" property:refereed citation_count:[100 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "well-cited open access papers on galaxy evolution",
+    "ads_query": "abs:\"galaxy evolution\" property:openaccess citation_count:[50 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers on quasars with more than 200 citations",
+    "ads_query": "abs:\"quasars\" property:refereed citation_count:[200 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed dark energy papers excluding preprints",
+    "ads_query": "abs:\"dark energy\" property:refereed -property:eprint",
+    "category": "compound"
+  },
+  {
+    "natural_language": "non-article records about supernovae that are refereed",
+    "ads_query": "abs:\"supernova\" property:nonarticle property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access papers on stellar evolution that are not preprints",
+    "ads_query": "abs:\"stellar evolution\" property:openaccess -property:eprint",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access ApJ papers on stellar nucleosynthesis",
+    "ads_query": "property:openaccess bibstem:\"ApJ\" abs:\"stellar nucleosynthesis\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed MNRAS papers about galaxy clusters",
+    "ads_query": "property:refereed bibstem:\"MNRAS\" abs:\"galaxy clusters\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access A&A papers on protoplanetary disks",
+    "ads_query": "property:openaccess bibstem:\"A&A\" abs:\"protoplanetary disks\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "highly cited Nature papers on cosmic microwave background",
+    "ads_query": "bibstem:\"Nature\" abs:\"cosmic microwave background\" citation_count:[50 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed ApJ papers by Perlmutter on supernovae since 1998",
+    "ads_query": "bibstem:\"ApJ\" author:\"Perlmutter\" abs:\"supernova\" property:refereed pubdate:[1998 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "recent MNRAS papers on machine learning for galaxy classification",
+    "ads_query": "bibstem:\"MNRAS\" abs:\"machine learning\" abs:\"galaxy classification\" pubdate:[2020 TO 2026]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software packages cited in gravitational wave research",
+    "ads_query": "property:software citations(abs:\"gravitational waves\")",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed software papers about data reduction pipelines",
+    "ads_query": "property:refereed doctype:software abs:\"data reduction\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software records with associated data products",
+    "ads_query": "property:software property:data",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with associated software records",
+    "ads_query": "property:software property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access papers from NASA about Mars exploration",
+    "ads_query": "property:openaccess (inst:\"JPL\" OR inst:\"GSFC\" OR inst:\"NASA Ames\" OR inst:\"MSFC\" OR aff:\"NASA\") abs:\"Mars\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers from ESO on adaptive optics",
+    "ads_query": "property:refereed (inst:\"ESO\" OR aff:\"ESO\") abs:\"adaptive optics\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers from the Goddard Space Flight Center on X-ray astronomy",
+    "ads_query": "inst:\"GSFC\" abs:\"X-ray\" property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "highly cited papers from the Max Planck Institute on galaxy formation",
+    "ads_query": "(inst:\"MPA\" OR inst:\"MPE\" OR inst:\"MPIA\" OR aff:\"Max Planck\") abs:\"galaxy formation\" citation_count:[100 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "first-author papers from IPAC on infrared surveys",
+    "ads_query": "inst:\"IPAC\" abs:\"infrared survey\" property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access papers from the University of Hawaii on telescopes",
+    "ads_query": "(inst:\"U Hawaii\" OR aff:\"University of Hawaii\") abs:\"telescope\" property:openaccess",
+    "category": "compound"
+  },
+  {
+    "natural_language": "recent papers from the Kavli Institute on gravitational waves since 2020",
+    "ads_query": "(inst:\"KIPAC\" OR inst:\"KITP\" OR aff:\"Kavli\") abs:\"gravitational waves\" pubdate:[2020 TO 2026]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers from CERN published in Physical Review Letters",
+    "ads_query": "(inst:\"CERN\" OR aff:\"CERN\") bibstem:\"PhRvL\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed open access papers on neutron stars from the last 5 years",
+    "ads_query": "abs:\"neutron stars\" property:refereed property:openaccess pubdate:[2021 TO 2026]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "peer-reviewed exoplanet papers published in 2023 with data links",
+    "ads_query": "abs:\"exoplanet\" property:refereed property:data year:2023",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed JWST papers on early universe galaxies",
+    "ads_query": "property:refereed bibgroup:JWST abs:\"early universe\" abs:\"galaxies\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access HST papers on planetary nebulae",
+    "ads_query": "property:openaccess bibgroup:HST abs:\"planetary nebulae\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with publisher PDFs about magnetars",
+    "ads_query": "property:refereed esources:PUB_PDF abs:\"magnetar\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access papers with scanned articles on historical astronomy",
+    "ads_query": "property:openaccess esources:ADS_SCAN abs:\"historical astronomy\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers by Hawking on black hole thermodynamics",
+    "ads_query": "author:\"Hawking, S\" abs:\"black hole thermodynamics\" property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "open access first-author papers by Riess on supernovae",
+    "ads_query": "author:\"^Riess\" abs:\"supernova\" property:openaccess",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed catalog records in the astronomy database",
+    "ads_query": "property:refereed property:catalog database:astronomy",
+    "category": "compound"
+  },
+  {
+    "natural_language": "conference proceedings with associated open access resources on cosmological simulations",
+    "ads_query": "property:inproceedings property:openaccess abs:\"cosmological simulations\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with linked data sources on exoplanets",
+    "ads_query": "has:data abs:\"exoplanets\" property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software mentioned in papers by Jarmak about planetary atmospheres",
+    "ads_query": "author:\"Jarmak, Stephanie\" has:mention abs:\"planetary atmospheres\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "popular software packages for radio astronomy",
+    "ads_query": "credit_count:[10 TO *] doctype:software abs:\"radio astronomy\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "widely-used data reduction software",
+    "ads_query": "credit_count:[50 TO *] doctype:software abs:\"data reduction\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software tools with at least 20 credits used in cosmological simulations",
+    "ads_query": "credit_count:[20 TO *] doctype:software abs:\"cosmological simulations\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "most credited software in the astronomy database",
+    "ads_query": "credit_count:[100 TO *] doctype:software collection:astronomy",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers that reference multiple software packages about photometry",
+    "ads_query": "mention_count:[3 TO *] abs:\"photometry\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers citing many data sources on galaxy redshift surveys",
+    "ads_query": "mention_count:[5 TO *] abs:\"galaxy redshift survey\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers mentioning at least 10 software or data records",
+    "ads_query": "mention_count:[10 TO *] property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "NASA-funded papers that mention software packages",
+    "ads_query": "grant:NASA has:mention doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers acknowledging NSF funding with software mentions",
+    "ads_query": "ack:\"NSF\" has:mention",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with grant info that mention data records",
+    "ads_query": "has:grant has:mention property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software packages credited by at least one paper",
+    "ads_query": "credit_count:[1 TO *] doctype:software",
+    "category": "compound"
+  },
+  {
+    "natural_language": "recent papers by Smith that mention software packages",
+    "ads_query": "author:\"Smith\" has:mention pubdate:[2020 TO 2026]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "ApJ papers with software mentions on machine learning",
+    "ads_query": "bibstem:\"ApJ\" has:mention abs:\"machine learning\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers with data mentions in the Chandra bibgroup",
+    "ads_query": "has:mention bibgroup:Chandra",
+    "category": "compound"
+  },
+  {
+    "natural_language": "highly cited papers that mention software",
+    "ads_query": "has:mention citation_count:[100 TO *]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "research papers funded by NASA grants on dark matter",
+    "ads_query": "abs:\"dark matter\" (grant:NASA OR ack:\"NASA\") doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "NASA proposals related to exoplanets",
+    "ads_query": "doctype:proposal grant:NASA abs:\"exoplanet\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "NSF-funded proposals on computational astrophysics",
+    "ads_query": "doctype:proposal grant:NSF abs:\"computational astrophysics\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "NASA-funded refereed papers on black holes since 2020",
+    "ads_query": "grant:NASA abs:\"black hole\" property:refereed pubdate:[2020 TO 2026]",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers acknowledging NSF funding for computational resources",
+    "ads_query": "ack:\"NSF\" abs:\"computational\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "dark matter papers not about WIMPs",
+    "ads_query": "abs:\"dark matter\" NOT abs:\"WIMP\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "supernova papers excluding Type Ia",
+    "ads_query": "abs:\"supernova\" NOT abs:\"Type Ia\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "stellar evolution articles but not about red giants",
+    "ads_query": "abs:\"stellar evolution\" -abs:\"red giant\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "galaxy surveys not in the physics collection",
+    "ads_query": "abs:\"galaxy survey\" NOT collection:physics",
+    "category": "compound"
+  },
+  {
+    "natural_language": "magnetar papers not by Kaspi",
+    "ads_query": "abs:\"magnetar\" -author:\"Kaspi\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "exoplanet detection papers excluding radial velocity method",
+    "ads_query": "abs:\"exoplanet detection\" -abs:\"radial velocity\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "black hole papers not published in ApJ",
+    "ads_query": "abs:\"black hole\" -bibstem:\"ApJ\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "gravitational wave articles excluding LIGO bibgroup",
+    "ads_query": "abs:\"gravitational wave\" NOT bibgroup:LIGO doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "solar flare papers that are not conference proceedings",
+    "ads_query": "abs:\"solar flare\" NOT doctype:inproceedings",
+    "category": "compound"
+  },
+  {
+    "natural_language": "cosmology papers excluding preprints",
+    "ads_query": "abs:\"cosmology\" -property:eprint property:refereed",
+    "category": "compound"
+  },
+  {
+    "natural_language": "neutron star papers not about pulsars",
+    "ads_query": "abs:\"neutron star\" -abs:\"pulsar\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "star formation articles but not in molecular clouds",
+    "ads_query": "abs:\"star formation\" NOT abs:\"molecular cloud\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "AGN variability papers not from the Kepler mission",
+    "ads_query": "abs:\"AGN variability\" NOT bibgroup:Kepler",
+    "category": "compound"
+  },
+  {
+    "natural_language": "interstellar medium studies excluding HII regions",
+    "ads_query": "abs:\"interstellar medium\" -abs:\"HII region\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "planetary science papers not about Mars",
+    "ads_query": "abs:\"planetary science\" NOT abs:\"Mars\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed galaxy papers excluding reviews",
+    "ads_query": "abs:\"galaxy\" property:refereed -property:nonarticle",
+    "category": "compound"
+  },
+  {
+    "natural_language": "white dwarf papers not involving binary systems",
+    "ads_query": "abs:\"white dwarf\" -abs:\"binary\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "infrared astronomy papers not from Spitzer",
+    "ads_query": "abs:\"infrared\" -bibgroup:Spitzer doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "quasar absorption lines excluding Lyman alpha forest",
+    "ads_query": "abs:\"quasar absorption\" -abs:\"Lyman alpha forest\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "high-redshift galaxy papers excluding photometric redshifts",
+    "ads_query": "abs:\"high-redshift galaxy\" NOT abs:\"photometric redshift\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "stellar spectroscopy papers not about M dwarfs",
+    "ads_query": "abs:\"stellar spectroscopy\" -abs:\"M dwarf\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers on tidal disruption events but not in X-ray",
+    "ads_query": "abs:\"tidal disruption\" -abs:\"X-ray\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "Milky Way structure papers not about the bulge",
+    "ads_query": "abs:\"Milky Way\" abs:\"structure\" NOT abs:\"bulge\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "extrasolar planet papers excluding hot Jupiters and mini-Neptunes",
+    "ads_query": "abs:\"extrasolar planet\" -abs:\"hot Jupiter\" -abs:\"mini-Neptune\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed articles on gamma-ray astronomy not by Fermi collaboration",
+    "ads_query": "abs:\"gamma-ray\" -bibgroup:Fermi property:refereed doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "articles with keyword accretion disks published since 2015",
+    "ads_query": "keyword:\"accretion\" pubdate:[2015 TO 2026] doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers tagged with keyword active galactic nuclei by Smith",
+    "ads_query": "keyword:\"active galactic nuclei\" author:\"Smith\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "articles with keyword surveys published in MNRAS",
+    "ads_query": "keyword:\"surveys\" bibstem:\"MNRAS\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "nuclear theory preprints about neutron stars",
+    "ads_query": "arxiv_class:nucl-th abs:\"neutron star\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers by ORCID 0000-0001-5000-0007 on stellar evolution",
+    "ads_query": "orcid:0000-0001-5000-0007 abs:\"stellar evolution\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I'm looking for recent research papers that discuss the relationship between galaxy mergers and the triggering of active galactic nuclei in the local universe",
+    "ads_query": "abs:\"galaxy mergers\" abs:\"active galactic nuclei\" pubdate:[2018 TO 2026] doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "Can you find me studies about how the cosmic microwave background radiation can be used to constrain models of inflation in the early universe",
+    "ads_query": "abs:\"cosmic microwave background\" abs:\"inflation\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need to find all the published work on using gravitational microlensing surveys to detect free-floating planets in our galaxy",
+    "ads_query": "abs:\"gravitational microlensing\" abs:\"free-floating planet\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "What papers exist about the chemical enrichment history of dwarf galaxies in the Local Group and what it tells us about early star formation",
+    "ads_query": "abs:\"chemical enrichment\" abs:\"dwarf galaxies\" abs:\"Local Group\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I want to understand what has been written about the formation and evolution of supermassive black holes at the centers of galaxies and how they co-evolve with their host galaxies",
+    "ads_query": "abs:\"supermassive black hole\" abs:\"co-evolution\" abs:\"host galaxy\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "Find me papers about how astronomers are using the James Webb Space Telescope to study the atmospheres of rocky exoplanets in the habitable zone",
+    "ads_query": "abs:\"JWST\" abs:\"rocky exoplanet\" abs:\"atmosphere\" abs:\"habitable zone\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I'm interested in the current state of research on whether the expansion of the universe is really accelerating and the evidence for or against dark energy",
+    "ads_query": "abs:\"accelerating expansion\" abs:\"dark energy\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "Are there papers discussing the use of radio interferometry techniques like VLBI for studying jets from supermassive black holes in active galaxies",
+    "ads_query": "abs:\"VLBI\" abs:\"jet\" abs:\"supermassive black hole\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "Help me find published research on the effects of stellar feedback including supernovae and stellar winds on the interstellar medium in nearby galaxies",
+    "ads_query": "abs:\"stellar feedback\" abs:\"interstellar medium\" abs:\"nearby galaxies\" doctype:article",
+    "category": "compound"
+  }
+]

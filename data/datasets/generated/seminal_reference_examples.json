@@ -1,0 +1,302 @@
+[
+  {
+    "natural_language": "foundational paper on magnetotellurics",
+    "ads_query": "useful(abs:\"magnetotelluric\") pubdate:[1950 TO 1980]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the original paper on magnetotellurics",
+    "ads_query": "useful(abs:\"magnetotelluric\") pubdate:[1950 TO 1980]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "original paper on Occam's inversion",
+    "ads_query": "useful(abs:\"Occam\" abs:\"inversion\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on Occam's inversion",
+    "ads_query": "useful(abs:\"Occam\" abs:\"inversion\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on Bayesian inference in astrophysics",
+    "ads_query": "useful(abs:\"Bayesian inference\") pubdate:[1980 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the landmark paper on Bayesian inference in astrophysics",
+    "ads_query": "useful(abs:\"Bayesian inference\") pubdate:[1980 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational paper on the Lomb-Scargle periodogram",
+    "ads_query": "useful(abs:\"Lomb\" abs:\"periodogram\") pubdate:[1970 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the canonical reference for the Lomb-Scargle periodogram",
+    "ads_query": "useful(abs:\"Lomb\" abs:\"periodogram\") pubdate:[1970 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for MCMC methods in astronomy",
+    "ads_query": "useful(abs:\"Markov chain Monte Carlo\") pubdate:[1990 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the first paper introducing MCMC methods in astronomy",
+    "ads_query": "useful(abs:\"Markov chain Monte Carlo\") pubdate:[1990 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "authoritative reference for wavelet transforms in signal processing",
+    "ads_query": "useful(abs:\"wavelet transform\") pubdate:[1985 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "seminal paper on wavelet transforms in signal processing",
+    "ads_query": "useful(abs:\"wavelet transform\") pubdate:[1985 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the original paper on adaptive optics",
+    "ads_query": "useful(abs:\"adaptive optics\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for adaptive optics",
+    "ads_query": "useful(abs:\"adaptive optics\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational reference for principal component analysis",
+    "ads_query": "useful(abs:\"principal component analysis\") pubdate:[1980 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on principal component analysis",
+    "ads_query": "useful(abs:\"principal component analysis\") pubdate:[1980 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the groundbreaking paper on stellar nucleosynthesis",
+    "ads_query": "useful(abs:\"nucleosynthesis\") pubdate:[1950 TO 1975]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the original paper on stellar nucleosynthesis",
+    "ads_query": "useful(abs:\"nucleosynthesis\") pubdate:[1950 TO 1975]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the canonical reference for the Navarro-Frenk-White profile",
+    "ads_query": "useful(abs:\"NFW\" OR abs:\"Navarro-Frenk-White\") pubdate:[1995 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational reference for the Navarro-Frenk-White profile",
+    "ads_query": "useful(abs:\"NFW\" OR abs:\"Navarro-Frenk-White\") pubdate:[1995 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the canonical reference for chi-squared fitting techniques",
+    "ads_query": "useful(abs:\"chi-squared\" abs:\"fitting\") pubdate:[1970 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "authoritative reference for chi-squared fitting techniques",
+    "ads_query": "useful(abs:\"chi-squared\" abs:\"fitting\") pubdate:[1970 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on the tipper in magnetotellurics",
+    "ads_query": "useful(abs:\"tipper\" abs:\"magnetotelluric\") pubdate:[1950 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the tipper in magnetotellurics reference paper",
+    "ads_query": "useful(abs:\"tipper\" abs:\"magnetotelluric\") pubdate:[1950 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the first paper introducing the CMB power spectrum",
+    "ads_query": "useful(abs:\"CMB\" abs:\"power spectrum\") pubdate:[1990 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "original paper on the CMB power spectrum",
+    "ads_query": "useful(abs:\"CMB\" abs:\"power spectrum\") pubdate:[1990 TO 2005]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the original paper on galaxy morphological classification",
+    "ads_query": "useful(abs:\"galaxy\" abs:\"morphological classification\") pubdate:[1920 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "pioneering work on galaxy morphological classification",
+    "ads_query": "useful(abs:\"galaxy\" abs:\"morphological classification\") pubdate:[1920 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "authoritative reference for the Kolmogorov-Smirnov test in astronomy",
+    "ads_query": "useful(abs:\"Kolmogorov-Smirnov\") pubdate:[1970 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "who first proposed the Kolmogorov-Smirnov test in astronomy",
+    "ads_query": "useful(abs:\"Kolmogorov-Smirnov\") pubdate:[1970 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "original paper on least squares fitting",
+    "ads_query": "useful(abs:\"least squares\") pubdate:[1960 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the landmark paper on least squares fitting",
+    "ads_query": "useful(abs:\"least squares\") pubdate:[1960 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational reference for linear regression methods",
+    "ads_query": "useful(abs:\"linear regression\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "who first proposed linear regression methods",
+    "ads_query": "useful(abs:\"linear regression\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational paper on the bootstrap method in statistics",
+    "ads_query": "useful(abs:\"bootstrap\" abs:\"resampling\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for the bootstrap method in statistics",
+    "ads_query": "useful(abs:\"bootstrap\" abs:\"resampling\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the classic paper on the Fourier transform",
+    "ads_query": "useful(abs:\"Fourier transform\") pubdate:[1960 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational paper on the Fourier transform",
+    "ads_query": "useful(abs:\"Fourier transform\") pubdate:[1960 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "key early papers on maximum likelihood estimation",
+    "ads_query": "useful(abs:\"maximum likelihood estimation\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the influential early work on maximum likelihood estimation",
+    "ads_query": "useful(abs:\"maximum likelihood estimation\") property:refereed",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the influential early work on the Salpeter initial mass function",
+    "ads_query": "useful(abs:\"Salpeter\" abs:\"initial mass function\") pubdate:[1950 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "original paper on the Salpeter initial mass function",
+    "ads_query": "useful(abs:\"Salpeter\" abs:\"initial mass function\") pubdate:[1950 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "seminal paper on the Chandrasekhar limit",
+    "ads_query": "useful(abs:\"Chandrasekhar limit\") pubdate:[1930 TO 1960]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the Chandrasekhar limit reference paper",
+    "ads_query": "useful(abs:\"Chandrasekhar limit\") pubdate:[1930 TO 1960]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the canonical reference for Bondi accretion",
+    "ads_query": "useful(abs:\"Bondi\" abs:\"accretion\") pubdate:[1940 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational paper on Bondi accretion",
+    "ads_query": "useful(abs:\"Bondi\" abs:\"accretion\") pubdate:[1940 TO 1970]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the classic paper on the Press-Schechter formalism",
+    "ads_query": "useful(abs:\"Press-Schechter\") pubdate:[1970 TO 1985]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for the Press-Schechter formalism",
+    "ads_query": "useful(abs:\"Press-Schechter\") pubdate:[1970 TO 1985]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the canonical reference for the Kennicutt-Schmidt star formation law",
+    "ads_query": "useful(abs:\"Kennicutt\" abs:\"star formation\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "seminal work on the Kennicutt-Schmidt star formation law",
+    "ads_query": "useful(abs:\"Kennicutt\" abs:\"star formation\") pubdate:[1980 TO 2000]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the influential early work on the Tully-Fisher relation",
+    "ads_query": "useful(abs:\"Tully-Fisher\") pubdate:[1975 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "key early papers on the Tully-Fisher relation",
+    "ads_query": "useful(abs:\"Tully-Fisher\") pubdate:[1975 TO 1990]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the first paper introducing the Shakura-Sunyaev accretion disk model",
+    "ads_query": "useful(abs:\"Shakura\" abs:\"accretion disk\") pubdate:[1970 TO 1985]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "foundational reference for the Shakura-Sunyaev accretion disk model",
+    "ads_query": "useful(abs:\"Shakura\" abs:\"accretion disk\") pubdate:[1970 TO 1985]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for the Eddington luminosity",
+    "ads_query": "useful(abs:\"Eddington luminosity\") pubdate:[1920 TO 1960]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "seminal paper on the Eddington luminosity",
+    "ads_query": "useful(abs:\"Eddington luminosity\") pubdate:[1920 TO 1960]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on Jeans instability",
+    "ads_query": "useful(abs:\"Jeans\" abs:\"instability\") pubdate:[1900 TO 1950]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "seminal work on Jeans instability",
+    "ads_query": "useful(abs:\"Jeans\" abs:\"instability\") pubdate:[1900 TO 1950]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "classical reference for the Schwarzschild metric",
+    "ads_query": "useful(abs:\"Schwarzschild\" abs:\"metric\") pubdate:[1916 TO 1960]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "the definitive early paper on the Schwarzschild metric",
+    "ads_query": "useful(abs:\"Schwarzschild\" abs:\"metric\") pubdate:[1916 TO 1960]",
+    "category": "operator"
+  }
+]

@@ -1,0 +1,382 @@
+[
+  {
+    "natural_language": "new papers published in the last week",
+    "ads_query": "entdate:[NOW-7DAYS TO *]",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "papers added to ADS in the last month",
+    "ads_query": "entdate:[NOW-1MONTH TO NOW]",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "recently indexed papers on gravitational waves",
+    "ads_query": "entdate:[NOW-7DAYS TO NOW] abs:\"gravitational waves\"",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "papers added to ADS this week about exoplanets",
+    "ads_query": "entdate:[NOW-7DAYS TO NOW] abs:\"exoplanet\"",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "new papers indexed in ADS this month on dark energy",
+    "ads_query": "entdate:[NOW-1MONTH TO NOW] abs:\"dark energy\"",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "papers entered into ADS in January 2025",
+    "ads_query": "entdate:[2025-01-01 TO 2025-01-31]",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "recently added articles on galaxy mergers",
+    "ads_query": "entdate:[NOW-30DAYS TO NOW] abs:\"galaxy mergers\" doctype:article",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "papers indexed by ADS in the past year on machine learning",
+    "ads_query": "entdate:[NOW-1YEAR TO NOW] abs:\"machine learning\"",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "newest ADS entries about fast radio bursts",
+    "ads_query": "entdate:[NOW-14DAYS TO NOW] abs:\"fast radio bursts\"",
+    "category": "temporal"
+  },
+  {
+    "natural_language": "studies of NGC 1275",
+    "ads_query": "object:\"NGC 1275\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "observations of Sagittarius A*",
+    "ads_query": "object:\"Sgr A*\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about the Orion Nebula",
+    "ads_query": "object:\"Orion Nebula\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "studies of 3C 273 quasar",
+    "ads_query": "object:\"3C 273\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about the Large Magellanic Cloud",
+    "ads_query": "object:\"LMC\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "observations of Vega",
+    "ads_query": "object:\"Vega\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about NGC 4486 radio galaxy",
+    "ads_query": "object:\"NGC 4486\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "studies of the Triangulum Galaxy",
+    "ads_query": "object:\"M33\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about Proxima Centauri b exoplanet",
+    "ads_query": "object:\"Proxima Centauri b\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers on M31 Andromeda galaxy",
+    "ads_query": "object:\"M31\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "studies of the Crab Nebula",
+    "ads_query": "object:\"Crab Nebula\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "observations of Betelgeuse",
+    "ads_query": "object:\"Betelgeuse\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about the Whirlpool Galaxy",
+    "ads_query": "object:\"M51\" doctype:article",
+    "category": "object"
+  },
+  {
+    "natural_language": "studies of Cygnus X-1",
+    "ads_query": "object:\"Cyg X-1\"",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers where dark matter and annihilation appear close together in the abstract",
+    "ads_query": "abs:(\"dark matter\" NEAR5 annihilation)",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "articles with planet and habitability near each other in title",
+    "ads_query": "title:(planet NEAR3 habitability)",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "papers with supernova and nucleosynthesis within 5 words in abstract",
+    "ads_query": "abs:(supernova NEAR5 nucleosynthesis)",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "articles with machine learning and classification close together in full text",
+    "ads_query": "full:(\"machine learning\" NEAR5 classification)",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "papers where accretion and jet appear near each other in the abstract",
+    "ads_query": "abs:(accretion NEAR3 jet)",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "exact match for author Smith J without synonyms",
+    "ads_query": "=author:\"Smith, J\"",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "find papers by exactly Wang, Y without name variants",
+    "ads_query": "=author:\"Wang, Y\" doctype:article",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "exact author search for Li, H on stellar physics",
+    "ads_query": "=author:\"Li, H\" abs:\"stellar physics\"",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "papers by exactly Brown, T. M. without synonym expansion",
+    "ads_query": "=author:\"Brown, T. M.\" doctype:article",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "exact match for Kim, S in galaxy evolution papers",
+    "ads_query": "=author:\"Kim, S\" abs:\"galaxy evolution\" doctype:article",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "papers by ORCID 0000-0002-1825-0097",
+    "ads_query": "orcid:0000-0002-1825-0097",
+    "category": "identifier"
+  },
+  {
+    "natural_language": "find articles by the author with ORCID 0000-0003-1234-5678",
+    "ads_query": "orcid:0000-0003-1234-5678 doctype:article",
+    "category": "identifier"
+  },
+  {
+    "natural_language": "look up publications for ORCID 0000-0002-9876-5432",
+    "ads_query": "orcid:0000-0002-9876-5432",
+    "category": "identifier"
+  },
+  {
+    "natural_language": "refereed papers associated with ORCID 0000-0001-2345-6789",
+    "ads_query": "orcid:0000-0001-2345-6789 property:refereed",
+    "category": "identifier"
+  },
+  {
+    "natural_language": "papers where the first author is affiliated with MIT",
+    "ads_query": "pos(aff:\"MIT\", 1)",
+    "category": "positional"
+  },
+  {
+    "natural_language": "papers where the first author is from the Astronomical Observatory of Padova",
+    "ads_query": "pos(aff:\"Padova\", 1)",
+    "category": "positional"
+  },
+  {
+    "natural_language": "papers where the second author is affiliated with NASA Ames",
+    "ads_query": "pos(aff:\"NASA Ames\", 2)",
+    "category": "positional"
+  },
+  {
+    "natural_language": "papers mentioning many software packages",
+    "ads_query": "mention_count:[5 TO *]",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "papers that mention more than 10 data or software records",
+    "ads_query": "mention_count:[10 TO *]",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "software records credited by many papers",
+    "ads_query": "credit_count:[20 TO *] doctype:software",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "data records that have received at least 50 credits",
+    "ads_query": "credit_count:[50 TO *]",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "highly mentioned software packages in astronomy",
+    "ads_query": "mention_count:[50 TO *] doctype:software collection:astronomy",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "software credited in at least 5 papers",
+    "ads_query": "credit_count:[5 TO *] doctype:software",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "papers that frequently mention specific software tools",
+    "ads_query": "mention_count:[20 TO *] doctype:article",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "highly credited data analysis software in astrophysics",
+    "ads_query": "credit_count:[30 TO *] doctype:software abs:\"data analysis\"",
+    "category": "metrics"
+  },
+  {
+    "natural_language": "papers that cite the astropy software package",
+    "ads_query": "citations(bibcode:2013A&A...558A..33A)",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "software packages used in exoplanet transit studies",
+    "ads_query": "doctype:software references(abs:\"exoplanet transit\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "what papers does the foundational dark energy paper reference",
+    "ads_query": "references(abs:\"dark energy\" useful(abs:\"dark energy\"))",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "papers referenced by galaxy formation simulations",
+    "ads_query": "references(abs:\"galaxy formation simulations\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "reference list of neutron star merger research",
+    "ads_query": "references(abs:\"neutron star merger\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "what sources do papers on cosmic ray propagation cite",
+    "ads_query": "references(abs:\"cosmic ray propagation\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "papers referenced in exoplanet transit studies",
+    "ads_query": "references(abs:\"exoplanet transit\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "bibliography of stellar mass black hole papers",
+    "ads_query": "references(abs:\"stellar mass black hole\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "what references are used in CMB anisotropy studies",
+    "ads_query": "references(abs:\"CMB anisotropy\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "papers cited by magnetar emission models",
+    "ads_query": "references(abs:\"magnetar emission\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "reference papers used in baryon acoustic oscillation research",
+    "ads_query": "references(abs:\"baryon acoustic oscillation\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "what does the literature on gravitational lensing reference",
+    "ads_query": "references(abs:\"gravitational lensing\")",
+    "category": "second_order"
+  },
+  {
+    "natural_language": "papers similar to work on fast radio burst progenitors",
+    "ads_query": "similar(abs:\"fast radio burst progenitors\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find articles related to research on exoplanet atmospheres",
+    "ads_query": "similar(abs:\"exoplanet atmospheres\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers like studies of galaxy cluster mass functions",
+    "ads_query": "similar(abs:\"galaxy cluster mass function\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "related work on magnetohydrodynamic simulations of the solar corona",
+    "ads_query": "similar(abs:\"magnetohydrodynamic simulations\" abs:\"solar corona\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "research similar to tidal disruption event light curves",
+    "ads_query": "similar(abs:\"tidal disruption event\" abs:\"light curve\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers related to brown dwarf atmospheric models",
+    "ads_query": "similar(abs:\"brown dwarf\" abs:\"atmospheric models\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find similar papers on primordial nucleosynthesis constraints",
+    "ads_query": "similar(abs:\"primordial nucleosynthesis\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "related articles on gravitational wave template banks",
+    "ads_query": "similar(abs:\"gravitational wave\" abs:\"template bank\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers similar to work on the epoch of reionization",
+    "ads_query": "similar(abs:\"epoch of reionization\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find related work on Bayesian methods in cosmology",
+    "ads_query": "similar(abs:\"Bayesian methods\" abs:\"cosmology\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "physics papers on quantum entanglement",
+    "ads_query": "abs:\"quantum entanglement\" database:physics",
+    "category": "collection"
+  },
+  {
+    "natural_language": "astronomy articles on gravitational wave detection",
+    "ads_query": "abs:\"gravitational wave detection\" database:astronomy doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "general science papers on climate change and astronomy",
+    "ads_query": "abs:\"climate change\" database:general",
+    "category": "collection"
+  },
+  {
+    "natural_language": "physics database papers on superconductivity",
+    "ads_query": "abs:\"superconductivity\" database:physics",
+    "category": "collection"
+  },
+  {
+    "natural_language": "books about general relativity",
+    "ads_query": "abs:\"general relativity\" doctype:book",
+    "category": "doctype"
+  },
+  {
+    "natural_language": "papers that acknowledge the James Webb Space Telescope in their acknowledgments",
+    "ads_query": "ack:\"James Webb Space Telescope\"",
+    "category": "content"
+  }
+]

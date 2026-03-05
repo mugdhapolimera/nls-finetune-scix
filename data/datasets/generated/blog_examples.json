@@ -1,0 +1,457 @@
+[
+  {
+    "natural_language": "trending useful papers on exoplanet atmospheres",
+    "ads_query": "trending(useful(abs:\"exoplanet atmospheres\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are the trending seminal papers in stellar spectroscopy",
+    "ads_query": "trending(useful(abs:\"stellar spectroscopy\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending key papers on galaxy evolution",
+    "ads_query": "trending(useful(abs:\"galaxy evolution\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending important papers on dark matter detection",
+    "ads_query": "trending(useful(abs:\"dark matter detection\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "currently popular foundational papers on gravitational lensing",
+    "ads_query": "trending(useful(abs:\"gravitational lensing\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what trending papers cite the key works by Riess",
+    "ads_query": "trending(useful(author:\"^Riess\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending useful papers by first author Blanco-Cuaresma",
+    "ads_query": "trending(useful(author:\"^Blanco-Cuaresma, Sergi\" collection:astronomy))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "review papers that cite the most useful cosmology literature",
+    "ads_query": "reviews(useful(abs:\"cosmology\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reviews citing key papers on black hole mergers",
+    "ads_query": "reviews(useful(abs:\"black hole mergers\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "review articles based on important neutron star research",
+    "ads_query": "reviews(useful(abs:\"neutron star\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reviews of the most useful gravitational wave papers",
+    "ads_query": "reviews(useful(abs:\"gravitational waves\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reviews citing seminal papers by first author Hawking",
+    "ads_query": "reviews(useful(author:\"^Hawking\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers citing the top 100 dark energy papers by citation count",
+    "ads_query": "citations(topn(100, abs:\"dark energy\", \"citation_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers that cite the 50 most-cited exoplanet papers",
+    "ads_query": "citations(topn(50, abs:\"exoplanet\", \"citation_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers citing the top 200 galaxy cluster papers",
+    "ads_query": "citations(topn(200, abs:\"galaxy cluster\", \"citation_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "who cites the most-read stellar evolution papers",
+    "ads_query": "citations(topn(100, abs:\"stellar evolution\", \"read_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers similar to what cites the gravitational wave detection paper",
+    "ads_query": "similar(citations(bibcode:2016PhRvL.116f1102A)) collection:astronomy",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers among the top 200 stellar spectroscopy papers by read count",
+    "ads_query": "trending(topn(200, abs:\"stellar spectroscopy\", \"read_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending from the most-read chemical abundances papers in astronomy",
+    "ads_query": "trending(topn(200, abs:\"chemical abundances\" collection:astronomy, \"read_count desc\"))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "new papers this week related to fast radio bursts",
+    "ads_query": "similar(abs:\"fast radio bursts\") entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent papers similar to exoplanet atmosphere research",
+    "ads_query": "similar(abs:\"exoplanet atmospheres\") entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers added this month similar to dark energy research",
+    "ads_query": "similar(abs:\"dark energy\") entdate:[NOW-1MONTH TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "new papers this week like galaxy merger simulations",
+    "ads_query": "similar(abs:\"galaxy merger simulations\") entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recently indexed papers related to gravitational wave detection",
+    "ads_query": "similar(abs:\"gravitational wave detection\") entdate:[NOW-14DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "this week's papers similar to magnetar emission models",
+    "ads_query": "similar(abs:\"magnetar emission\") entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "new preprints related to cosmic microwave background",
+    "ads_query": "similar(abs:\"cosmic microwave background\") entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent papers similar to AGN feedback simulations",
+    "ads_query": "similar(abs:\"AGN feedback\") entdate:[NOW-1MONTH TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "newly added papers like brown dwarf atmospheric models",
+    "ads_query": "similar(abs:\"brown dwarf atmosphere\") entdate:[NOW-14DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "this month's papers related to primordial nucleosynthesis",
+    "ads_query": "similar(abs:\"primordial nucleosynthesis\") entdate:[NOW-1MONTH TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "refereed open access papers on gravitational waves",
+    "ads_query": "property:(refereed openaccess) abs:\"gravitational waves\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "peer-reviewed open access papers on exoplanets",
+    "ads_query": "property:(refereed openaccess) abs:\"exoplanet\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed papers with data links on galaxy clusters",
+    "ads_query": "property:(refereed data) abs:\"galaxy clusters\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "open access refereed papers with data links on stellar evolution",
+    "ads_query": "property:(refereed openaccess data) abs:\"stellar evolution\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed open access papers with data from 2020 to 2024",
+    "ads_query": "property:(refereed openaccess data) pubdate:[2020 TO 2024]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed papers with open access and data links on dark matter",
+    "ads_query": "property:(refereed openaccess data) abs:\"dark matter\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "open access non-article records about supernovae",
+    "ads_query": "property:(openaccess nonarticle) abs:\"supernova\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed papers with electronic resources about CMB",
+    "ads_query": "property:(refereed openaccess) abs:\"cosmic microwave background\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "open access earth science papers with data links",
+    "ads_query": "property:(openaccess data) collection:earthscience",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed papers with open access full text on black holes",
+    "ads_query": "property:(refereed openaccess) abs:\"black hole\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers published in any JGR journal",
+    "ads_query": "bibstem:jgr*",
+    "category": "publication"
+  },
+  {
+    "natural_language": "geophysics papers in JGR journals on magnetotellurics",
+    "ads_query": "bibstem:jgr* abs:\"magnetotelluric\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in JGR journals about sea ice",
+    "ads_query": "bibstem:jgr* abs:\"sea ice\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "Hubble Space Telescope proposals",
+    "ads_query": "bibstem:\"hst..prop\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers published in ApJ, ApJL, or ApJS",
+    "ads_query": "bibstem:(ApJ OR ApJL OR ApJS)",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers on supernovae in any of the ApJ journals",
+    "ads_query": "bibstem:(ApJ OR ApJL OR ApJS) abs:\"supernova\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Physical Review journals about neutrinos",
+    "ads_query": "bibstem:(PhRvD OR PhRvL OR PhRvC) abs:\"neutrino\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in either MNRAS or A&A on AGN feedback",
+    "ads_query": "bibstem:(MNRAS OR A&A) abs:\"AGN feedback\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers in Nature or Science about gravitational waves",
+    "ads_query": "bibstem:(Nature OR Sci) abs:\"gravitational waves\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "VizieR catalog entries",
+    "ads_query": "bibstem:yCat",
+    "category": "publication"
+  },
+  {
+    "natural_language": "VizieR catalogs about stellar photometry",
+    "ads_query": "bibstem:yCat abs:\"stellar photometry\"",
+    "category": "publication"
+  },
+  {
+    "natural_language": "papers mentioning MUSE and VLT in the full text",
+    "ads_query": "full:\"MUSE\" full:\"VLT\"",
+    "category": "content"
+  },
+  {
+    "natural_language": "full-text search for machine learning in astronomy papers",
+    "ads_query": "full:\"machine learning\" collection:astronomy",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers that mention the Hubble Space Telescope in their full text",
+    "ads_query": "full:\"Hubble Space Telescope\"",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers with JWST mentioned in the full text since 2022",
+    "ads_query": "full:\"JWST\" pubdate:[2022 TO 2026]",
+    "category": "content"
+  },
+  {
+    "natural_language": "full text search for neural networks in astrophysics",
+    "ads_query": "full:\"neural network\" collection:astronomy",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers mentioning specific DOI 10.5281 in their text",
+    "ads_query": "full:\"10.5281\"",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers referencing PDS URNs in their text",
+    "ads_query": "full:\"urn:nasa:pds\"",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers with ALMA mentioned in the full text about protoplanetary disks",
+    "ads_query": "full:\"ALMA\" abs:\"protoplanetary disk\"",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers with linked data products",
+    "ads_query": "property:data",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed papers with data products on exoplanets",
+    "ads_query": "property:data property:refereed abs:\"exoplanet\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers that cite software records in gravitational wave research",
+    "ads_query": "abs:\"gravitational waves\" citations(doctype:software)",
+    "category": "compound"
+  },
+  {
+    "natural_language": "refereed open access papers with data from 2020 to 2024 in earth science",
+    "ads_query": "property:(refereed openaccess data) pubdate:[2020 TO 2024] collection:earthscience",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers citing software used in galaxy simulations",
+    "ads_query": "citations(doctype:software) abs:\"galaxy simulation\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "NICMOS papers that are refereed and open access with data links",
+    "ads_query": "abs:\"NICMOS\" property:(data refereed openaccess)",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers citing software in the earth science collection",
+    "ads_query": "citations(doctype:software) collection:earthscience",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software packages referenced by exoplanet transit studies",
+    "ads_query": "doctype:software references(abs:\"exoplanet transit\")",
+    "category": "compound"
+  },
+  {
+    "natural_language": "software records about LISA gravitational wave detector",
+    "ads_query": "doctype:software collection:astronomy abs:\"LISA\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "catalog records in the astronomy database",
+    "ads_query": "doctype:catalog collection:astronomy",
+    "category": "compound"
+  },
+  {
+    "natural_language": "earth science papers about sea level rise",
+    "ads_query": "collection:earthscience abs:\"sea level rise\"",
+    "category": "collection"
+  },
+  {
+    "natural_language": "refereed earth science papers on Antarctic ice sheets",
+    "ads_query": "collection:earthscience abs:\"Antarctic ice sheet\" property:refereed",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers about seismology since 2020",
+    "ads_query": "collection:earthscience abs:\"seismology\" pubdate:[2020 TO 2026]",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers with data links about ocean circulation",
+    "ads_query": "collection:earthscience property:data abs:\"ocean circulation\"",
+    "category": "collection"
+  },
+  {
+    "natural_language": "open access earth science papers about climate modeling",
+    "ads_query": "collection:earthscience property:openaccess abs:\"climate model\"",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers citing software about atmospheric chemistry",
+    "ads_query": "collection:earthscience citations(doctype:software) abs:\"atmospheric chemistry\"",
+    "category": "collection"
+  },
+  {
+    "natural_language": "refereed open access earth science papers with data since 2020",
+    "ads_query": "collection:earthscience property:(refereed openaccess data) pubdate:[2020 TO 2026]",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers about magnetotellurics",
+    "ads_query": "collection:earthscience abs:\"magnetotelluric\"",
+    "category": "collection"
+  },
+  {
+    "natural_language": "papers about geodesy in the earth science collection",
+    "ads_query": "collection:earthscience abs:\"geodesy\" doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "earth science papers on volcanic eruptions",
+    "ads_query": "collection:earthscience abs:\"volcanic eruption\" doctype:article",
+    "category": "collection"
+  },
+  {
+    "natural_language": "papers about both the LMC and SMC",
+    "ads_query": "object:((LMC) AND (SMC))",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about the LMC or SMC and M31",
+    "ads_query": "object:((SMC OR LMC) AND M31)",
+    "category": "object"
+  },
+  {
+    "natural_language": "refereed papers about the star Aldebaran",
+    "ads_query": "object:Aldebaran property:refereed",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about M67 that are refereed",
+    "ads_query": "object:M67 property:refereed",
+    "category": "object"
+  },
+  {
+    "natural_language": "papers about Antarctica and snowfall and sea ice",
+    "ads_query": "abs:(\"Antarctica\" AND \"snowfall\" AND \"sea ice\")",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers about climate change and Arctic and permafrost",
+    "ads_query": "abs:(\"climate change\" AND \"Arctic\" AND \"permafrost\")",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers about earthquake and tsunami and subduction",
+    "ads_query": "abs:(\"earthquake\" AND \"tsunami\" AND \"subduction\")",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers about solar wind and magnetosphere and reconnection",
+    "ads_query": "abs:(\"solar wind\" AND \"magnetosphere\" AND \"reconnection\")",
+    "category": "content"
+  },
+  {
+    "natural_language": "papers on ocean acidification and coral reefs and biodiversity",
+    "ads_query": "abs:(\"ocean acidification\" AND \"coral reef\" AND \"biodiversity\")",
+    "category": "content"
+  },
+  {
+    "natural_language": "exact search for keyword accretion without synonyms",
+    "ads_query": "=keyword:\"accretion\"",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "search for keyword sun without synonym expansion",
+    "ads_query": "=keyword:\"sun\"",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "find exact matches for the term supernova without related terms",
+    "ads_query": "=abs:\"supernova\"",
+    "category": "syntax"
+  },
+  {
+    "natural_language": "exact keyword search for galaxies without synonyms",
+    "ads_query": "=keyword:\"galaxies\"",
+    "category": "syntax"
+  }
+]

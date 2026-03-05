@@ -198,6 +198,47 @@ DATA_SOURCES: frozenset[str] = frozenset(
     }
 )
 
+# Valid values for the has: field (metadata presence filter)
+# Populated by ADSMasterPipeline for records with alphanumeric content in each field
+# Reference: https://github.com/adsabs/ADSMasterPipeline (adsmp/solr_updater.py, config.py)
+HAS_VALUES: frozenset[str] = frozenset(
+    {
+        "abstract",
+        "ack",
+        "aff",
+        "aff_id",
+        "author",
+        "bibgroup",
+        "body",
+        "citation",
+        "comment",
+        "credit",
+        "data",
+        "database",
+        "doctype",
+        "doi",
+        "first_author",
+        "grant",
+        "identifier",
+        "institution",
+        "issue",
+        "keyword",
+        "mention",
+        "orcid_other",
+        "orcid_pub",
+        "orcid_user",
+        "origin",
+        "property",
+        "pub",
+        "pub_raw",
+        "publisher",
+        "reference",
+        "title",
+        "uat",
+        "volume",
+    }
+)
+
 # Combined dict for easier validation lookup
 FIELD_ENUMS = {
     "doctype": DOCTYPES,
@@ -207,6 +248,7 @@ FIELD_ENUMS = {
     "bibgroup": BIBGROUPS,
     "esources": ESOURCES,
     "data": DATA_SOURCES,
+    "has": HAS_VALUES,
 }
 
 

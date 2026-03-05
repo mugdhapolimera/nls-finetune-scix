@@ -6,6 +6,15 @@
                 "@playwright/mcp@latest",
                 "--headless"
             ]
+        },
+        "ads": {
+            "command": "npx",
+            "args": [
+                "scix-mcp"
+            ],
+            "env": {
+                "SCIX_API_TOKEN": "${ADS_API_KEY}"
+            }
         }
     }
 }

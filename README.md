@@ -6,6 +6,65 @@ Fine-tuning infrastructure for converting natural language to ADS/SciX scientifi
 
 **Target:** Complementary search feature for [SciXplorer.org](https://scixplorer.org/)
 
+## Training Data Update (2026-03-04)
+
+### What changed
+
+#### New gold standard examples
+Gold examples: 4,557 (from Stephanie's original work) -->  **4,938 pairs**
+
+
+**Of the 4,557 original examples:**
+
+| | Count | Details |
+|---|---|---|
+| Kept unchanged | 4,157 | Passed all checks as-is |
+| Query modified | 284 | 178 were `collection:` → `database:` renames; 106 were substantive fixes (author format/spelling, encoding, operator direction, alignment, nested operators causing 502s, zero-result queries) |
+| NL rewritten | 5 | Query kept, natural language corrected |
+| Removed | 116 | Non-academic entries: bag-of-OR title queries, Russian government documents, biographical/entertainment content |
+| **Total touched** | **400** | **~9% of the original dataset needed fixes** |
+
+**New examples added: 491.** Coverage gap expansions across 17 underrepresented categories (`esources`, `data` archives, `has` field, `grant`, `ack`, `keyword`, `arxiv_class`, `orcid`, `entry_date`, NOT/negation, `similar()`, `references()`), plus blog-sourced patterns, bibstem queries, affiliation queries, and misc field examples. All template-based with fixed seeds for reproducibility.
+
+#### Three runtime rewriting systems built.
+Handle transformations that are deterministic and shouldn't be learned by the model — they run at serving time in `server.py`, post-processing both the NER pipeline output and raw LLM output:
+
+- **Bibstem lookup** (`bibstem_lookup.py` + `bibstem_synonyms.json`): 70 journals, 157 synonym names. Maps natural language journal references ("Monthly Notices", "Nature Astronomy", "Physical Review Letters") to ADS bibstem abbreviations (`MNRAS`, `NatAs`, `PhRvL`). The model outputs whatever journal name it sees in the NL; `rewrite_bibstem_values()` corrects it to the canonical abbreviation. Also supports bibstem wildcards (`bibstem:jgr*` for all JGR journals) and multi-OR syntax (`bibstem:(ApJ OR ApJL OR ApJS)`). Synonym data collected from the ADS Journals API via `scripts/collect_bibstems.py`.
+- **Institution lookup** (`institution_lookup.py` + `institution_synonyms.json`): 56 institutions, 148 synonym names. Maps institution references ("Caltech", "Jet Propulsion Laboratory", "Max Planck Institute for Astrophysics") to curated `inst:` abbreviations and builds dual `(inst:"CfA" OR aff:"CfA")` clauses for maximum recall — `inst:` catches the curated canonical form, `aff:` catches free-text variants. Includes umbrella mappings for parent organizations (NASA → JPL/GSFC/NASA Ames/MSFC, Max Planck → MPA/MPE/MPIA). Falls back to `aff:` only for unrecognized institutions. Exception: `inst:` is not supported inside `pos()` operators, so those stay as `aff:` only. Synonym data parsed from ADS CanonicalAffiliations via `scripts/collect_institutions.py`.
+- **Complex author wildcarding** (`assembler.py` → `rewrite_complex_author_wildcards()`): Handles hyphenated and apostrophe-containing author names that have inconsistent ADS indexing (e.g., "de Groot-Hedlin" may be indexed as "de GrootHedlin"). Adds a trailing `*` inside quotes to catch variants: `author:"de Groot-Hedlin"` → `author:"de Groot*"`. Short prefixes like "El-" or "al-" keep the full name plus wildcard: `author:"El-Badry*"`. Training data keeps exact author names — wildcarding is applied deterministically at runtime.
+
+#### SciX Query Validator Agent built ("Dr. Query").
+We created a specialized Claude Code agent (`.claude/agents/scix-query-validator.md`) for validating training examples. It connects to the live ADS/SciX API via the `scix-mcp` MCP server (`.mcp.json`), which gives it direct access to `search()`, `get_paper()`, `get_citations()`, `get_references()`, and `search_docs()` tools — no curl or API key management needed. The agent operates in two modes:
+
+- **Small-batch mode (<100 examples):** Reviews examples individually using MCP `search` calls with `rows: 1`. For each pair, it checks syntax validity, tests the query against the live API, verifies NL-to-query semantic alignment, and suggests improvements. Output follows a structured PASS/WARN/FAIL format.
+- **Bulk mode (100+ examples):** Writes and runs a batch Python script (`scripts/validate_gold_examples.py`) with resume support, rate limiting, and incremental checkpointing. Static syntax checks run first (no API cost), then API-tests only for examples that pass syntax. This is how we validated the full 4,938-example dataset.
+
+The agent has persistent memory (`.claude/agent-memory/scix-query-validator/MEMORY.md`) that accumulates findings across sessions — confirmed API quirks, bibstem mappings, institution abbreviations, operator nesting limitations, and common error patterns. Issues it caught that static validation or manual review wouldn't have:
+
+- `has:` field is completely non-functional via the ADS API (all 34 values return 0 results) — invisible to static checks, only surfaced through live API testing during the pilot audit
+- `citations()` vs `references()` semantic direction errors — "software used in X studies" should use `references()` not `citations()`, a subtle mistake that reads correctly to a human
+- Author name misspellings causing 0 results ("Chiape" vs "Chiappe") — only catchable by API testing
+- Some nested second-order operators cause 502s (`useful(similar(...))`) — discovered by testing generated examples against the live API
+- `object:` and `uat:` fields silently require `d=astrophysics` discipline parameter — returns HTTP 400 without it
+
+The batch script and the agent complement each other: 
+- the script handles scale (4,938 examples with rate limiting, checkpointing, resume) but only checks what it's programmed to check (balanced brackets, known field names, enum values, NL syntax leakage). 
+- the agent catches semantic issues that require domain understanding — operator direction, author existence, query specificity. In practice, we used the agent for the initial pilot audit (10 examples, found 6 critical issues), for validating each new batch of generated examples (~210 at a time), and for spot-checking failures from the batch script.
+
+**Validator hardened: 4 bug fixes, 0 data changes.** The validator (`scripts/validate_gold_examples.py`) had false positives from regex edge cases — colons inside quoted strings, trailing commas from `topn()` args, space-separated parenthesized enums, and NL quality checks over-flagging legitimate identifiers. Final pass rate: **4,938/4,938 (100%)**.
+
+### Core learnings
+
+- **Iterative validation finds different bugs each round.** The pilot audit caught semantic issues (operator direction, misspellings) that static checks miss. Static checks caught syntax and enum issues across 4,800+ examples that manual review can't scale to. API testing caught zero-result queries that look syntactically correct. Each layer reveals problems invisible to the others.
+- **Runtime rewriting > model learning** for deterministic transformations. Author name wildcarding (`de Groot-Hedlin` → `author:"de Groot*"`) and institution expansion (`aff:"MIT"` → `(inst:"MIT" OR aff:"MIT")`) are handled at serving time by `server.py`, not baked into training data. This keeps examples clean and avoids teaching the model inconsistent heuristics.
+- **ADS syntax has sharp edges** that training data must respect: first-author caret must be inside quotes (`author:"^Last"`), `object:` and `uat:` require a discipline parameter, `mentions()`/`credits()` operators aren't live, nested second-order operators cause 502s, and ADS handles stemming internally (don't truncate stems in `abs:` values).
+- **A validator with false positives is worse than no validator** — people learn to ignore it. Fixing the 23 false positives (all regex edge cases) means the pass/fail signal is now trustworthy. Any future failure is a real issue worth investigating.
+- **Coverage breadth matters more than depth** for underrepresented fields. Going from 0 → 10 examples for a field (e.g., `entry_date`, `arxiv_class`) has far more impact on model behavior than going from 200 → 210 for `author`. The original dataset had zero examples for 8+ fields.
+
+### What's left
+
+Remaining coverage gaps: 7/24 `data` archives (ARI, BICEP2, GCPD, GTC, INES, ISO, NOAO), ~14/34 `has` values with few dedicated examples, and zero examples for `lang`, `page`, `volume`, `issue`, `caption` fields. See CLAUDE.md for the full gap inventory.
+
 ## Prerequisites
 
 - **macOS** (Apple Silicon recommended) - Linux/Windows not currently supported

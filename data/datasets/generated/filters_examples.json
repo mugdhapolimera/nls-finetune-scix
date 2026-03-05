@@ -1,0 +1,967 @@
+[
+  {
+    "natural_language": "find papers about galaxy clusters that have a publisher PDF available",
+    "ads_query": "abs:\"galaxy clusters\" esources:PUB_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "gravitational lensing papers with publisher PDF",
+    "ads_query": "abs:\"gravitational lensing\" esources:PUB_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles on stellar evolution with downloadable publisher PDF",
+    "ads_query": "abs:\"stellar evolution\" esources:PUB_PDF doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find papers about dark matter that have a publisher PDF available",
+    "ads_query": "abs:\"dark matter\" esources:PUB_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "arxiv preprints on galaxy clusters with downloadable eprint PDF",
+    "ads_query": "abs:\"galaxy clusters\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "gravitational lensing eprints with PDF available",
+    "ads_query": "abs:\"gravitational lensing\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "preprints on stellar evolution available as eprint PDF",
+    "ads_query": "abs:\"stellar evolution\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "arxiv preprints on dark matter with downloadable eprint PDF",
+    "ads_query": "abs:\"dark matter\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers from the 1980s about galaxy clusters with scanned articles",
+    "ads_query": "abs:\"galaxy clusters\" year:1980-1989 esources:ADS_SCAN",
+    "category": "filters"
+  },
+  {
+    "natural_language": "historical papers on gravitational lensing with scanned versions",
+    "ads_query": "abs:\"gravitational lensing\" year:1960-1969 esources:ADS_SCAN",
+    "category": "filters"
+  },
+  {
+    "natural_language": "stellar evolution papers with ADS scans",
+    "ads_query": "abs:\"stellar evolution\" esources:ADS_SCAN",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers from the 1980s about dark matter with scanned articles",
+    "ads_query": "abs:\"dark matter\" year:1980-1989 esources:ADS_SCAN",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on galaxy clusters with HTML full text from the publisher",
+    "ads_query": "abs:\"galaxy clusters\" esources:PUB_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find gravitational lensing articles available as publisher HTML",
+    "ads_query": "abs:\"gravitational lensing\" esources:PUB_HTML doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on stellar evolution with HTML full text from the publisher",
+    "ads_query": "abs:\"stellar evolution\" esources:PUB_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find dark matter articles available as publisher HTML",
+    "ads_query": "abs:\"dark matter\" esources:PUB_HTML doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "galaxy clusters preprints with HTML version on arXiv",
+    "ads_query": "abs:\"galaxy clusters\" esources:EPRINT_HTML doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on gravitational lensing available as eprint HTML",
+    "ads_query": "abs:\"gravitational lensing\" esources:EPRINT_HTML doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "stellar evolution preprints with HTML version on arXiv",
+    "ads_query": "abs:\"stellar evolution\" esources:EPRINT_HTML doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on dark matter available as eprint HTML",
+    "ads_query": "abs:\"dark matter\" esources:EPRINT_HTML doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with author-provided PDF on galaxy clusters",
+    "ads_query": "abs:\"galaxy clusters\" esources:AUTHOR_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find author-submitted PDFs about gravitational lensing",
+    "ads_query": "abs:\"gravitational lensing\" esources:AUTHOR_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with author-provided PDF on stellar evolution",
+    "ads_query": "abs:\"stellar evolution\" esources:AUTHOR_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find author-submitted PDFs about dark matter",
+    "ads_query": "abs:\"dark matter\" esources:AUTHOR_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with author HTML version about galaxy clusters",
+    "ads_query": "abs:\"galaxy clusters\" esources:AUTHOR_HTML doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find papers on gravitational lensing with author-hosted HTML",
+    "ads_query": "abs:\"gravitational lensing\" esources:AUTHOR_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with author HTML version about stellar evolution",
+    "ads_query": "abs:\"stellar evolution\" esources:AUTHOR_HTML doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find papers on dark matter with author-hosted HTML",
+    "ads_query": "abs:\"dark matter\" esources:AUTHOR_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ADS PDF available on galaxy clusters",
+    "ads_query": "abs:\"galaxy clusters\" esources:ADS_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find articles on gravitational lensing available as ADS PDF",
+    "ads_query": "abs:\"gravitational lensing\" esources:ADS_PDF doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ADS PDF available on stellar evolution",
+    "ads_query": "abs:\"stellar evolution\" esources:ADS_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find articles on dark matter available as ADS PDF",
+    "ads_query": "abs:\"dark matter\" esources:ADS_PDF doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "open access papers on AGN with publisher PDF or HTML",
+    "ads_query": "abs:\"AGN\" (esources:PUB_PDF OR esources:PUB_HTML) property:openaccess",
+    "category": "filters"
+  },
+  {
+    "natural_language": "historical papers on gravitational waves with scanned versions",
+    "ads_query": "abs:\"gravitational waves\" esources:ADS_SCAN pubdate:[1960 TO 1969]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "recent refereed articles on stellar evolution with publisher PDF",
+    "ads_query": "abs:\"stellar evolution\" esources:PUB_PDF property:refereed pubdate:[2020 TO 2026]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "preprints on dark energy available as eprint PDF",
+    "ads_query": "abs:\"dark energy\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on gravitational waves with any author-provided version",
+    "ads_query": "abs:\"gravitational waves\" (esources:AUTHOR_PDF OR esources:AUTHOR_HTML)",
+    "category": "filters"
+  },
+  {
+    "natural_language": "dark matter papers from the 1970s with ADS scans",
+    "ads_query": "abs:\"dark matter\" esources:ADS_SCAN pubdate:[1970 TO 1979]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with searchable full text about dark energy",
+    "ads_query": "has:body abs:\"dark energy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "full-text available papers on exoplanet",
+    "ads_query": "has:body abs:\"exoplanet\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with acknowledgments text mentioning NASA funding",
+    "ads_query": "has:ack abs:\"interstellar medium\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with acknowledgment sections about dark energy",
+    "ads_query": "has:ack abs:\"dark energy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with grant information about magnetar",
+    "ads_query": "has:grant abs:\"magnetar\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "funded research papers on magnetar",
+    "ads_query": "has:grant abs:\"magnetar\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with publisher-verified ORCID IDs by first author Smith",
+    "ads_query": "has:orcid_pub author:\"^Smith\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with publisher-verified ORCID on AGN feedback",
+    "ads_query": "has:orcid_pub abs:\"AGN feedback\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find papers where the first author has a verified ORCID",
+    "ads_query": "has:orcid_pub abs:\"stellar evolution\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with affiliation information about active galactic nuclei",
+    "ads_query": "has:aff abs:\"active galactic nuclei\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "records that have an abstract about solar physics",
+    "ads_query": "has:abstract abs:\"solar physics\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that have been cited at least once about AGN",
+    "ads_query": "has:citation abs:\"AGN\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with software or data mentions about interstellar medium",
+    "ads_query": "has:mention abs:\"interstellar medium\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "exoplanet papers that mention software or data records",
+    "ads_query": "has:mention abs:\"exoplanet\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keywords about stellar spectroscopy",
+    "ads_query": "has:keyword abs:\"stellar spectroscopy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with credited software on exoplanet atmospheres",
+    "ads_query": "has:credit abs:\"exoplanet atmospheres\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "software records that have been credited by researchers",
+    "ads_query": "has:credit doctype:software",
+    "category": "filters"
+  },
+  {
+    "natural_language": "data records credited by other papers",
+    "ads_query": "has:credit -doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with reference lists about quasar variability",
+    "ads_query": "has:reference abs:\"quasar variability\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that have associated data links on gravitational waves",
+    "ads_query": "has:data abs:\"gravitational waves\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with DOI identifiers about stellar evolution",
+    "ads_query": "has:doi abs:\"stellar evolution\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that have bibliographic group assignments",
+    "ads_query": "has:bibgroup abs:\"black hole thermodynamics\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with volume information about exoplanet atmospheres",
+    "ads_query": "has:volume abs:\"exoplanet atmospheres\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that have issue numbers on exoplanet",
+    "ads_query": "has:issue abs:\"exoplanet\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with institutional affiliations on black hole thermodynamics",
+    "ads_query": "has:institution abs:\"black hole thermodynamics\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with unified astronomy thesaurus tags about dark energy",
+    "ads_query": "has:uat abs:\"dark energy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with publisher information about interstellar medium",
+    "ads_query": "has:publisher abs:\"interstellar medium\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that have comments about Cepheid variables",
+    "ads_query": "has:comment abs:\"Cepheid variables\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ORCID identifiers from other sources",
+    "ads_query": "has:orcid_other abs:\"active galactic nuclei\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ORCID user claims about spectral analysis",
+    "ads_query": "has:orcid_user abs:\"spectral analysis\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with user-claimed ORCID identifiers on neutrino oscillations",
+    "ads_query": "has:orcid_user abs:\"neutrino oscillations\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with raw publication info on spectral analysis",
+    "ads_query": "has:pub_raw abs:\"spectral analysis\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that have database assignments in astronomy",
+    "ads_query": "has:database collection:astronomy",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with first author metadata about radio galaxies",
+    "ads_query": "has:first_author abs:\"radio galaxies\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with affiliation IDs on Cepheid variables",
+    "ads_query": "has:aff_id abs:\"Cepheid variables\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with origin metadata about gravitational waves",
+    "ads_query": "has:origin abs:\"gravitational waves\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with property flags about cosmology",
+    "ads_query": "has:property abs:\"cosmology\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with doctype metadata in the astronomy collection",
+    "ads_query": "has:doctype collection:astronomy",
+    "category": "filters"
+  },
+  {
+    "natural_language": "National Science Foundation-funded research on stellar nucleosynthesis",
+    "ads_query": "grant:NSF abs:\"stellar nucleosynthesis\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "NASA-funded papers on dark energy",
+    "ads_query": "grant:NASA abs:\"dark energy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "Department of Energy-funded research on stellar nucleosynthesis",
+    "ads_query": "grant:DOE abs:\"stellar nucleosynthesis\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "European Space Agency-funded research on galaxy clusters",
+    "ads_query": "grant:ESA abs:\"galaxy clusters\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "ERC grants research on exoplanet",
+    "ads_query": "grant:ERC abs:\"exoplanet\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "STFC-funded papers on dark matter",
+    "ads_query": "grant:STFC abs:\"dark matter\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "DFG grants research on AGN",
+    "ads_query": "grant:DFG abs:\"AGN\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "Canadian Space Agency-funded research on AGN",
+    "ads_query": "grant:CSA abs:\"AGN\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "NSF grants research on machine learning in astronomy",
+    "ads_query": "grant:NSF abs:\"machine learning\" collection:astronomy",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that acknowledge Hubble Space Telescope",
+    "ads_query": "ack:\"Hubble Space Telescope\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "research acknowledging the ALMA",
+    "ads_query": "ack:\"ALMA\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that thank the Keck Observatory for telescope time",
+    "ads_query": "ack:\"Keck Observatory\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that thank the Sloan Digital Sky Survey for telescope time",
+    "ads_query": "ack:\"Sloan Digital Sky Survey\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that acknowledge European Southern Observatory",
+    "ads_query": "ack:\"European Southern Observatory\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers acknowledging Gemini Observatory",
+    "ads_query": "ack:\"Gemini Observatory\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers acknowledging Chandra X-ray Center",
+    "ads_query": "ack:\"Chandra X-ray Center\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that acknowledge XSEDE",
+    "ads_query": "ack:\"XSEDE\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that thank the National Radio Astronomy Observatory for telescope time",
+    "ads_query": "ack:\"National Radio Astronomy Observatory\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that thank the James Webb Space Telescope for telescope time",
+    "ads_query": "ack:\"James Webb Space Telescope\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keyword gravitational lensing",
+    "ads_query": "keyword:\"gravitational lensing\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword black hole physics",
+    "ads_query": "keyword:\"black hole physics\" property:refereed",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with stellar evolution keyword",
+    "ads_query": "keyword:\"stellar evolution\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with cosmology keyword",
+    "ads_query": "keyword:\"cosmology\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with planetary atmospheres keyword",
+    "ads_query": "keyword:\"planetary atmospheres\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword galaxy clusters",
+    "ads_query": "keyword:\"galaxy clusters\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles tagged with keyword supernovae",
+    "ads_query": "keyword:\"supernovae\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword molecular clouds",
+    "ads_query": "keyword:\"molecular clouds\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword star formation",
+    "ads_query": "keyword:\"star formation\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with instrumentation keyword",
+    "ads_query": "keyword:\"instrumentation\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword methods",
+    "ads_query": "keyword:\"methods\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword astrochemistry",
+    "ads_query": "keyword:\"astrochemistry\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles tagged with keyword techniques: photometric",
+    "ads_query": "keyword:\"techniques: photometric\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles tagged with keyword radio continuum: galaxies",
+    "ads_query": "keyword:\"radio continuum: galaxies\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keyword large-scale structure",
+    "ads_query": "keyword:\"large-scale structure\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles tagged with keyword accretion",
+    "ads_query": "keyword:\"accretion\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with surveys keyword",
+    "ads_query": "keyword:\"surveys\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with the keyword active galactic nuclei",
+    "ads_query": "keyword:\"active galactic nuclei\" doctype:article property:refereed",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with keyword cosmology and large-scale structure",
+    "ads_query": "keyword:\"cosmology\" keyword:\"large-scale structure\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keyword molecular clouds and star formation",
+    "ads_query": "keyword:\"molecular clouds\" keyword:\"star formation\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with keyword instrumentation and methods",
+    "ads_query": "keyword:\"instrumentation\" keyword:\"methods\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "astrophysics cosmology preprints",
+    "ads_query": "arxiv_class:astro-ph.CO doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "high energy astrophysics eprints",
+    "ads_query": "arxiv_class:astro-ph.HE doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "solar and stellar astrophysics papers on arXiv",
+    "ads_query": "arxiv_class:astro-ph.SR",
+    "category": "filters"
+  },
+  {
+    "natural_language": "earth and planetary astrophysics preprints",
+    "ads_query": "arxiv_class:astro-ph.EP doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "arXiv papers on astrophysics of galaxies",
+    "ads_query": "arxiv_class:astro-ph.GA",
+    "category": "filters"
+  },
+  {
+    "natural_language": "instrumentation and methods for astrophysics eprints",
+    "ads_query": "arxiv_class:astro-ph.IM doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "general relativity and quantum cosmology preprints",
+    "ads_query": "arxiv_class:gr-qc doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "high energy physics theory papers on arXiv",
+    "ads_query": "arxiv_class:hep-th",
+    "category": "filters"
+  },
+  {
+    "natural_language": "condensed matter preprints in ADS",
+    "ads_query": "arxiv_class:cond-mat doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "nuclear theory preprints",
+    "ads_query": "arxiv_class:nucl-th doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "astronomy papers published in French",
+    "ads_query": "database:astronomy lang:fr",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with VizieR catalog data related to infrared photometry",
+    "ads_query": "vizier:\"Infrared\" abs:\"photometry\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that mention astropy software",
+    "ads_query": "abs:\"astropy\" mention_count:[1 TO *]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "software packages for spectral fitting that are credited by up to 100 papers",
+    "ads_query": "credit_count:[1 TO 100] full:\"spectral fitting\" doctype:software",
+    "category": "filters"
+  },
+  {
+    "natural_language": "arxiv preprints on gravitational lensing with downloadable eprint PDF",
+    "ads_query": "abs:\"gravitational lensing\" esources:EPRINT_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers from the 1960s about stellar evolution with scanned articles",
+    "ads_query": "abs:\"stellar evolution\" year:1960-1969 esources:ADS_SCAN",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with searchable full text about dark matter",
+    "ads_query": "has:body abs:\"dark matter\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "full-text available papers on gravitational lensing",
+    "ads_query": "has:body abs:\"gravitational lensing\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with grant information about galaxy surveys",
+    "ads_query": "has:grant abs:\"galaxy survey\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with affiliation information about stellar spectroscopy",
+    "ads_query": "has:aff abs:\"stellar spectroscopy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "records that have an abstract about solar flares",
+    "ads_query": "has:abstract abs:\"solar flares\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that have been cited at least once about Type Ia supernovae",
+    "ads_query": "has:citation abs:\"Type Ia supernova\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with software or data mentions about spectral analysis",
+    "ads_query": "has:mention abs:\"spectral analysis\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "gravitational wave papers that mention software or data records",
+    "ads_query": "abs:\"gravitational waves\" has:mention",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keywords about interstellar medium",
+    "ads_query": "has:keyword abs:\"interstellar medium\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with software mentions about stellar spectroscopy",
+    "ads_query": "has:mention abs:\"stellar spectroscopy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on stellar nucleosynthesis with HTML full text from the publisher",
+    "ads_query": "abs:\"stellar nucleosynthesis\" esources:PUB_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find galaxy evolution articles available as publisher HTML",
+    "ads_query": "abs:\"galaxy evolution\" esources:PUB_HTML doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "dark energy preprints with HTML version on arXiv",
+    "ads_query": "abs:\"dark energy\" esources:EPRINT_HTML doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on neutrino oscillations available as eprint HTML",
+    "ads_query": "abs:\"neutrino oscillations\" esources:EPRINT_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with author-provided PDF on cosmic ray acceleration",
+    "ads_query": "abs:\"cosmic ray acceleration\" esources:AUTHOR_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with author HTML version about quasar variability",
+    "ads_query": "abs:\"quasar variability\" esources:AUTHOR_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find papers on radio galaxies with author-hosted HTML",
+    "ads_query": "abs:\"radio galaxies\" esources:AUTHOR_HTML",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ADS PDF available on black hole thermodynamics",
+    "ads_query": "abs:\"black hole thermodynamics\" esources:ADS_PDF",
+    "category": "filters"
+  },
+  {
+    "natural_language": "find articles on interstellar dust available as ADS PDF",
+    "ads_query": "abs:\"interstellar dust\" esources:ADS_PDF doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "open access papers on AGN feedback with publisher PDF or HTML",
+    "ads_query": "abs:\"AGN feedback\" (esources:PUB_PDF OR esources:PUB_HTML) property:openaccess",
+    "category": "filters"
+  },
+  {
+    "natural_language": "historical papers on Cepheid variables with scanned versions",
+    "ads_query": "abs:\"Cepheid variables\" esources:ADS_SCAN pubdate:[1900 TO 1970]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "recent refereed articles on exoplanet atmospheres with publisher PDF",
+    "ads_query": "abs:\"exoplanet atmospheres\" esources:PUB_PDF property:refereed pubdate:[2020 TO 2026]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "preprints on fast radio bursts available as eprint PDF",
+    "ads_query": "abs:\"fast radio bursts\" esources:EPRINT_PDF doctype:eprint",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers on pulsar timing with any author-provided version",
+    "ads_query": "abs:\"pulsar timing\" (esources:AUTHOR_PDF OR esources:AUTHOR_HTML)",
+    "category": "filters"
+  },
+  {
+    "natural_language": "supernova remnant papers from the 1980s with ADS scans",
+    "ads_query": "abs:\"supernova remnant\" esources:ADS_SCAN pubdate:[1980 TO 1989]",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with DOI identifiers about stellar winds",
+    "ads_query": "has:doi abs:\"stellar winds\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with volume information about cosmology",
+    "ads_query": "has:volume abs:\"cosmology\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that have issue numbers on gravitational lensing",
+    "ads_query": "has:issue abs:\"gravitational lensing\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with institutional affiliations on dark energy",
+    "ads_query": "has:institution abs:\"dark energy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with unified astronomy thesaurus tags about star formation",
+    "ads_query": "has:uat abs:\"star formation\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with publisher information about neutron stars",
+    "ads_query": "has:publisher abs:\"neutron stars\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that have comments about supernova remnants",
+    "ads_query": "has:comment abs:\"supernova remnants\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with ORCID user claims about quasars",
+    "ads_query": "has:orcid_user abs:\"quasars\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with credited software on spectroscopy",
+    "ads_query": "has:credit abs:\"spectroscopy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with reference lists about black hole mergers",
+    "ads_query": "has:reference abs:\"black hole merger\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers that have associated data links on galaxy clusters",
+    "ads_query": "has:data abs:\"galaxy clusters\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles with raw publication info on cosmic microwave background",
+    "ads_query": "has:pub_raw abs:\"cosmic microwave background\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with first author metadata about AGN",
+    "ads_query": "has:first_author abs:\"active galactic nuclei\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with affiliation IDs on gravitational waves",
+    "ads_query": "has:aff_id abs:\"gravitational waves\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with origin metadata about solar physics",
+    "ads_query": "has:origin abs:\"solar physics\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with property flags about planet formation",
+    "ads_query": "has:property abs:\"planet formation\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers funded by NSF on galaxy evolution",
+    "ads_query": "grant:NSF abs:\"galaxy evolution\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "NASA-funded research on exoplanet detection",
+    "ads_query": "grant:NASA abs:\"exoplanet detection\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "DOE-funded papers on dark energy surveys",
+    "ads_query": "grant:DOE abs:\"dark energy survey\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "ESA-funded articles on space missions",
+    "ads_query": "grant:ESA abs:\"space mission\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers funded by the European Research Council on stellar astrophysics",
+    "ads_query": "grant:ERC abs:\"stellar astrophysics\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "STFC-funded research on radio astronomy",
+    "ads_query": "grant:STFC abs:\"radio astronomy\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with any grant funding on gravitational wave detection",
+    "ads_query": "has:grant abs:\"gravitational wave detection\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "DFG-funded papers on interstellar medium",
+    "ads_query": "grant:DFG abs:\"interstellar medium\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "CSA-funded research on space debris",
+    "ads_query": "grant:CSA abs:\"space debris\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers acknowledging Hubble Space Telescope time",
+    "ads_query": "ack:\"Hubble Space Telescope\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles that acknowledge ALMA observations",
+    "ads_query": "ack:\"ALMA\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles acknowledging Gemini Observatory",
+    "ads_query": "ack:\"Gemini Observatory\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers acknowledging the National Radio Astronomy Observatory",
+    "ads_query": "ack:\"National Radio Astronomy Observatory\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "articles tagged with keyword black hole physics",
+    "ads_query": "keyword:\"black hole physics\" doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keyword galaxy clusters in the astronomy database",
+    "ads_query": "keyword:\"galaxy clusters\" collection:astronomy",
+    "category": "filters"
+  },
+  {
+    "natural_language": "refereed articles tagged with keyword supernovae",
+    "ads_query": "keyword:\"supernovae\" property:refereed doctype:article",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with keyword techniques: photometric",
+    "ads_query": "keyword:\"techniques: photometric\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers tagged with keyword radio continuum: galaxies",
+    "ads_query": "keyword:\"radio continuum: galaxies\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with publisher-verified ORCID on dark matter",
+    "ads_query": "has:orcid_pub abs:\"dark matter\"",
+    "category": "filters"
+  },
+  {
+    "natural_language": "papers with user-claimed ORCID identifiers on exoplanets",
+    "ads_query": "has:orcid_user abs:\"exoplanet\"",
+    "category": "filters"
+  }
+]

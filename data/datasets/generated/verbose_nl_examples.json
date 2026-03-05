@@ -1,0 +1,302 @@
+[
+  {
+    "natural_language": "I'm looking for papers about using high-impedance preamplifiers to measure electric fields in snow and ice for magnetotelluric surveys",
+    "ads_query": "abs:\"preamplifier\" abs:\"electric field\" abs:\"magnetotelluric\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me papers about using high-impedance preamplifiers to measure electric fields in snow and ice for magnetotelluric surveys",
+    "ads_query": "abs:\"preamplifier\" abs:\"electric field\" abs:\"magnetotelluric\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "research on two-dimensional magnetotelluric inversion using the rapid relaxation inverse method",
+    "ads_query": "abs:\"magnetotelluric\" abs:\"inversion\" abs:\"2D\" abs:\"RRI\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me research on two-dimensional magnetotelluric inversion using the rapid relaxation inverse method",
+    "ads_query": "abs:\"magnetotelluric\" abs:\"inversion\" abs:\"2D\" abs:\"RRI\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers about using regularization methods for solving ill-posed inverse problems in geophysics",
+    "ads_query": "abs:\"regularization\" abs:\"inverse problem\" abs:\"geophysics\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "search for papers about using regularization methods for solving ill-posed inverse problems in geophysics",
+    "ads_query": "abs:\"regularization\" abs:\"inverse problem\" abs:\"geophysics\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "investigations of the crustal structure beneath the Himalayan orogen using receiver function analysis and joint inversion with surface wave data",
+    "ads_query": "abs:\"receiver function\" abs:\"surface wave\" abs:\"Himalaya\" abs:\"crustal structure\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need investigations of the crustal structure beneath the Himalayan orogen using receiver function analysis and joint inversion with surface wave data",
+    "ads_query": "abs:\"receiver function\" abs:\"surface wave\" abs:\"Himalaya\" abs:\"crustal structure\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "how do scientists use the Occam inversion approach for smooth models from magnetotelluric sounding data",
+    "ads_query": "abs:\"Occam\" abs:\"inversion\" abs:\"magnetotelluric\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need how do scientists use the Occam inversion approach for smooth models from magnetotelluric sounding data",
+    "ads_query": "abs:\"Occam\" abs:\"inversion\" abs:\"magnetotelluric\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "experimental measurements of the thermal conductivity of iron alloys at extreme pressures relevant to Earth's core",
+    "ads_query": "abs:\"thermal conductivity\" abs:\"iron\" abs:\"high pressure\" abs:\"core\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need experimental measurements of the thermal conductivity of iron alloys at extreme pressures relevant to Earth's core",
+    "ads_query": "abs:\"thermal conductivity\" abs:\"iron\" abs:\"high pressure\" abs:\"core\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "studies on the application of machine learning techniques to classify galaxy morphologies in large photometric surveys",
+    "ads_query": "abs:\"machine learning\" abs:\"galaxy morphology\" abs:\"classification\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me studies on the application of machine learning techniques to classify galaxy morphologies in large photometric surveys",
+    "ads_query": "abs:\"machine learning\" abs:\"galaxy morphology\" abs:\"classification\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "what papers discuss the effects of stellar winds on the habitability of exoplanets orbiting M dwarf stars",
+    "ads_query": "abs:\"stellar wind\" abs:\"habitability\" abs:\"M dwarf\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me what papers discuss the effects of stellar winds on the habitability of exoplanets orbiting M dwarf stars",
+    "ads_query": "abs:\"stellar wind\" abs:\"habitability\" abs:\"M dwarf\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I want to find studies comparing different methods for estimating photometric redshifts of galaxies using deep learning",
+    "ads_query": "abs:\"photometric redshift\" abs:\"deep learning\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "can you look up studies comparing different methods for estimating photometric redshifts of galaxies using deep learning",
+    "ads_query": "abs:\"photometric redshift\" abs:\"deep learning\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "research about the correlation between supermassive black hole mass and host galaxy bulge velocity dispersion",
+    "ads_query": "abs:\"black hole mass\" abs:\"velocity dispersion\" abs:\"bulge\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me research about the correlation between supermassive black hole mass and host galaxy bulge velocity dispersion",
+    "ads_query": "abs:\"black hole mass\" abs:\"velocity dispersion\" abs:\"bulge\" doctype:article",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers on how coronal mass ejections interact with planetary magnetospheres and what effects they have on upper atmospheres",
+    "ads_query": "abs:\"coronal mass ejection\" abs:\"magnetosphere\" abs:\"upper atmosphere\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me papers on how coronal mass ejections interact with planetary magnetospheres and what effects they have on upper atmospheres",
+    "ads_query": "abs:\"coronal mass ejection\" abs:\"magnetosphere\" abs:\"upper atmosphere\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "observations of quasi-periodic oscillations in the X-ray light curves of accreting neutron stars in low-mass X-ray binaries",
+    "ads_query": "abs:\"quasi-periodic oscillation\" abs:\"neutron star\" abs:\"X-ray binary\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me observations of quasi-periodic oscillations in the X-ray light curves of accreting neutron stars in low-mass X-ray binaries",
+    "ads_query": "abs:\"quasi-periodic oscillation\" abs:\"neutron star\" abs:\"X-ray binary\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "studies examining the role of turbulence in the process of star formation within giant molecular clouds",
+    "ads_query": "abs:\"turbulence\" abs:\"star formation\" abs:\"molecular cloud\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need studies examining the role of turbulence in the process of star formation within giant molecular clouds",
+    "ads_query": "abs:\"turbulence\" abs:\"star formation\" abs:\"molecular cloud\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers discussing the systematic uncertainties in Type Ia supernova distance measurements for cosmological parameter estimation",
+    "ads_query": "abs:\"Type Ia supernova\" abs:\"systematic\" abs:\"distance\" abs:\"cosmological\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need papers discussing the systematic uncertainties in Type Ia supernova distance measurements for cosmological parameter estimation",
+    "ads_query": "abs:\"Type Ia supernova\" abs:\"systematic\" abs:\"distance\" abs:\"cosmological\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "can you find research on numerical simulations of binary neutron star mergers and their gravitational wave signatures",
+    "ads_query": "abs:\"binary neutron star\" abs:\"merger\" abs:\"gravitational wave\" abs:\"simulation\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me research on numerical simulations of binary neutron star mergers and their gravitational wave signatures",
+    "ads_query": "abs:\"binary neutron star\" abs:\"merger\" abs:\"gravitational wave\" abs:\"simulation\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I'm interested in papers that describe methods for detecting and characterizing exoplanet atmospheres using transmission spectroscopy during transit events",
+    "ads_query": "abs:\"exoplanet\" abs:\"atmosphere\" abs:\"transmission spectroscopy\" abs:\"transit\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need i'm interested in papers that describe methods for detecting and characterizing exoplanet atmospheres using transmission spectroscopy during transit events",
+    "ads_query": "abs:\"exoplanet\" abs:\"atmosphere\" abs:\"transmission spectroscopy\" abs:\"transit\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "what research has been done on the formation of supermassive black holes in the early universe through direct collapse of pristine gas clouds",
+    "ads_query": "abs:\"supermassive black hole\" abs:\"formation\" abs:\"direct collapse\" abs:\"early universe\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "can you look up what research has been done on the formation of supermassive black holes in the early universe through direct collapse of pristine gas clouds",
+    "ads_query": "abs:\"supermassive black hole\" abs:\"formation\" abs:\"direct collapse\" abs:\"early universe\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers about how the circumgalactic medium around galaxies is enriched with metals through galactic winds and outflows from star formation",
+    "ads_query": "abs:\"circumgalactic medium\" abs:\"metal enrichment\" abs:\"galactic wind\" abs:\"outflow\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need papers about how the circumgalactic medium around galaxies is enriched with metals through galactic winds and outflows from star formation",
+    "ads_query": "abs:\"circumgalactic medium\" abs:\"metal enrichment\" abs:\"galactic wind\" abs:\"outflow\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "studies that use weak gravitational lensing measurements to constrain the total matter content and distribution in galaxy clusters",
+    "ads_query": "abs:\"weak lensing\" abs:\"galaxy cluster\" abs:\"mass distribution\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "can you look up studies that use weak gravitational lensing measurements to constrain the total matter content and distribution in galaxy clusters",
+    "ads_query": "abs:\"weak lensing\" abs:\"galaxy cluster\" abs:\"mass distribution\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I want to find work on reconstructing the cosmic star formation rate density across redshift using ultraviolet and infrared galaxy surveys",
+    "ads_query": "abs:\"star formation rate\" abs:\"cosmic\" abs:\"redshift\" abs:\"ultraviolet\" abs:\"infrared\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "search for work on reconstructing the cosmic star formation rate density across redshift using ultraviolet and infrared galaxy surveys",
+    "ads_query": "abs:\"star formation rate\" abs:\"cosmic\" abs:\"redshift\" abs:\"ultraviolet\" abs:\"infrared\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "research examining the effects of magnetic fields on the fragmentation of molecular cloud cores during the early stages of protostellar collapse",
+    "ads_query": "abs:\"magnetic field\" abs:\"fragmentation\" abs:\"molecular cloud\" abs:\"protostellar collapse\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me research examining the effects of magnetic fields on the fragmentation of molecular cloud cores during the early stages of protostellar collapse",
+    "ads_query": "abs:\"magnetic field\" abs:\"fragmentation\" abs:\"molecular cloud\" abs:\"protostellar collapse\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers investigating the chemical evolution of the Milky Way disk using detailed abundance patterns from high-resolution spectroscopic surveys",
+    "ads_query": "abs:\"chemical evolution\" abs:\"Milky Way\" abs:\"abundance\" abs:\"spectroscopic survey\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need papers investigating the chemical evolution of the Milky Way disk using detailed abundance patterns from high-resolution spectroscopic surveys",
+    "ads_query": "abs:\"chemical evolution\" abs:\"Milky Way\" abs:\"abundance\" abs:\"spectroscopic survey\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "how do scientists model the accretion of material onto compact objects in X-ray binaries and what role does the magnetic field play",
+    "ads_query": "abs:\"accretion\" abs:\"compact object\" abs:\"X-ray binary\" abs:\"magnetic field\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "can you look up how do scientists model the accretion of material onto compact objects in X-ray binaries and what role does the magnetic field play",
+    "ads_query": "abs:\"accretion\" abs:\"compact object\" abs:\"X-ray binary\" abs:\"magnetic field\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "studies of the dynamical evolution of globular clusters and the role of two-body relaxation in driving mass segregation",
+    "ads_query": "abs:\"globular cluster\" abs:\"dynamical evolution\" abs:\"mass segregation\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "search for studies of the dynamical evolution of globular clusters and the role of two-body relaxation in driving mass segregation",
+    "ads_query": "abs:\"globular cluster\" abs:\"dynamical evolution\" abs:\"mass segregation\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I'm looking for theoretical predictions of the gravitational wave background from the population of unresolved compact binary mergers",
+    "ads_query": "abs:\"gravitational wave background\" abs:\"compact binary\" abs:\"merger\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "search for theoretical predictions of the gravitational wave background from the population of unresolved compact binary mergers",
+    "ads_query": "abs:\"gravitational wave background\" abs:\"compact binary\" abs:\"merger\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "what observations constrain the epoch of reionization and how do Lyman-alpha emitting galaxies help trace the ionization state of the intergalactic medium",
+    "ads_query": "abs:\"reionization\" abs:\"Lyman-alpha\" abs:\"intergalactic medium\" abs:\"ionization\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need what observations constrain the epoch of reionization and how do Lyman-alpha emitting galaxies help trace the ionization state of the intergalactic medium",
+    "ads_query": "abs:\"reionization\" abs:\"Lyman-alpha\" abs:\"intergalactic medium\" abs:\"ionization\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers about measuring the Hubble constant using gravitational wave standard sirens from neutron star mergers with electromagnetic counterparts",
+    "ads_query": "abs:\"Hubble constant\" abs:\"standard siren\" abs:\"gravitational wave\" abs:\"neutron star merger\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "I need papers about measuring the Hubble constant using gravitational wave standard sirens from neutron star mergers with electromagnetic counterparts",
+    "ads_query": "abs:\"Hubble constant\" abs:\"standard siren\" abs:\"gravitational wave\" abs:\"neutron star merger\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "research on how dust grains grow in protoplanetary disks through coagulation and how this relates to the formation of planetesimals",
+    "ads_query": "abs:\"dust grain\" abs:\"protoplanetary disk\" abs:\"coagulation\" abs:\"planetesimal\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "search for research on how dust grains grow in protoplanetary disks through coagulation and how this relates to the formation of planetesimals",
+    "ads_query": "abs:\"dust grain\" abs:\"protoplanetary disk\" abs:\"coagulation\" abs:\"planetesimal\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "studies analyzing the impact of active galactic nuclei feedback on the suppression of star formation in massive elliptical galaxies",
+    "ads_query": "abs:\"AGN feedback\" abs:\"star formation\" abs:\"quenching\" abs:\"elliptical galaxy\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me studies analyzing the impact of active galactic nuclei feedback on the suppression of star formation in massive elliptical galaxies",
+    "ads_query": "abs:\"AGN feedback\" abs:\"star formation\" abs:\"quenching\" abs:\"elliptical galaxy\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "papers about using asteroseismology to determine the internal structure and evolutionary state of red giant stars",
+    "ads_query": "abs:\"asteroseismology\" abs:\"red giant\" abs:\"internal structure\"",
+    "category": "compound"
+  },
+  {
+    "natural_language": "find me papers about using asteroseismology to determine the internal structure and evolutionary state of red giant stars",
+    "ads_query": "abs:\"asteroseismology\" abs:\"red giant\" abs:\"internal structure\"",
+    "category": "compound"
+  }
+]

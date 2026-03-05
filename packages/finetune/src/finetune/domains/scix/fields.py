@@ -52,6 +52,15 @@ ADS_FIELDS = {
     "esources": "Electronic source types",
     # Astronomy-specific
     "object": "Astronomical object name or coordinates",
+    # Affiliations (virtual)
+    "affil": "Virtual field searching aff, aff_abbrev, aff_canonical, aff_id, institution",
+    # Software/data mentions and credits
+    "mention": "Bibcodes of software/data records mentioned in this paper",
+    "mention_count": "Number of software/data mentions in this paper",
+    "credit": "Bibcodes of papers that credit this software/data record",
+    "credit_count": "Number of credits this software/data record has received",
+    # has: field (metadata presence filter)
+    "has": "Filter by presence of metadata fields (e.g., has:body, has:ack)",
     # Other
     "database": "Database/collection (astronomy, physics, general, earthscience)",
     "collection": "Collection filter - alias for database (astronomy, physics, general, earthscience)",
@@ -72,29 +81,74 @@ FIELD_CATEGORIES = {
     "content": ["abs", "abstract", "title", "keyword", "full", "body"],
     "publication": ["bibstem", "pubdate", "year", "volume", "issue", "page", "pub", "doctype"],
     "identifiers": ["bibcode", "doi", "arXiv", "identifier"],
-    "metrics": ["citation_count", "read_count"],
-    "affiliation": ["aff", "aff_id", "inst"],
+    "metrics": ["citation_count", "read_count", "mention_count", "credit_count"],
+    "affiliation": ["aff", "aff_id", "inst", "affil"],
     "astronomy": ["object", "arxiv_class"],
-    "properties": ["property", "database", "data"],
+    "properties": ["property", "database", "data", "has"],
+    "software": ["mention", "credit", "mention_count", "credit_count"],
 }
 
 # Common bibstems for synthetic data generation
 COMMON_BIBSTEMS = [
+    # Core astronomy journals
     "ApJ",  # Astrophysical Journal
     "MNRAS",  # Monthly Notices of the Royal Astronomical Society
     "A&A",  # Astronomy & Astrophysics
     "AJ",  # Astronomical Journal
+    "ApJL",  # Astrophysical Journal Letters
+    "ApJS",  # Astrophysical Journal Supplement Series
+    "ARA&A",  # Annual Review of Astronomy and Astrophysics
+    "PASP",  # Publications of the Astronomical Society of the Pacific
+    "PASJ",  # Publications of the Astronomical Society of Japan
+    "PASA",  # Publications of the Astronomical Society of Australia
+    # General science
     "Nature",  # Nature
     "Science",  # Science
+    "NatAs",  # Nature Astronomy
+    # Physics
     "PhRvL",  # Physical Review Letters
     "PhRvD",  # Physical Review D
-    "ApJL",  # Astrophysical Journal Letters
-    "ApJS",  # Astrophysical Journal Supplement
-    "PASP",  # Publications of the Astronomical Society of the Pacific
-    "ARA&A",  # Annual Review of Astronomy and Astrophysics
+    "PhRvC",  # Physical Review C
+    "PhRvA",  # Physical Review A
+    "PhRvE",  # Physical Review E
+    "NuPhB",  # Nuclear Physics B
+    "EPJC",  # European Physical Journal C
+    "CQGra",  # Classical and Quantum Gravity
+    "JHEP",  # Journal of High Energy Physics
+    "JCAP",  # Journal of Cosmology and Astroparticle Physics
+    "LRR",  # Living Reviews in Relativity
+    # Solar/heliophysics
+    "SoPh",  # Solar Physics
+    "JGRA",  # Journal of Geophysical Research: Space Physics
+    "SpWea",  # Space Weather
+    # Planetary science
     "Icar",  # Icarus
     "P&SS",  # Planetary and Space Science
     "JGRE",  # Journal of Geophysical Research: Planets
+    "PSJ",  # Planetary Science Journal
+    # Earth science / geophysics
+    "GeoRL",  # Geophysical Research Letters
+    "JGRB",  # Journal of Geophysical Research: Solid Earth
+    # Instrumentation & methods
+    "ExA",  # Experimental Astronomy
+    "NewA",  # New Astronomy
+    "NewAR",  # New Astronomy Reviews
+    "A&AS",  # Astronomy & Astrophysics Supplement Series
+    # Space science reviews
+    "SSRv",  # Space Science Reviews
+    "AsBio",  # Astrobiology
+    # Additional high-impact
+    "AREPS",  # Annual Review of Earth and Planetary Sciences
+    "PhR",  # Physics Reports
+    "RvMP",  # Reviews of Modern Physics
+    "PrPNP",  # Progress in Particle and Nuclear Physics
+    "AdSpR",  # Advances in Space Research
+    "Ap&SS",  # Astrophysics and Space Science
+    "AN",  # Astronomische Nachrichten
+    "AcA",  # Acta Astronomica
+    "BASI",  # Bulletin of the Astronomical Society of India
+    "JApA",  # Journal of Astrophysics and Astronomy
+    "RAA",  # Research in Astronomy and Astrophysics
 ]
 
 # Common astronomical objects for synthetic data

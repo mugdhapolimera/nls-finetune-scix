@@ -1,0 +1,292 @@
+{
+  "version": "1.0.0",
+  "description": "Journal name to bibstem abbreviation mappings for common astronomy and physics journals",
+  "last_updated": "2026-03-04",
+  "references": [
+    "https://scixplorer.org/journalsdb",
+    "https://ui.adsabs.harvard.edu/help/search/search-syntax"
+  ],
+  "notes": "These mappings allow natural language queries using full journal names to match official ADS bibstem abbreviations. Can be expanded via scripts/collect_bibstems.py using the ADS Journals API.",
+  "synonyms": {
+    "ApJ": {
+      "common_names": ["Astrophysical Journal", "The Astrophysical Journal", "Ap. J.", "ApJ"],
+      "description": "The Astrophysical Journal"
+    },
+    "ApJL": {
+      "common_names": ["Astrophysical Journal Letters", "The Astrophysical Journal Letters", "ApJ Letters"],
+      "description": "The Astrophysical Journal Letters"
+    },
+    "ApJS": {
+      "common_names": ["Astrophysical Journal Supplement", "Astrophysical Journal Supplement Series", "ApJ Supplement"],
+      "description": "The Astrophysical Journal Supplement Series"
+    },
+    "MNRAS": {
+      "common_names": ["Monthly Notices of the Royal Astronomical Society", "Mon. Not. R. Astron. Soc.", "Monthly Notices"],
+      "description": "Monthly Notices of the Royal Astronomical Society"
+    },
+    "A&A": {
+      "common_names": ["Astronomy and Astrophysics", "Astronomy & Astrophysics", "Astron. Astrophys."],
+      "description": "Astronomy & Astrophysics"
+    },
+    "A&AS": {
+      "common_names": ["Astronomy and Astrophysics Supplement", "Astronomy & Astrophysics Supplement Series", "A&A Supplement"],
+      "description": "Astronomy & Astrophysics Supplement Series"
+    },
+    "AJ": {
+      "common_names": ["Astronomical Journal", "The Astronomical Journal", "Astron. J."],
+      "description": "The Astronomical Journal"
+    },
+    "ARA&A": {
+      "common_names": ["Annual Review of Astronomy and Astrophysics", "Ann. Rev. Astron. Astrophys.", "Annual Reviews"],
+      "description": "Annual Review of Astronomy and Astrophysics"
+    },
+    "PASP": {
+      "common_names": ["Publications of the Astronomical Society of the Pacific", "Publ. Astron. Soc. Pac."],
+      "description": "Publications of the Astronomical Society of the Pacific"
+    },
+    "PASJ": {
+      "common_names": ["Publications of the Astronomical Society of Japan", "Publ. Astron. Soc. Japan"],
+      "description": "Publications of the Astronomical Society of Japan"
+    },
+    "PASA": {
+      "common_names": ["Publications of the Astronomical Society of Australia"],
+      "description": "Publications of the Astronomical Society of Australia"
+    },
+    "Natur": {
+      "common_names": ["Nature", "Nature Journal"],
+      "description": "Nature"
+    },
+    "NatAs": {
+      "common_names": ["Nature Astronomy", "Nat. Astron."],
+      "description": "Nature Astronomy"
+    },
+    "Sci": {
+      "common_names": ["Science", "Science Magazine", "Science Journal"],
+      "description": "Science"
+    },
+    "PhRvL": {
+      "common_names": ["Physical Review Letters", "Phys. Rev. Lett.", "PRL"],
+      "description": "Physical Review Letters"
+    },
+    "PhRvD": {
+      "common_names": ["Physical Review D", "Phys. Rev. D", "PRD"],
+      "description": "Physical Review D"
+    },
+    "PhRvC": {
+      "common_names": ["Physical Review C", "Phys. Rev. C", "PRC"],
+      "description": "Physical Review C"
+    },
+    "PhRvA": {
+      "common_names": ["Physical Review A", "Phys. Rev. A", "PRA"],
+      "description": "Physical Review A"
+    },
+    "PhRvE": {
+      "common_names": ["Physical Review E", "Phys. Rev. E", "PRE"],
+      "description": "Physical Review E"
+    },
+    "NuPhB": {
+      "common_names": ["Nuclear Physics B", "Nucl. Phys. B"],
+      "description": "Nuclear Physics B"
+    },
+    "EPJC": {
+      "common_names": ["European Physical Journal C", "Eur. Phys. J. C", "EPJ C"],
+      "description": "European Physical Journal C"
+    },
+    "CQGra": {
+      "common_names": ["Classical and Quantum Gravity", "Class. Quantum Grav.", "CQG"],
+      "description": "Classical and Quantum Gravity"
+    },
+    "JHEP": {
+      "common_names": ["Journal of High Energy Physics", "J. High Energy Phys."],
+      "description": "Journal of High Energy Physics"
+    },
+    "JCAP": {
+      "common_names": ["Journal of Cosmology and Astroparticle Physics", "J. Cosmol. Astropart. Phys."],
+      "description": "Journal of Cosmology and Astroparticle Physics"
+    },
+    "LRR": {
+      "common_names": ["Living Reviews in Relativity", "Liv. Rev. Relativ."],
+      "description": "Living Reviews in Relativity"
+    },
+    "SoPh": {
+      "common_names": ["Solar Physics", "Sol. Phys."],
+      "description": "Solar Physics"
+    },
+    "JGRA": {
+      "common_names": ["Journal of Geophysical Research: Space Physics", "J. Geophys. Res. Space Phys.", "JGR Space Physics"],
+      "description": "Journal of Geophysical Research: Space Physics"
+    },
+    "SpWea": {
+      "common_names": ["Space Weather", "Space Weather Journal"],
+      "description": "Space Weather"
+    },
+    "Icar": {
+      "common_names": ["Icarus", "Icarus Journal"],
+      "description": "Icarus"
+    },
+    "P&SS": {
+      "common_names": ["Planetary and Space Science", "Planet. Space Sci."],
+      "description": "Planetary and Space Science"
+    },
+    "JGRE": {
+      "common_names": ["Journal of Geophysical Research: Planets", "J. Geophys. Res. Planets", "JGR Planets"],
+      "description": "Journal of Geophysical Research: Planets"
+    },
+    "PSJ": {
+      "common_names": ["Planetary Science Journal", "The Planetary Science Journal"],
+      "description": "The Planetary Science Journal"
+    },
+    "GeoRL": {
+      "common_names": ["Geophysical Research Letters", "Geophys. Res. Lett.", "GRL"],
+      "description": "Geophysical Research Letters"
+    },
+    "JGRB": {
+      "common_names": ["Journal of Geophysical Research: Solid Earth", "J. Geophys. Res. Solid Earth", "JGR Solid Earth"],
+      "description": "Journal of Geophysical Research: Solid Earth"
+    },
+    "ExA": {
+      "common_names": ["Experimental Astronomy", "Exp. Astron."],
+      "description": "Experimental Astronomy"
+    },
+    "NewA": {
+      "common_names": ["New Astronomy"],
+      "description": "New Astronomy"
+    },
+    "NewAR": {
+      "common_names": ["New Astronomy Reviews", "New Astron. Rev."],
+      "description": "New Astronomy Reviews"
+    },
+    "SSRv": {
+      "common_names": ["Space Science Reviews", "Space Sci. Rev."],
+      "description": "Space Science Reviews"
+    },
+    "AsBio": {
+      "common_names": ["Astrobiology"],
+      "description": "Astrobiology"
+    },
+    "AREPS": {
+      "common_names": ["Annual Review of Earth and Planetary Sciences", "Ann. Rev. Earth Planet. Sci."],
+      "description": "Annual Review of Earth and Planetary Sciences"
+    },
+    "PhR": {
+      "common_names": ["Physics Reports", "Phys. Rep."],
+      "description": "Physics Reports"
+    },
+    "RvMP": {
+      "common_names": ["Reviews of Modern Physics", "Rev. Mod. Phys."],
+      "description": "Reviews of Modern Physics"
+    },
+    "PrPNP": {
+      "common_names": ["Progress in Particle and Nuclear Physics", "Prog. Part. Nucl. Phys."],
+      "description": "Progress in Particle and Nuclear Physics"
+    },
+    "AdSpR": {
+      "common_names": ["Advances in Space Research", "Adv. Space Res."],
+      "description": "Advances in Space Research"
+    },
+    "Ap&SS": {
+      "common_names": ["Astrophysics and Space Science", "Astrophys. Space Sci."],
+      "description": "Astrophysics and Space Science"
+    },
+    "AN": {
+      "common_names": ["Astronomische Nachrichten", "Astron. Nachr."],
+      "description": "Astronomische Nachrichten"
+    },
+    "AcA": {
+      "common_names": ["Acta Astronomica"],
+      "description": "Acta Astronomica"
+    },
+    "BASI": {
+      "common_names": ["Bulletin of the Astronomical Society of India", "Bull. Astron. Soc. India"],
+      "description": "Bulletin of the Astronomical Society of India"
+    },
+    "JApA": {
+      "common_names": ["Journal of Astrophysics and Astronomy", "J. Astrophys. Astron."],
+      "description": "Journal of Astrophysics and Astronomy"
+    },
+    "RAA": {
+      "common_names": ["Research in Astronomy and Astrophysics", "Res. Astron. Astrophys."],
+      "description": "Research in Astronomy and Astrophysics"
+    },
+    "SPIE": {
+      "common_names": ["SPIE Proceedings", "Proc. SPIE", "SPIE"],
+      "description": "Proceedings of SPIE"
+    },
+    "ASPC": {
+      "common_names": ["ASP Conference Series", "ASP Conf. Ser.", "Astronomical Society of the Pacific Conference Series"],
+      "description": "ASP Conference Series"
+    },
+    "IAUS": {
+      "common_names": ["IAU Symposium", "IAU Symp."],
+      "description": "Proceedings of the International Astronomical Union Symposium"
+    },
+    "PhLA": {
+      "common_names": ["Physics Letters A", "Phys. Lett. A"],
+      "description": "Physics Letters A"
+    },
+    "PhLB": {
+      "common_names": ["Physics Letters B", "Phys. Lett. B"],
+      "description": "Physics Letters B"
+    },
+    "JQSRT": {
+      "common_names": ["Journal of Quantitative Spectroscopy and Radiative Transfer", "J. Quant. Spectrosc. Radiat. Transf."],
+      "description": "Journal of Quantitative Spectroscopy and Radiative Transfer"
+    },
+    "E&PSL": {
+      "common_names": ["Earth and Planetary Science Letters", "Earth Planet. Sci. Lett."],
+      "description": "Earth and Planetary Science Letters"
+    },
+    "M&PS": {
+      "common_names": ["Meteoritics and Planetary Science", "Meteorit. Planet. Sci."],
+      "description": "Meteoritics & Planetary Science"
+    },
+    "ApOpt": {
+      "common_names": ["Applied Optics", "Appl. Opt."],
+      "description": "Applied Optics"
+    },
+    "JOSAA": {
+      "common_names": ["Journal of the Optical Society of America A", "J. Opt. Soc. Am. A"],
+      "description": "Journal of the Optical Society of America A"
+    },
+    "LRSP": {
+      "common_names": ["Living Reviews in Solar Physics", "Liv. Rev. Sol. Phys."],
+      "description": "Living Reviews in Solar Physics"
+    },
+    "RNAAS": {
+      "common_names": ["Research Notes of the AAS", "Research Notes of the American Astronomical Society"],
+      "description": "Research Notes of the American Astronomical Society"
+    },
+    "AAS": {
+      "common_names": ["AAS Meeting Abstracts", "American Astronomical Society Meeting"],
+      "description": "American Astronomical Society Meeting Abstracts"
+    },
+    "BAAS": {
+      "common_names": ["Bulletin of the American Astronomical Society", "Bull. Am. Astron. Soc."],
+      "description": "Bulletin of the American Astronomical Society"
+    },
+    "arXiv": {
+      "common_names": ["arXiv", "arXiv preprint", "arXiv e-prints"],
+      "description": "arXiv e-prints"
+    },
+    "CoSka": {
+      "common_names": ["Contributions of the Astronomical Observatory Skalnate Pleso"],
+      "description": "Contributions of the Astronomical Observatory Skalnate Pleso"
+    },
+    "BaltA": {
+      "common_names": ["Baltic Astronomy"],
+      "description": "Baltic Astronomy"
+    },
+    "MNSSA": {
+      "common_names": ["Monthly Notes of the Astronomical Society of South Africa"],
+      "description": "Monthly Notes of the Astronomical Society of South Africa"
+    },
+    "RMxAA": {
+      "common_names": ["Revista Mexicana de Astronomia y Astrofisica", "Rev. Mex. Astron. Astrofis."],
+      "description": "Revista Mexicana de Astronomia y Astrofisica"
+    },
+    "CMDA": {
+      "common_names": ["Celestial Mechanics and Dynamical Astronomy", "Celest. Mech. Dyn. Astron."],
+      "description": "Celestial Mechanics and Dynamical Astronomy"
+    }
+  }
+}
