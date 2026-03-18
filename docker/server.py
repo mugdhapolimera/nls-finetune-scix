@@ -30,6 +30,7 @@ Usage:
 
 import asyncio
 import json
+import logging
 import os
 import sys
 import time
@@ -49,6 +50,10 @@ MODEL_NAME = os.environ.get("MODEL_NAME", "adsabs/NLQT-Qwen3-1.7B")
 DEVICE = os.environ.get("DEVICE", "cuda" if torch.cuda.is_available() else "cpu")
 PORT = int(os.environ.get("PORT", 8000))
 HYBRID_MODE = os.environ.get("HYBRID_MODE", "true").lower() in ("true", "1", "yes")
+RAG_ENABLED = os.environ.get("RAG_ENABLED", "true").lower() in ("true", "1", "yes")
+RAG_NUM_EXAMPLES = int(os.environ.get("RAG_NUM_EXAMPLES", "3"))
+RAG_MAX_CARDS = int(os.environ.get("RAG_MAX_CARDS", "2"))
+LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "1.5"))
 SYSTEM_PROMPT = '''Convert natural language to ADS/SciX search query. Output JSON: {"query": "..."}
 
 Example:
@@ -72,6 +77,8 @@ try:
     from finetune.domains.scix.planetary_feature_lookup import rewrite_abs_to_abs_or_planetary_feature
     from finetune.domains.scix.merge import merge_ner_and_nls, merge_ner_and_nls_intent, MergeResult
     from finetune.domains.scix.intent_spec import IntentSpec
+    from finetune.domains.scix.rag_retrieval import retrieve_few_shot, reset_intent_cache
+    from finetune.domains.scix.field_cards import select_cards
     PIPELINE_AVAILABLE = True
 except ImportError as e:
     PIPELINE_AVAILABLE = False
@@ -85,7 +92,57 @@ except ImportError as e:
     merge_ner_and_nls_intent = None  # type: ignore[assignment]
     is_ads_query = None  # type: ignore[assignment]
     IntentSpec = None  # type: ignore[assignment, misc]
+    retrieve_few_shot = None  # type: ignore[assignment]
+    select_cards = None  # type: ignore[assignment]
     print("Pipeline modules not available - using model-only mode")
+
+# ---------------------------------------------------------------------------
+# Telemetry logger — structured JSON for query analytics
+# ---------------------------------------------------------------------------
+_telemetry_logger = logging.getLogger("nls.telemetry")
+_telemetry_handler = logging.StreamHandler()
+_telemetry_handler.setFormatter(logging.Formatter("%(message)s"))
+_telemetry_logger.addHandler(_telemetry_handler)
+_telemetry_logger.setLevel(logging.INFO)
+_telemetry_logger.propagate = False  # Don't duplicate to root logger
+
+
+def _log_telemetry(
+    nl_query: str,
+    final_query: str,
+    source: str,
+    confidence: float = 0.0,
+    fields_injected: list[str] | None = None,
+    rag_enabled: bool = False,
+    rag_few_shot_count: int = 0,
+    rag_cards_used: list[str] | None = None,
+    latency_ms: float = 0.0,
+    ner_ms: float = 0.0,
+    llm_ms: float = 0.0,
+    merge_ms: float = 0.0,
+    error: str | None = None,
+    repairs_applied: list[str] | None = None,
+):
+    """Log structured telemetry for a query."""
+    entry = {
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "nl_query": nl_query[:500],  # Truncate for safety
+        "final_query": final_query[:1000],
+        "source": source,
+        "confidence": round(confidence, 3),
+        "fields_injected": fields_injected or [],
+        "rag_enabled": rag_enabled,
+        "rag_few_shot_count": rag_few_shot_count,
+        "rag_cards_used": rag_cards_used or [],
+        "latency_ms": round(latency_ms, 1),
+        "ner_ms": round(ner_ms, 1),
+        "llm_ms": round(llm_ms, 1),
+        "merge_ms": round(merge_ms, 1),
+        "error": error,
+        "repairs_applied": repairs_applied or [],
+    }
+    _telemetry_logger.info(json.dumps(entry))
+
 
 app = FastAPI(
     title="NLS Inference Server",
@@ -353,6 +410,54 @@ def generate_query(messages: list[ChatMessage], max_tokens: int = 256, raw: bool
     return response, prompt_tokens, completion_tokens
 
 
+def build_rag_messages(
+    messages: list[ChatMessage],
+    few_shot: list[dict],
+    cards: list[str] | None = None,
+) -> list[ChatMessage]:
+    """Insert few-shot examples and field cards into message list before the user query.
+
+    Args:
+        messages: Original messages [system, user, ...].
+        few_shot: List of {"nl": str, "intent_json": dict, "think_trace": str}.
+        cards: Optional list of field reference card strings.
+
+    Returns:
+        Augmented message list with few-shot examples before the user query.
+    """
+    if not few_shot and not cards:
+        return messages
+
+    result = []
+
+    # System prompt — optionally append field reference cards
+    if messages and messages[0].role == "system":
+        system_content = messages[0].content
+        if cards:
+            cards_block = "\n\nReference:\n" + "\n".join(f"- {c}" for c in cards)
+            system_content += cards_block
+        result.append(ChatMessage(role="system", content=system_content))
+        remaining = messages[1:]
+    else:
+        remaining = list(messages)
+
+    # Insert few-shot examples as user/assistant pairs
+    for ex in few_shot:
+        result.append(ChatMessage(
+            role="user",
+            content=f"Query: {ex['nl']}\nDate: 2025-12-15",
+        ))
+        think_block = f"<think>\n{ex['think_trace']}\n</think>\n" if ex.get("think_trace") else ""
+        result.append(ChatMessage(
+            role="assistant",
+            content=think_block + json.dumps(ex["intent_json"]),
+        ))
+
+    # Append the actual user query and any remaining messages
+    result.extend(remaining)
+    return result
+
+
 def parse_llm_response(response: str) -> tuple[object | None, str]:
     """Parse LLM response, stripping <think> block, extracting IntentSpec JSON.
 
@@ -364,6 +469,10 @@ def parse_llm_response(response: str) -> tuple[object | None, str]:
         (intent, clean_response) — intent is None if not intent format
     """
     raw = response
+
+    # Size guard: skip JSON parsing for very large responses (>10KB)
+    if len(response) > 10240:
+        return None, response
 
     # Strip <think>...</think> block
     think_end = response.find("</think>")
@@ -403,16 +512,65 @@ async def _run_hybrid(
 ) -> tuple[Any, int, int]:
     """Run NER and NLS in parallel, merge results.
 
+    When RAG is enabled, retrieves few-shot examples and field cards
+    in parallel with NER, then augments the LLM prompt before generation.
+
     Returns:
         Tuple of (MergeResult, prompt_tokens, completion_tokens)
     """
     loop = asyncio.get_event_loop()
 
-    # Run NER and NLS in parallel via thread pool
+    # Run NER in parallel with RAG retrieval (both are fast, <20ms)
     ner_future = loop.run_in_executor(None, process_query, nl_query)
-    nls_future = loop.run_in_executor(None, generate_query, messages, max_tokens, True)
 
-    ner_result, (raw_response, p_tok, c_tok) = await asyncio.gather(ner_future, nls_future)
+    rag_few_shot: list[dict] = []
+    rag_cards: list[str] | None = None
+
+    if RAG_ENABLED and retrieve_few_shot is not None:
+        rag_future = loop.run_in_executor(None, retrieve_few_shot, nl_query, RAG_NUM_EXAMPLES)
+        if select_cards is not None:
+            cards_future = loop.run_in_executor(None, select_cards, nl_query, RAG_MAX_CARDS)
+            ner_result, rag_few_shot, rag_cards = await asyncio.gather(
+                ner_future, rag_future, cards_future
+            )
+        else:
+            ner_result, rag_few_shot = await asyncio.gather(ner_future, rag_future)
+    else:
+        ner_result = await ner_future
+
+    # Build augmented messages with few-shot examples and field cards
+    augmented_messages = build_rag_messages(messages, rag_few_shot, rag_cards)
+
+    # Run LLM with (potentially augmented) prompt, with timeout
+    try:
+        raw_response, p_tok, c_tok = await asyncio.wait_for(
+            loop.run_in_executor(
+                None, generate_query, augmented_messages, max_tokens, True
+            ),
+            timeout=LLM_TIMEOUT,
+        )
+    except asyncio.TimeoutError:
+        print(f"[Hybrid] LLM timeout after {LLM_TIMEOUT}s, using NER-only")
+        ner_query = ner_result.final_query if ner_result and ner_result.success else ""
+        _log_telemetry(
+            nl_query=nl_query, final_query=ner_query,
+            source="ner_only_timeout", error="LLM timeout",
+            latency_ms=(time.time() - time.time()),  # Will be reported by caller
+        )
+        ner_merge = MergeResult(
+            query=ner_query,
+            source="ner_only",
+            nls_query="",
+            ner_query=ner_query,
+            confidence=ner_result.confidence if ner_result else 0.5,
+            timing={"llm_timeout": True},
+        )
+        # Post-assembly: UAT augmentation on NER result
+        if rewrite_abs_to_abs_or_uat is not None:
+            ner_merge.query = rewrite_abs_to_abs_or_uat(ner_merge.query)
+        if rewrite_abs_to_abs_or_planetary_feature is not None:
+            ner_merge.query = rewrite_abs_to_abs_or_planetary_feature(ner_merge.query)
+        return ner_merge, 0, 0
 
     # Parse LLM output — detect intent format vs query format
     llm_intent, clean_response = parse_llm_response(raw_response)
@@ -471,6 +629,7 @@ async def health():
         "device": DEVICE,
         "pipeline_available": PIPELINE_AVAILABLE,
         "hybrid_mode": _should_use_hybrid(),
+        "rag_enabled": RAG_ENABLED,
     }
 
 
@@ -528,6 +687,18 @@ async def debug_hybrid(q: str = "recent papers from cfa on the hubble tension"):
                 "llm": merged.llm_intent,
                 "merged": merged.merged_intent,
             },
+            # RAG context used
+            "rag": {
+                "enabled": RAG_ENABLED,
+                "few_shot_count": len(_debug_few_shot) if (_debug_few_shot := (
+                    retrieve_few_shot(q, RAG_NUM_EXAMPLES) if RAG_ENABLED and retrieve_few_shot else []
+                )) else 0,
+                "few_shot_examples": [
+                    {"nl": ex["nl"], "intent_json": ex["intent_json"]}
+                    for ex in _debug_few_shot
+                ] if _debug_few_shot else [],
+                "field_cards": select_cards(q, RAG_MAX_CARDS) if RAG_ENABLED and select_cards else [],
+            },
         }
     except Exception as e:
         import traceback
@@ -551,11 +722,31 @@ async def list_models():
 
 
 def _extract_nl_query_from_messages(messages: list) -> str:
-    """Extract natural language query from chat messages."""
+    """Extract natural language query from chat messages.
+
+    Applies input sanitization:
+    - Strips null bytes
+    - Removes non-printable characters (keeps printable ASCII + common Unicode)
+    - Truncates to 500 characters
+    """
     user_message = next((m.content for m in messages if m.role == "user"), "")
     if "Query:" in user_message:
-        return user_message.split("Query:")[1].split("\n")[0].strip()
-    return user_message.strip()
+        query = user_message.split("Query:")[1].split("\n")[0].strip()
+    else:
+        query = user_message.strip()
+
+    # Strip null bytes
+    query = query.replace('\x00', '')
+
+    # Strip non-printable characters (keep printable ASCII + common Unicode)
+    query = ''.join(c for c in query if c.isprintable() or c in ('\n', '\t'))
+
+    # Length limit
+    if len(query) > 500:
+        print(f"[Input] Query truncated from {len(query)} to 500 chars")
+        query = query[:500]
+
+    return query
 
 
 @app.post("/v1/chat/completions", response_model=ChatResponse)
@@ -585,6 +776,10 @@ async def chat_completions(request: ChatRequest):
                         response_text = rewrite_complex_author_wildcards(response_text)
                     elapsed_ms = (time.time() - start_time) * 1000
                     print(f"[vLLM→Passthrough] ADS query in {elapsed_ms:.0f}ms: {response_text[:80]}...")
+                    _log_telemetry(
+                        nl_query=nl_query, final_query=response_text,
+                        source="passthrough", latency_ms=elapsed_ms,
+                    )
                     return ChatResponse(
                         id=f"chatcmpl-{int(time.time())}",
                         created=int(time.time()),
@@ -598,6 +793,16 @@ async def chat_completions(request: ChatRequest):
                 )
                 elapsed_ms = (time.time() - start_time) * 1000
                 print(f"[vLLM→Hybrid:{merged.source}] Generated in {elapsed_ms:.0f}ms: {merged.query[:80]}...")
+                _log_telemetry(
+                    nl_query=nl_query,
+                    final_query=merged.query,
+                    source=merged.source,
+                    confidence=merged.confidence,
+                    fields_injected=merged.fields_injected,
+                    rag_enabled=RAG_ENABLED,
+                    latency_ms=elapsed_ms,
+                    merge_ms=merged.timing.get("merge_ms", 0),
+                )
                 return ChatResponse(
                     id=f"chatcmpl-{int(time.time())}",
                     created=int(time.time()),
@@ -618,6 +823,10 @@ async def chat_completions(request: ChatRequest):
                 result = process_query(nl_query)
                 elapsed_ms = (time.time() - start_time) * 1000
                 print(f"[vLLM→Pipeline] Generated in {elapsed_ms:.0f}ms: {result.final_query[:80]}...")
+                _log_telemetry(
+                    nl_query=nl_query, final_query=result.final_query,
+                    source="ner_only", latency_ms=elapsed_ms,
+                )
                 return ChatResponse(
                     id=f"chatcmpl-{int(time.time())}",
                     created=int(time.time()),
@@ -637,6 +846,10 @@ async def chat_completions(request: ChatRequest):
         )
         elapsed_ms = (time.time() - start_time) * 1000
         print(f"[vLLM] Generated in {elapsed_ms:.0f}ms: {response_text[:100]}...")
+        _log_telemetry(
+            nl_query=nl_query, final_query=response_text,
+            source="nls_only", latency_ms=elapsed_ms,
+        )
 
         return ChatResponse(
             id=f"chatcmpl-{int(time.time())}",
@@ -653,6 +866,12 @@ async def chat_completions(request: ChatRequest):
         raise
     except Exception as e:
         print(f"[vLLM] Error: {e}")
+        _log_telemetry(
+            nl_query=nl_query if "nl_query" in dir() else "",
+            final_query="", source="error",
+            error=str(e),
+            latency_ms=(time.time() - start_time) * 1000 if "start_time" in dir() else 0,
+        )
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -689,6 +908,10 @@ async def pipeline_endpoint(request: PipelineRequest):
                 response_text = rewrite_complex_author_wildcards(response_text)
             elapsed_ms = (time.time() - start_time) * 1000
             print(f"[Pipeline→Passthrough] ADS query in {elapsed_ms:.0f}ms: {response_text[:80]}...")
+            _log_telemetry(
+                nl_query=nl_query, final_query=response_text,
+                source="passthrough", latency_ms=elapsed_ms,
+            )
             return PipelineResponse(
                 choices=[ChatChoice(message=ChatMessage(role="assistant", content=response_text))],
                 pipeline_result=PipelineResult(
@@ -722,6 +945,16 @@ async def pipeline_endpoint(request: PipelineRequest):
                 )
 
                 print(f"[Pipeline→Hybrid:{merged.source}] Generated in {elapsed_ms:.0f}ms: {merged.query[:80]}")
+                _log_telemetry(
+                    nl_query=nl_query,
+                    final_query=merged.query,
+                    source=merged.source,
+                    confidence=merged.confidence,
+                    fields_injected=merged.fields_injected,
+                    rag_enabled=RAG_ENABLED,
+                    latency_ms=elapsed_ms,
+                    merge_ms=merged.timing.get("merge_ms", 0),
+                )
 
                 return PipelineResponse(
                     choices=[ChatChoice(message=ChatMessage(role="assistant", content=merged.query))],
@@ -758,6 +991,10 @@ async def pipeline_endpoint(request: PipelineRequest):
                 )
 
                 print(f"[Pipeline→NER] Generated in {elapsed_ms:.0f}ms: {result.final_query}")
+                _log_telemetry(
+                    nl_query=nl_query, final_query=result.final_query,
+                    source="ner_only", latency_ms=elapsed_ms,
+                )
 
                 return PipelineResponse(
                     choices=[ChatChoice(message=ChatMessage(role="assistant", content=result.final_query))],
@@ -773,6 +1010,10 @@ async def pipeline_endpoint(request: PipelineRequest):
         elapsed_ms = (time.time() - start_time) * 1000
 
         print(f"[Pipeline-Fallback] Generated in {elapsed_ms:.0f}ms: {response_text}")
+        _log_telemetry(
+            nl_query=nl_query, final_query=response_text,
+            source="nls_only", latency_ms=elapsed_ms,
+        )
 
         return PipelineResponse(
             choices=[ChatChoice(message=ChatMessage(role="assistant", content=response_text))],
@@ -785,6 +1026,12 @@ async def pipeline_endpoint(request: PipelineRequest):
 
     except Exception as e:
         print(f"[Pipeline] Error: {e}")
+        _log_telemetry(
+            nl_query=nl_query if "nl_query" in dir() else "",
+            final_query="", source="error",
+            error=str(e),
+            latency_ms=(time.time() - start_time) * 1000 if "start_time" in dir() else 0,
+        )
         return PipelineResponse(
             choices=[],
             error=str(e),

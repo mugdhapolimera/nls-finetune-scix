@@ -34,44 +34,44 @@ class TestConstrainQueryOutput:
     # Invalid field values - should be removed
     # ============================================================
 
-    def test_invalid_doctype_journal_removed(self):
-        """'journal' is not a valid doctype - model hallucination."""
-        assert constrain_query_output("doctype:journal") == ""
+    def test_invalid_doctype_journal_corrected(self):
+        """'journal' is corrected to 'article' via enum misspelling repair."""
+        assert constrain_query_output("doctype:journal") == "doctype:article"
 
-    def test_invalid_doctype_paper_removed(self):
-        """'paper' is not a valid doctype - model hallucination."""
-        assert constrain_query_output("doctype:paper") == ""
+    def test_invalid_doctype_paper_corrected(self):
+        """'paper' is corrected to 'article' via enum misspelling repair."""
+        assert constrain_query_output("doctype:paper") == "doctype:article"
 
-    def test_invalid_property_peerreviewed_removed(self):
-        """'peerreviewed' is not valid - should be 'refereed'."""
-        assert constrain_query_output("property:peerreviewed") == ""
+    def test_invalid_property_peerreviewed_corrected(self):
+        """'peerreviewed' is corrected to 'refereed' via enum misspelling repair."""
+        assert constrain_query_output("property:peerreviewed") == "property:refereed"
 
-    def test_invalid_database_astro_removed(self):
-        """'astro' is not valid - should be 'astronomy'."""
-        assert constrain_query_output("database:astro") == ""
+    def test_invalid_database_astro_corrected(self):
+        """'astro' is corrected to 'astronomy' via enum misspelling repair."""
+        assert constrain_query_output("database:astro") == "database:astronomy"
 
-    def test_invalid_property_reviewed_removed(self):
-        """'reviewed' is not valid property."""
-        assert constrain_query_output("property:reviewed") == ""
+    def test_invalid_property_reviewed_corrected(self):
+        """'reviewed' is corrected to 'refereed' via enum misspelling repair."""
+        assert constrain_query_output("property:reviewed") == "property:refereed"
 
     # ============================================================
     # Mixed valid and invalid - only invalid removed
     # ============================================================
 
     def test_mixed_valid_invalid_preserves_valid(self):
-        """Mix of valid and invalid should keep valid parts."""
+        """Mix of valid and correctable should keep both parts."""
         query = "doctype:article AND property:peerreviewed"
-        assert constrain_query_output(query) == "doctype:article"
+        assert constrain_query_output(query) == "doctype:article AND property:refereed"
 
     def test_invalid_between_valid_fields(self):
         """Invalid field between valid ones should be removed."""
         query = "doctype:article property:fake database:astronomy"
         assert constrain_query_output(query) == "doctype:article database:astronomy"
 
-    def test_multiple_invalid_all_removed(self):
-        """Multiple invalid values all removed."""
+    def test_multiple_invalid_all_corrected(self):
+        """Multiple correctable values all fixed."""
         query = "doctype:journal database:astro"
-        assert constrain_query_output(query) == ""
+        assert constrain_query_output(query) == "doctype:article database:astronomy"
 
     # ============================================================
     # OR list handling
@@ -107,33 +107,36 @@ class TestConstrainQueryOutput:
         """Quoted valid values should be preserved."""
         assert constrain_query_output('doctype:"article"') == 'doctype:"article"'
 
-    def test_quoted_invalid_value_removed(self):
-        """Quoted invalid values should be removed."""
-        assert constrain_query_output('doctype:"journal"') == ""
+    def test_quoted_invalid_value_corrected(self):
+        """Quoted invalid values should be corrected via misspelling repair."""
+        assert constrain_query_output('doctype:"journal"') == "doctype:article"
 
     # ============================================================
     # Trailing/leading operator cleanup
     # ============================================================
 
-    def test_trailing_and_removed(self):
-        """Trailing AND after removal should be cleaned."""
+    def test_trailing_and_with_correction(self):
+        """Both sides corrected/valid, AND preserved."""
         query = "doctype:journal AND property:refereed"
-        assert constrain_query_output(query) == "property:refereed"
-
-    def test_leading_and_removed(self):
-        """Leading AND after removal should be cleaned."""
-        query = "property:refereed AND doctype:journal"
-        assert constrain_query_output(query) == "property:refereed"
-
-    def test_double_and_collapsed(self):
-        """Double AND from removal should be collapsed."""
-        query = "doctype:article AND doctype:journal AND property:refereed"
         assert constrain_query_output(query) == "doctype:article AND property:refereed"
 
-    def test_trailing_or_removed(self):
-        """Trailing OR after removal should be cleaned."""
+    def test_leading_and_with_correction(self):
+        """Both sides corrected/valid, AND preserved."""
+        query = "property:refereed AND doctype:journal"
+        assert constrain_query_output(query) == "property:refereed AND doctype:article"
+
+    def test_double_and_with_correction(self):
+        """journal corrected to article, all valid."""
+        query = "doctype:article AND doctype:journal AND property:refereed"
+        assert (
+            constrain_query_output(query)
+            == "doctype:article AND doctype:article AND property:refereed"
+        )
+
+    def test_trailing_or_with_correction(self):
+        """journal corrected to article, OR preserved."""
         query = "property:refereed OR doctype:journal"
-        assert constrain_query_output(query) == "property:refereed"
+        assert constrain_query_output(query) == "property:refereed OR doctype:article"
 
     # ============================================================
     # Edge cases - empty, whitespace, unconstrained fields
@@ -156,31 +159,31 @@ class TestConstrainQueryOutput:
         """Mix of constrained and unconstrained fields."""
         query = 'author:"Hawking" doctype:journal abs:"black holes"'
         result = constrain_query_output(query)
-        assert result == 'author:"Hawking" abs:"black holes"'
+        assert result == 'author:"Hawking" doctype:article abs:"black holes"'
 
     # ============================================================
     # Common model hallucinations
     # ============================================================
 
     def test_hallucination_doctype_research(self):
-        """Model might output 'research' instead of 'article'."""
-        assert constrain_query_output("doctype:research") == ""
+        """Model might output 'research' - corrected to 'article'."""
+        assert constrain_query_output("doctype:research") == "doctype:article"
 
     def test_hallucination_property_peer_reviewed(self):
-        """Model might output 'peer_reviewed' with underscore."""
-        assert constrain_query_output("property:peer_reviewed") == ""
+        """Model might output 'peer_reviewed' - corrected to 'refereed'."""
+        assert constrain_query_output("property:peer_reviewed") == "property:refereed"
 
     def test_hallucination_doctype_publication(self):
-        """Model might output 'publication' generically."""
-        assert constrain_query_output("doctype:publication") == ""
+        """Model might output 'publication' - corrected to 'article'."""
+        assert constrain_query_output("doctype:publication") == "doctype:article"
 
     def test_hallucination_database_astrophysics(self):
-        """Model might confuse 'astrophysics' with 'astronomy'."""
-        assert constrain_query_output("database:astrophysics") == ""
+        """Model might confuse 'astrophysics' - corrected to 'astronomy'."""
+        assert constrain_query_output("database:astrophysics") == "database:astronomy"
 
     def test_hallucination_property_open_access(self):
-        """Model might output 'open_access' with underscore."""
-        assert constrain_query_output("property:open_access") == ""
+        """Model might output 'open_access' - corrected to 'openaccess'."""
+        assert constrain_query_output("property:open_access") == "property:openaccess"
 
     def test_hallucination_bibgroup_hubble(self):
         """Model might use 'Hubble' instead of 'HST'."""
@@ -195,10 +198,11 @@ class TestConstrainQueryOutput:
     # ============================================================
 
     def test_complex_query_partial_cleanup(self):
-        """Complex query with some valid, some invalid fields."""
+        """Complex query with correctable and valid fields."""
         query = 'doctype:article AND property:peerreviewed AND database:astronomy abs:"cosmology"'
         result = constrain_query_output(query)
         assert "doctype:article" in result
+        assert "property:refereed" in result
         assert "database:astronomy" in result
         assert 'abs:"cosmology"' in result
         assert "peerreviewed" not in result
@@ -235,22 +239,131 @@ class TestConstrainQueryOutput:
         assert constrain_query_output("doctype:ARTICLE") == "doctype:ARTICLE"
 
     def test_case_insensitive_invalid(self):
-        """Invalid check should be case-insensitive."""
-        assert constrain_query_output("doctype:JOURNAL") == ""
+        """Invalid check should be case-insensitive (corrected)."""
+        assert constrain_query_output("doctype:JOURNAL") == "doctype:article"
 
     # ============================================================
     # Logging warnings
     # ============================================================
 
-    def test_logs_warning_for_removed_field(self, caplog):
-        """Should log warning when removing invalid field."""
+    def test_logs_warning_for_corrected_field(self, caplog):
+        """Should log warning when correcting misspelled enum value."""
         with caplog.at_level(logging.WARNING):
             constrain_query_output("doctype:journal")
-        assert "Removed invalid doctype value: 'journal'" in caplog.text
+        assert "Fixed enum value" in caplog.text
+        assert "doctype" in caplog.text
 
     def test_logs_multiple_warnings(self, caplog):
-        """Should log warning for each removed value."""
+        """Should log warning for each corrected value."""
         with caplog.at_level(logging.WARNING):
             constrain_query_output("doctype:journal database:astro")
         assert "doctype" in caplog.text
         assert "database" in caplog.text
+
+
+class TestFirstAuthorCaretRepair:
+    """Tests for _fix_first_author_caret."""
+
+    def test_caret_before_author_field(self):
+        """^author:"Last" -> author:"^Last"."""
+        assert constrain_query_output('^author:"Hawking"') == 'author:"^Hawking"'
+
+    def test_caret_between_field_and_quote(self):
+        """author:^"Last" -> author:"^Last"."""
+        assert constrain_query_output('author:^"Hawking"') == 'author:"^Hawking"'
+
+    def test_correct_caret_unchanged(self):
+        """Correctly placed caret should not change."""
+        assert constrain_query_output('author:"^Hawking"') == 'author:"^Hawking"'
+
+    def test_caret_with_full_name(self):
+        """Caret with full name format."""
+        assert constrain_query_output('^author:"Hawking, S"') == 'author:"^Hawking, S"'
+
+    def test_caret_in_complex_query(self):
+        """Caret fix in multi-field query."""
+        result = constrain_query_output('^author:"Hawking" abs:"black holes"')
+        assert 'author:"^Hawking"' in result
+        assert 'abs:"black holes"' in result
+
+
+class TestBackwardsYearRangeRepair:
+    """Tests for _fix_backwards_year_range."""
+
+    def test_backwards_range_swapped(self):
+        """pubdate:[2025 TO 2020] -> pubdate:[2020 TO 2025]."""
+        result = constrain_query_output("pubdate:[2025 TO 2020]")
+        assert result == "pubdate:[2020 TO 2025]"
+
+    def test_correct_range_unchanged(self):
+        """Correct range should not change."""
+        assert constrain_query_output("pubdate:[2020 TO 2025]") == "pubdate:[2020 TO 2025]"
+
+    def test_same_year_unchanged(self):
+        """Same year range should not change."""
+        assert constrain_query_output("pubdate:[2020 TO 2020]") == "pubdate:[2020 TO 2020]"
+
+    def test_backwards_range_in_complex_query(self):
+        """Backwards range fix in multi-field query."""
+        result = constrain_query_output('abs:"dark matter" pubdate:[2025 TO 2020]')
+        assert "pubdate:[2020 TO 2025]" in result
+        assert 'abs:"dark matter"' in result
+
+
+class TestUnquotedOperatorValueRepair:
+    """Tests for _fix_unquoted_operator_values."""
+
+    def test_unquoted_multi_word_in_citations(self):
+        """citations(abs:dark matter) -> citations(abs:"dark matter")."""
+        result = constrain_query_output("citations(abs:dark matter)")
+        assert 'citations(abs:"dark matter")' == result
+
+    def test_unquoted_multi_word_in_trending(self):
+        """trending(abs:exoplanet atmospheres) -> trending(abs:"exoplanet atmospheres")."""
+        result = constrain_query_output("trending(abs:exoplanet atmospheres)")
+        assert 'trending(abs:"exoplanet atmospheres")' == result
+
+    def test_already_quoted_unchanged(self):
+        """Already quoted values should not change."""
+        query = 'citations(abs:"dark matter")'
+        assert constrain_query_output(query) == query
+
+    def test_single_word_unchanged(self):
+        """Single-word values don't need quoting."""
+        query = "trending(abs:exoplanet)"
+        result = constrain_query_output(query)
+        assert "exoplanet" in result
+
+
+class TestEnumMisspellingRepair:
+    """Tests for _fix_common_enum_misspellings."""
+
+    def test_preprint_to_eprint(self):
+        """doctype:preprint -> doctype:eprint."""
+        assert constrain_query_output("doctype:preprint") == "doctype:eprint"
+
+    def test_journal_to_article(self):
+        """doctype:journal -> doctype:article (via correction)."""
+        assert constrain_query_output("doctype:journal") == "doctype:article"
+
+    def test_peer_reviewed_to_refereed(self):
+        """property:peer-reviewed -> property:refereed."""
+        assert constrain_query_output("property:peer-reviewed") == "property:refereed"
+
+    def test_astrophysics_to_astronomy(self):
+        """database:astrophysics -> database:astronomy."""
+        assert constrain_query_output("database:astrophysics") == "database:astronomy"
+
+    def test_open_access_to_openaccess(self):
+        """property:open_access -> property:openaccess."""
+        assert constrain_query_output("property:open_access") == "property:openaccess"
+
+    def test_correction_in_complex_query(self):
+        """Corrections applied within complex queries."""
+        result = constrain_query_output('doctype:preprint abs:"gravitational waves"')
+        assert "doctype:eprint" in result
+        assert 'abs:"gravitational waves"' in result
+
+    def test_conference_to_inproceedings(self):
+        """doctype:conference -> doctype:inproceedings."""
+        assert constrain_query_output("doctype:conference") == "doctype:inproceedings"

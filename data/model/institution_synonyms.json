@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Institution common name to ADS inst: abbreviation mappings",
-  "last_updated": "2026-03-04",
+  "last_updated": "2026-03-17",
   "references": [
     "https://github.com/adsabs/CanonicalAffiliations",
     "https://ui.adsabs.harvard.edu/help/search/search-syntax"
@@ -20,7 +20,7 @@
     },
     "CfA": {
       "inst_abbrev": "CfA",
-      "common_names": ["Harvard-Smithsonian Center for Astrophysics", "Center for Astrophysics", "CfA", "Harvard CfA"],
+      "common_names": ["Harvard-Smithsonian Center for Astrophysics", "Center for Astrophysics", "CfA", "Harvard CfA", "Harvard"],
       "parent": null
     },
     "STScI": {
@@ -35,7 +35,7 @@
     },
     "GSFC": {
       "inst_abbrev": "GSFC",
-      "common_names": ["Goddard Space Flight Center", "GSFC", "NASA Goddard"],
+      "common_names": ["Goddard Space Flight Center", "GSFC", "NASA Goddard", "Goddard"],
       "parent": "NASA"
     },
     "ESO": {
@@ -287,6 +287,18 @@
       "inst_abbrev": "KITP",
       "common_names": ["Kavli Institute for Theoretical Physics", "KITP"],
       "parent": "UC Santa Barbara"
+    },
+    "NASA": {
+      "inst_abbrev": "NASA",
+      "common_names": ["National Aeronautics and Space Administration", "NASA"],
+      "parent": null,
+      "children": ["JPL", "GSFC", "NASA Ames", "MSFC"]
+    },
+    "Max Planck": {
+      "inst_abbrev": "Max Planck",
+      "common_names": ["Max Planck Society", "Max Planck", "Max-Planck-Gesellschaft", "MPG"],
+      "parent": null,
+      "children": ["MPA", "MPE", "MPIA"]
     }
   }
 }

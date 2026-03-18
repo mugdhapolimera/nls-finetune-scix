@@ -60,12 +60,138 @@ def _fix_malformed_operators(query: str) -> str:
     return query
 
 
+def _fix_first_author_caret(query: str) -> str:
+    """Fix misplaced first-author caret.
+
+    Common LLM errors:
+    - ^author:"Last" -> author:"^Last"
+    - author:^"Last" -> author:"^Last"
+    """
+    # ^author:"Last" -> author:"^Last"
+    query = re.sub(
+        r'\^author:\s*"([^"]+)"',
+        r'author:"^\1"',
+        query,
+    )
+    # author:^"Last" -> author:"^Last"
+    query = re.sub(
+        r'author:\s*\^"([^"]+)"',
+        r'author:"^\1"',
+        query,
+    )
+    return query
+
+
+def _fix_backwards_year_range(query: str) -> str:
+    """Fix backwards pubdate ranges: pubdate:[2025 TO 2020] -> pubdate:[2020 TO 2025]."""
+
+    def swap_range(match: re.Match) -> str:
+        start, end = match.group(1), match.group(2)
+        try:
+            s, e = int(start), int(end)
+            if s > e:
+                logger.warning(
+                    f"Fixed backwards year range: [{start} TO {end}] -> [{end} TO {start}]"
+                )
+                return f"pubdate:[{end} TO {start}]"
+        except ValueError:
+            pass
+        return match.group(0)
+
+    return re.sub(
+        r"pubdate:\[(\d{4})\s+TO\s+(\d{4})\]", swap_range, query, flags=re.IGNORECASE
+    )
+
+
+def _fix_unquoted_operator_values(query: str) -> str:
+    """Quote unquoted multi-word values inside operators.
+
+    citations(abs:dark matter) -> citations(abs:"dark matter")
+    trending(abs:exoplanet atmospheres) -> trending(abs:"exoplanet atmospheres")
+    """
+
+    def quote_value(match: re.Match) -> str:
+        field = match.group(1)
+        value = match.group(2).strip()
+        # Only quote if multi-word (single word is OK unquoted for some fields)
+        if " " in value:
+            logger.warning(f"Quoted unquoted value in operator: {field}{value}")
+            return f'{field}"{value}")'
+        return match.group(0)
+
+    # Match field:unquoted_value) where value has spaces
+    # This targets values inside operators (before closing paren)
+    return re.sub(
+        r"((?:abs|title|full|keyword|author|object):)([^\")(\n][^)\n]*?)\)",
+        quote_value,
+        query,
+    )
+
+
+# Common misspellings -> correct values
+_ENUM_CORRECTIONS: dict[str, dict[str, str]] = {
+    "doctype": {
+        "preprint": "eprint",
+        "journal": "article",
+        "paper": "article",
+        "research": "article",
+        "publication": "article",
+        "peer-reviewed": "article",
+        "conference": "inproceedings",
+        "thesis": "phdthesis",
+        "review": "article",
+    },
+    "property": {
+        "peer-reviewed": "refereed",
+        "peer_reviewed": "refereed",
+        "peerreviewed": "refereed",
+        "reviewed": "refereed",
+        "open_access": "openaccess",
+        "open-access": "openaccess",
+        "oa": "openaccess",
+    },
+    "database": {
+        "astrophysics": "astronomy",
+        "astro": "astronomy",
+        "earth_science": "earthscience",
+        "earth-science": "earthscience",
+        "planetary": "earthscience",
+    },
+}
+
+
+def _fix_common_enum_misspellings(query: str) -> str:
+    """Replace common misspelled enum values with correct ones."""
+    for field_name, corrections in _ENUM_CORRECTIONS.items():
+        for wrong, right in corrections.items():
+            # Match field:wrong (unquoted)
+            pattern = rf"\b{field_name}:{re.escape(wrong)}\b"
+            replacement = f"{field_name}:{right}"
+            new_query = re.sub(pattern, replacement, query, flags=re.IGNORECASE)
+            if new_query != query:
+                logger.warning(
+                    f"Fixed enum value: {field_name}:{wrong} -> {field_name}:{right}"
+                )
+                query = new_query
+            # Match field:"wrong" (quoted)
+            pattern_q = rf'{field_name}:"{re.escape(wrong)}"'
+            replacement_q = f"{field_name}:{right}"
+            new_query = re.sub(pattern_q, replacement_q, query, flags=re.IGNORECASE)
+            if new_query != query:
+                logger.warning(
+                    f'Fixed enum value: {field_name}:"{wrong}" -> {field_name}:{right}'
+                )
+                query = new_query
+    return query
+
+
 def constrain_query_output(query: str) -> str:
     """Clean up model-generated query by removing invalid field values.
 
-    Removes field:value pairs where the value is not in FIELD_ENUMS.
-    Preserves valid field combinations. Handles OR lists, quoted values,
-    and parenthesized groups.
+    Applies structural repairs (caret placement, year ranges, operator quoting,
+    enum misspellings) then removes field:value pairs where the value is not in
+    FIELD_ENUMS. Preserves valid field combinations. Handles OR lists, quoted
+    values, and parenthesized groups.
 
     Args:
         query: The raw model-generated query string
@@ -74,8 +200,8 @@ def constrain_query_output(query: str) -> str:
         Cleaned query with invalid field values removed
 
     Example:
-        >>> constrain_query_output('doctype:journal property:refereed')
-        'property:refereed'
+        >>> constrain_query_output('doctype:preprint property:refereed')
+        'doctype:eprint property:refereed'
         >>> constrain_query_output('doctype:(article OR journal) abs:exoplanets')
         'doctype:article abs:exoplanets'
     """
@@ -84,15 +210,19 @@ def constrain_query_output(query: str) -> str:
 
     result = query.strip()
 
-    # Fix malformed operators (e.g., citationsauthor: -> citations(author:...))
+    # Phase 1: Structural repairs
     result = _fix_malformed_operators(result)
+    result = _fix_first_author_caret(result)
+    result = _fix_backwards_year_range(result)
+    result = _fix_unquoted_operator_values(result)
+    result = _fix_common_enum_misspellings(result)
 
-    # Process each constrained field
+    # Phase 2: Enum constraint filtering
     for field_name, valid_values in FIELD_ENUMS.items():
         valid_lower = {v.lower() for v in valid_values}
         result = _filter_field(result, field_name, valid_lower)
 
-    # Clean up artifacts from removal
+    # Phase 3: Cleanup artifacts
     result = _cleanup_query(result)
 
     return result

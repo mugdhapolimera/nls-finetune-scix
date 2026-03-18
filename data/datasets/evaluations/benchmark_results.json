@@ -1,26 +1,26 @@
 {
-  "timestamp": "2026-01-23T16:19:48.864988",
+  "timestamp": "2026-03-17T22:34:32.124557",
   "benchmark_file": "data/datasets/benchmark/benchmark_queries.json",
   "total_tests": 301,
-  "passed_tests": 297,
+  "passed_tests": 290,
   "overall_stats": {
     "total_tests": 301,
-    "passed_tests": 297,
-    "pass_rate": 98.67109634551495,
-    "exact_match_count": 35,
-    "exact_match_rate": 11.627906976744185,
+    "passed_tests": 290,
+    "pass_rate": 96.3455149501661,
+    "exact_match_count": 49,
+    "exact_match_rate": 16.27906976744186,
     "syntax_valid_count": 295,
     "syntax_valid_rate": 98.00664451827242,
-    "constraint_valid_count": 301,
-    "constraint_valid_rate": 100.0
+    "constraint_valid_count": 293,
+    "constraint_valid_rate": 97.34219269102991
   },
   "category_stats": {
     "field_types": {
       "total": 66,
       "passed": 66,
       "pass_rate": 100.0,
-      "exact_match": 3,
-      "exact_match_rate": 4.545454545454546,
+      "exact_match": 6,
+      "exact_match_rate": 9.090909090909092,
       "syntax_valid": 66,
       "syntax_valid_rate": 100.0,
       "subcategories": {
@@ -28,7 +28,7 @@
           "total": 15,
           "passed": 15,
           "pass_rate": 100.0,
-          "exact_match": 3,
+          "exact_match": 6,
           "syntax_valid": 15
         },
         "author": {
@@ -63,46 +63,46 @@
     },
     "operators": {
       "total": 105,
-      "passed": 104,
-      "pass_rate": 99.04761904761905,
-      "exact_match": 32,
-      "exact_match_rate": 30.476190476190478,
+      "passed": 98,
+      "pass_rate": 93.33333333333333,
+      "exact_match": 42,
+      "exact_match_rate": 40.0,
       "syntax_valid": 104,
       "syntax_valid_rate": 99.04761904761905,
       "subcategories": {
         "citations": {
           "total": 15,
-          "passed": 15,
-          "pass_rate": 100.0,
-          "exact_match": 0,
+          "passed": 12,
+          "pass_rate": 80.0,
+          "exact_match": 4,
           "syntax_valid": 15
         },
         "references": {
           "total": 15,
-          "passed": 14,
-          "pass_rate": 93.33333333333333,
-          "exact_match": 0,
+          "passed": 12,
+          "pass_rate": 80.0,
+          "exact_match": 3,
           "syntax_valid": 14
         },
         "trending": {
           "total": 15,
           "passed": 15,
           "pass_rate": 100.0,
-          "exact_match": 4,
+          "exact_match": 5,
           "syntax_valid": 15
         },
         "similar": {
           "total": 15,
-          "passed": 15,
-          "pass_rate": 100.0,
-          "exact_match": 9,
+          "passed": 14,
+          "pass_rate": 93.33333333333333,
+          "exact_match": 10,
           "syntax_valid": 15
         },
         "useful": {
           "total": 15,
           "passed": 15,
           "pass_rate": 100.0,
-          "exact_match": 10,
+          "exact_match": 11,
           "syntax_valid": 15
         },
         "reviews": {
@@ -123,10 +123,10 @@
     },
     "enum_fields": {
       "total": 55,
-      "passed": 55,
-      "pass_rate": 100.0,
-      "exact_match": 0,
-      "exact_match_rate": 0.0,
+      "passed": 54,
+      "pass_rate": 98.18181818181819,
+      "exact_match": 1,
+      "exact_match_rate": 1.8181818181818181,
       "syntax_valid": 55,
       "syntax_valid_rate": 100.0,
       "subcategories": {
@@ -139,8 +139,8 @@
         },
         "doctype": {
           "total": 15,
-          "passed": 15,
-          "pass_rate": 100.0,
+          "passed": 14,
+          "pass_rate": 93.33333333333333,
           "exact_match": 0,
           "syntax_valid": 15
         },
@@ -148,7 +148,7 @@
           "total": 15,
           "passed": 15,
           "pass_rate": 100.0,
-          "exact_match": 0,
+          "exact_match": 1,
           "syntax_valid": 15
         },
         "database": {
@@ -200,20 +200,20 @@
   "difficulty_stats": {
     "simple": {
       "total": 172,
-      "passed": 171,
-      "pass_rate": 99.4186046511628,
+      "passed": 169,
+      "pass_rate": 98.25581395348837,
       "syntax_valid": 171
     },
     "medium": {
       "total": 63,
-      "passed": 63,
-      "pass_rate": 100.0,
+      "passed": 60,
+      "pass_rate": 95.23809523809523,
       "syntax_valid": 63
     },
     "complex": {
       "total": 18,
-      "passed": 18,
-      "pass_rate": 100.0,
+      "passed": 16,
+      "pass_rate": 88.88888888888889,
       "syntax_valid": 18
     },
     "edge": {
@@ -231,6 +231,70 @@
   },
   "failed_tests": [
     {
+      "test_id": "citations-006",
+      "category": "operators",
+      "subcategory": "citations",
+      "natural_language": "research citing JWST observations",
+      "expected_query": "citations(bibgroup:JWST)",
+      "expected_behavior": null,
+      "actual_query": "citations(abs:\"observations bibgroup:JWST\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'JWST\"' (did you mean: JWST?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "citations-007",
+      "category": "operators",
+      "subcategory": "citations",
+      "natural_language": "recent papers citing the original LIGO paper",
+      "expected_query": "citations(abs:\"LIGO\") year:[2020 TO *]",
+      "expected_behavior": null,
+      "actual_query": "citations(abs:\"original pubdate:[2021 TO 2026] bibgroup:LIGO\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'LIGO\"' (did you mean: LIGO?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "citations-013",
+      "category": "operators",
+      "subcategory": "citations",
+      "natural_language": "refereed papers citing ALMA observations",
+      "expected_query": "citations(bibgroup:ALMA) property:refereed",
+      "expected_behavior": null,
+      "actual_query": "citations(abs:\"observations property:refereed bibgroup:ALMA\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "references-003",
+      "category": "operators",
+      "subcategory": "references",
+      "natural_language": "bibliography of the LIGO detection paper",
+      "expected_query": "references(abs:\"LIGO detection\")",
+      "expected_behavior": null,
+      "actual_query": "references(abs:\"detection bibgroup:LIGO\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'LIGO\"' (did you mean: LIGO?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
       "test_id": "references-004",
       "category": "operators",
       "subcategory": "references",
@@ -244,6 +308,54 @@
         "Empty query"
       ],
       "constraint_errors": [],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "references-013",
+      "category": "operators",
+      "subcategory": "references",
+      "natural_language": "bibliography of the Gaia mission papers",
+      "expected_query": "references(bibgroup:Gaia)",
+      "expected_behavior": null,
+      "actual_query": "references(abs:\"mission bibgroup:Gaia\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'Gaia\"' (did you mean: Gaia?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "similar-006",
+      "category": "operators",
+      "subcategory": "similar",
+      "natural_language": "papers resembling ALMA observations research",
+      "expected_query": "similar(bibgroup:ALMA)",
+      "expected_behavior": null,
+      "actual_query": "similar(abs:\"observations bibgroup:ALMA\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+      ],
+      "forbidden_matched": []
+    },
+    {
+      "test_id": "doctype-013",
+      "category": "enum_fields",
+      "subcategory": "doctype",
+      "natural_language": "book reviews on cosmology",
+      "expected_query": "doctype:bookreview abs:\"cosmology\"",
+      "expected_behavior": null,
+      "actual_query": "reviews(abs:\"cosmology doctype:book\")",
+      "exact_match": false,
+      "syntax_valid": true,
+      "syntax_errors": [],
+      "constraint_errors": [
+        "Invalid doctype value: 'book\"' (did you mean: book, bookreview?)"
+      ],
       "forbidden_matched": []
     },
     {

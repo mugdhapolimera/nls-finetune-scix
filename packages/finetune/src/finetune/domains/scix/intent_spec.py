@@ -89,10 +89,33 @@ class IntentSpec:
     # Field presence (has:body, has:data, etc.)
     has_fields: set[str] = field(default_factory=set)
 
+    # Identifiers (bibcodes, DOIs, arXiv IDs)
+    identifiers: list[str] = field(default_factory=list)
+
+    # Keyword terms (keyword: field)
+    keyword_terms: list[str] = field(default_factory=list)
+
+    # arXiv class (e.g., astro-ph.HE)
+    arxiv_classes: list[str] = field(default_factory=list)
+
+    # ORCID identifiers
+    orcid_ids: list[str] = field(default_factory=list)
+
+    # Relative date ranges (stored as raw strings since they use NOW- syntax)
+    entdate_range: str | None = None  # e.g., "[NOW-7DAYS TO *]"
+
     # Metric ranges
     citation_count_min: int | None = None
     citation_count_max: int | None = None
     read_count_min: int | None = None
+    mention_count_min: int | None = None
+    mention_count_max: int | None = None
+    credit_count_min: int | None = None
+    credit_count_max: int | None = None
+    author_count_min: int | None = None
+    author_count_max: int | None = None
+    page_count_min: int | None = None
+    page_count_max: int | None = None
 
     # Acknowledgment/grant
     ack_terms: list[str] = field(default_factory=list)
@@ -149,10 +172,19 @@ class IntentSpec:
             or self.negated_terms
             or self.has_fields
             or self.citation_count_min is not None
+            or self.mention_count_min is not None
+            or self.credit_count_min is not None
+            or self.author_count_min is not None
+            or self.page_count_min is not None
             or self.ack_terms
             or self.grant_terms
             or self.title_terms
             or self.full_text_terms
+            or self.identifiers
+            or self.keyword_terms
+            or self.arxiv_classes
+            or self.orcid_ids
+            or self.entdate_range
             or self.passthrough_clauses
         )
 
@@ -244,8 +276,26 @@ class IntentSpec:
             parts.append(f"NOT={self.negated_terms}")
         if self.has_fields:
             parts.append(f"has={sorted(self.has_fields)}")
+        if self.identifiers:
+            parts.append(f"identifiers={self.identifiers}")
+        if self.keyword_terms:
+            parts.append(f"keywords={self.keyword_terms}")
+        if self.arxiv_classes:
+            parts.append(f"arxiv_classes={self.arxiv_classes}")
+        if self.orcid_ids:
+            parts.append(f"orcids={self.orcid_ids}")
+        if self.entdate_range:
+            parts.append(f"entdate={self.entdate_range}")
         if self.citation_count_min is not None:
             parts.append(f"cite_min={self.citation_count_min}")
+        if self.mention_count_min is not None:
+            parts.append(f"mention_min={self.mention_count_min}")
+        if self.credit_count_min is not None:
+            parts.append(f"credit_min={self.credit_count_min}")
+        if self.author_count_min is not None:
+            parts.append(f"author_count_min={self.author_count_min}")
+        if self.page_count_min is not None:
+            parts.append(f"page_count_min={self.page_count_min}")
         if self.passthrough_clauses:
             parts.append(f"passthrough={self.passthrough_clauses}")
         if self.has_constraints():

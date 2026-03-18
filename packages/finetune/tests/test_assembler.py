@@ -125,17 +125,27 @@ class TestWildcardComplexAuthor:
         assert _wildcard_complex_author("Hawking, S") == "Hawking, S"
 
     def test_hyphen_long_prefix(self):
-        assert _wildcard_complex_author("de Groot-Hedlin") == "de Groot*"
+        assert _wildcard_complex_author("de Groot-Hedlin") == "de*Groot*Hedlin*"
 
     def test_hyphen_short_prefix(self):
-        assert _wildcard_complex_author("El-Badry") == "El-Badry*"
+        assert _wildcard_complex_author("El-Badry") == "El*Badry*"
 
     def test_apostrophe(self):
-        assert _wildcard_complex_author("Le Floc'h") == "Le Floc*"
+        assert _wildcard_complex_author("Le Floc'h") == "Le*Floc*h*"
+
+    def test_garcia_perez(self):
+        assert _wildcard_complex_author("Garcia-Perez") == "Garcia*Perez*"
+
+    def test_al_sufi(self):
+        assert _wildcard_complex_author("al-Sufi") == "al*Sufi*"
 
     def test_first_author_caret(self):
         result = _wildcard_complex_author("^Hawking")
         assert result == "^Hawking"
+
+    def test_first_author_caret_with_hyphen(self):
+        result = _wildcard_complex_author("^El-Badry")
+        assert result == "^El*Badry*"
 
     def test_already_wildcarded(self):
         assert _wildcard_complex_author("Garcia*") == "Garcia*"
@@ -145,7 +155,12 @@ class TestRewriteComplexAuthorWildcards:
     def test_rewrites_hyphenated(self):
         query = 'author:"Garcia-Perez" abs:"exoplanets"'
         result = rewrite_complex_author_wildcards(query)
-        assert 'author:"Garcia*"' in result
+        assert 'author:"Garcia*Perez*"' in result
+
+    def test_rewrites_el_badry(self):
+        query = 'author:"El-Badry" abs:"binary star"'
+        result = rewrite_complex_author_wildcards(query)
+        assert 'author:"El*Badry*"' in result
 
     def test_simple_name_unchanged(self):
         query = 'author:"Hawking" abs:"black holes"'
@@ -234,6 +249,86 @@ class TestAssembleQuery:
 # ============================================================================
 # validate_query_syntax
 # ============================================================================
+
+
+class TestAssembleNewFields:
+    """Test assembly of identifiers, keywords, arxiv_classes, orcid_ids, entdate, metric counts."""
+
+    def test_identifiers_bibcode(self):
+        intent = IntentSpec(identifiers=["bibcode:2020ApJ...900..100D"])
+        query = assemble_query(intent)
+        assert "bibcode:2020ApJ...900..100D" in query
+
+    def test_identifiers_doi(self):
+        intent = IntentSpec(identifiers=["doi:10.1038/s41586-020-2649-2"])
+        query = assemble_query(intent)
+        assert "doi:" in query
+        assert "10.1038/s41586-020-2649-2" in query
+
+    def test_identifiers_arxiv(self):
+        intent = IntentSpec(identifiers=["arxiv:2301.12345"])
+        query = assemble_query(intent)
+        assert "arxiv:2301.12345" in query
+
+    def test_identifiers_plain(self):
+        intent = IntentSpec(identifiers=["2020ApJ...123L..45S"])
+        query = assemble_query(intent)
+        assert "identifier:" in query
+        assert "2020ApJ...123L..45S" in query
+
+    def test_keyword_terms(self):
+        intent = IntentSpec(keyword_terms=["dark matter", "accretion"])
+        query = assemble_query(intent)
+        assert 'keyword:"dark matter"' in query
+        assert "keyword:accretion" in query
+
+    def test_arxiv_classes(self):
+        intent = IntentSpec(arxiv_classes=["astro-ph.HE"])
+        query = assemble_query(intent)
+        assert "arxiv_class:astro-ph.HE" in query
+
+    def test_orcid_ids(self):
+        intent = IntentSpec(orcid_ids=["0000-0001-2345-6789"])
+        query = assemble_query(intent)
+        assert "orcid:0000-0001-2345-6789" in query
+
+    def test_entdate_range(self):
+        intent = IntentSpec(entdate_range="[NOW-7DAYS TO *]")
+        query = assemble_query(intent)
+        assert "entdate:[NOW-7DAYS TO *]" in query
+
+    def test_mention_count(self):
+        intent = IntentSpec(mention_count_min=5)
+        query = assemble_query(intent)
+        assert "mention_count:[5 TO *]" in query
+
+    def test_credit_count(self):
+        intent = IntentSpec(credit_count_min=20, credit_count_max=100)
+        query = assemble_query(intent)
+        assert "credit_count:[20 TO 100]" in query
+
+    def test_author_count(self):
+        intent = IntentSpec(author_count_min=100)
+        query = assemble_query(intent)
+        assert "author_count:[100 TO *]" in query
+
+    def test_page_count(self):
+        intent = IntentSpec(page_count_min=1, page_count_max=10)
+        query = assemble_query(intent)
+        assert "page_count:[1 TO 10]" in query
+
+    def test_roundtrip_new_fields(self):
+        """Parse → assemble round-trip for new fields."""
+        from finetune.domains.scix.parse_query import parse_query_to_intent
+
+        q = 'keyword:"dark matter" arxiv_class:astro-ph.HE orcid:0000-0001-2345-6789 entdate:[NOW-7DAYS TO *] mention_count:[5 TO *]'
+        intent = parse_query_to_intent(q)
+        result = assemble_query(intent)
+        assert 'keyword:"dark matter"' in result
+        assert "arxiv_class:astro-ph.HE" in result
+        assert "orcid:0000-0001-2345-6789" in result
+        assert "entdate:[NOW-7DAYS TO *]" in result
+        assert "mention_count:[5 TO *]" in result
 
 
 class TestValidateQuerySyntax:

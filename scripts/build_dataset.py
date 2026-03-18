@@ -41,11 +41,17 @@ def load_json(path: Path) -> list[dict]:
 
 def normalize_pair(pair: dict) -> dict:
     """Normalize pair to consistent format."""
-    return {
+    result = {
         "natural_language": pair.get("natural_language", pair.get("nl", "")),
         "ads_query": pair.get("ads_query", pair.get("query", "")),
         "category": pair.get("category", "unknown"),
     }
+    # Preserve intent fields if present (for --format intent)
+    if "intent_json" in pair:
+        result["intent_json"] = pair["intent_json"]
+    if "think_trace" in pair:
+        result["think_trace"] = pair["think_trace"]
+    return result
 
 
 def validate_pair(pair: dict) -> tuple[bool, list[str]]:
@@ -152,21 +158,31 @@ def main() -> None:
         default="query",
         help="Output format: 'query' (current, JSON with query string) or 'intent' (<think> + IntentSpec JSON)"
     )
+    parser.add_argument(
+        "--gold-only",
+        action="store_true",
+        help="Only use gold examples (skip synthetic and NL pairs). Useful for intent format where only gold has intent_json."
+    )
     args = parser.parse_args()
-    
+
     print("=" * 60)
     print("LOADING DATA SOURCES")
     print("=" * 60)
-    
+
     # Load all sources
     gold = [normalize_pair(p) for p in load_json(Path(args.gold))]
-    synthetic = [normalize_pair(p) for p in load_json(Path(args.synthetic))]
-    nl_pairs = [normalize_pair(p) for p in load_json(Path(args.nl_pairs))]
-    
+
+    if args.gold_only:
+        synthetic = []
+        nl_pairs = []
+    else:
+        synthetic = [normalize_pair(p) for p in load_json(Path(args.synthetic))]
+        nl_pairs = [normalize_pair(p) for p in load_json(Path(args.nl_pairs))]
+
     print(f"\n  Gold examples:    {len(gold):5}")
     print(f"  Synthetic pairs:  {len(synthetic):5}")
     print(f"  NL pairs:         {len(nl_pairs):5}")
-    
+
     # Combine all
     all_pairs = gold + synthetic + nl_pairs
     print(f"\n  Total combined:   {len(all_pairs):5}")

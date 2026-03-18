@@ -86,28 +86,31 @@ def _validate_enum_values(field: str, values: set[str]) -> set[str]:
 
 
 def _wildcard_complex_author(name: str) -> str:
-    """Add trailing wildcard to complex author names for fuzzy matching.
+    """Replace hyphens, apostrophes, and spaces with ``*`` for fuzzy matching.
 
-    Names with hyphens or apostrophes in the surname have inconsistent ADS
-    indexing (e.g., "de Groot-Hedlin" vs "de GrootHedlin"). Truncating at the
-    first hyphen/apostrophe and appending ``*`` catches both variants.
+    Names with hyphens or apostrophes have inconsistent ADS indexing
+    (e.g., "El-Badry" vs "El Badry" vs "ElBadry"). Replacing all separators
+    with ``*`` and adding a trailing ``*`` catches all variants.
 
-    Simple names (e.g., "Hawking", "Hawking, S") are returned unchanged.
+    Only triggered for names containing hyphens or apostrophes. Simple names
+    like "Hawking" or comma-formatted "Hawking, S" are returned unchanged.
 
     Examples::
 
-        "de Groot-Hedlin"  -> "de Groot*"       # catches de GrootHedlin too
-        "Garcia-Perez"     -> "Garcia*"          # catches GarciaPerez too
-        "Le Floc'h"        -> "Le Floc*"         # catches Le Floch too
-        "El-Badry"         -> "El-Badry*"        # trailing * is harmless
-        "Hawking"          -> "Hawking"           # no change
-        "^Hawking"         -> "^Hawking"          # first-author caret preserved
+        "de Groot-Hedlin"  -> "de*Groot*Hedlin*"   # catches all spacing variants
+        "Garcia-Perez"     -> "Garcia*Perez*"       # catches "GarciaPerez" etc.
+        "Le Floc'h"        -> "Le*Floc*h*"          # catches "Le Floch" etc.
+        "El-Badry"         -> "El*Badry*"            # catches "El Badry", "ElBadry"
+        "al-Sufi"          -> "al*Sufi*"             # catches "alSufi" etc.
+        "Hawking"          -> "Hawking"              # no change (no special chars)
+        "^Hawking"         -> "^Hawking"             # first-author caret preserved
 
     Args:
         name: Author name as extracted by NER
 
     Returns:
-        Name with trailing wildcard if complex, otherwise unchanged
+        Name with separators replaced by ``*`` and trailing ``*`` if complex,
+        otherwise unchanged
     """
     # Preserve first-author caret prefix
     prefix = ""
@@ -120,26 +123,16 @@ def _wildcard_complex_author(name: str) -> str:
     if "*" in working or "," in working:
         return name
 
-    # Find first hyphen or apostrophe in the name (complexity marker)
-    hyphen_pos = working.find("-")
-    apos_pos = working.find("'")
-
-    # Pick the earliest complexity marker
-    positions = [p for p in (hyphen_pos, apos_pos) if p > 0]
-    if not positions:
+    # Check if name has complexity markers (hyphens or apostrophes)
+    if "-" not in working and "'" not in working:
         return name  # Simple name, no change
 
-    cut_pos = min(positions)
+    # Replace hyphens, apostrophes, and spaces with * and add trailing *
+    wildcarded = working.replace("-", "*").replace("'", "*").replace(" ", "*")
+    if not wildcarded.endswith("*"):
+        wildcarded += "*"
 
-    # If the hyphen is at position 2-3 (like "El-Badry"), keep it and just
-    # add trailing wildcard — truncating would be too aggressive
-    part_before = working[:cut_pos]
-    if len(part_before.split()[-1]) <= 3:
-        # Short prefix before marker (El-, Le-, al-): keep full name + *
-        return f"{prefix}{working}*"
-
-    # Truncate at the complexity marker and wildcard
-    return f"{prefix}{working[:cut_pos]}*"
+    return f"{prefix}{wildcarded}"
 
 
 def _build_author_clause(authors: Sequence[str]) -> str:
@@ -452,6 +445,30 @@ def assemble_query(intent: IntentSpec, examples: list[GoldExample] | None = None
     if intent.read_count_min is not None:
         clauses.append(f"read_count:[{intent.read_count_min} TO *]")
 
+    # Build mention_count range
+    if intent.mention_count_min is not None or intent.mention_count_max is not None:
+        lo = str(intent.mention_count_min) if intent.mention_count_min is not None else "*"
+        hi = str(intent.mention_count_max) if intent.mention_count_max is not None else "*"
+        clauses.append(f"mention_count:[{lo} TO {hi}]")
+
+    # Build credit_count range
+    if intent.credit_count_min is not None or intent.credit_count_max is not None:
+        lo = str(intent.credit_count_min) if intent.credit_count_min is not None else "*"
+        hi = str(intent.credit_count_max) if intent.credit_count_max is not None else "*"
+        clauses.append(f"credit_count:[{lo} TO {hi}]")
+
+    # Build author_count range
+    if intent.author_count_min is not None or intent.author_count_max is not None:
+        lo = str(intent.author_count_min) if intent.author_count_min is not None else "*"
+        hi = str(intent.author_count_max) if intent.author_count_max is not None else "*"
+        clauses.append(f"author_count:[{lo} TO {hi}]")
+
+    # Build page_count range
+    if intent.page_count_min is not None or intent.page_count_max is not None:
+        lo = str(intent.page_count_min) if intent.page_count_min is not None else "*"
+        hi = str(intent.page_count_max) if intent.page_count_max is not None else "*"
+        clauses.append(f"page_count:[{lo} TO {hi}]")
+
     # Build ack clause
     if intent.ack_terms:
         for term in intent.ack_terms:
@@ -462,6 +479,39 @@ def assemble_query(intent: IntentSpec, examples: list[GoldExample] | None = None
     if intent.grant_terms:
         for term in intent.grant_terms:
             clauses.append(f"grant:{term}")
+
+    # Build identifier clauses
+    if intent.identifiers:
+        for ident in intent.identifiers:
+            # Identifiers may have a prefix like doi:, arxiv:, bibcode:
+            # If they have a prefix, emit as that field; otherwise use identifier:
+            if ident.startswith("doi:"):
+                clauses.append(f"doi:{_quote_value(ident[4:])}")
+            elif ident.startswith("arxiv:"):
+                clauses.append(f"arxiv:{ident[6:]}")
+            elif ident.startswith("bibcode:"):
+                clauses.append(f"bibcode:{ident[8:]}")
+            else:
+                clauses.append(f"identifier:{_quote_value(ident)}")
+
+    # Build keyword clauses
+    if intent.keyword_terms:
+        for term in intent.keyword_terms:
+            clauses.append(f"keyword:{_quote_value(term)}")
+
+    # Build arxiv_class clauses
+    if intent.arxiv_classes:
+        for ac in intent.arxiv_classes:
+            clauses.append(f"arxiv_class:{ac}")
+
+    # Build orcid clauses
+    if intent.orcid_ids:
+        for oid in intent.orcid_ids:
+            clauses.append(f"orcid:{oid}")
+
+    # Build entdate clause
+    if intent.entdate_range:
+        clauses.append(f"entdate:{intent.entdate_range}")
 
     # Build exact match clauses (=field:"value")
     if intent.exact_match_fields:

@@ -178,6 +178,100 @@ def _dedup_bibgroup_and_aff(intent: IntentSpec) -> None:
     intent.bibgroup -= to_remove
 
 
+def _resolve_negation_conflicts(intent: IntentSpec) -> None:
+    """Remove positive values that contradict negated values.
+
+    NER cannot detect negation — it's pure regex pattern matching. When the user
+    says "excluding conference proceedings", NER extracts doctype:inproceedings
+    as a positive value. The LLM correctly puts it in negated_doctypes. Without
+    this cleanup, the assembled query has both doctype:inproceedings AND NOT
+    doctype:inproceedings, which cancels out to 0 results.
+
+    This is a generic fix that handles ALL field types in one place, preventing
+    whack-a-mole fixes every time a new negation pattern is encountered.
+
+    Negation sources:
+    1. Structured: negated_doctypes, negated_properties, negated_terms
+    2. Passthrough: NOT field:"value" clauses (for fields without dedicated negation)
+    """
+    # --- Structured negation fields ---
+    if intent.negated_doctypes:
+        removed = intent.doctype & intent.negated_doctypes
+        if removed:
+            intent.doctype -= removed
+            logger.info("Removed contradicted doctype(s): %s", removed)
+
+    if intent.negated_properties:
+        removed = intent.property & intent.negated_properties
+        if removed:
+            intent.property -= removed
+            logger.info("Removed contradicted property(ies): %s", removed)
+
+    if intent.negated_terms:
+        negated_lower = {t.lower() for t in intent.negated_terms}
+        original = intent.free_text_terms[:]
+        intent.free_text_terms = [
+            t for t in intent.free_text_terms if t.lower() not in negated_lower
+        ]
+        if len(intent.free_text_terms) < len(original):
+            logger.info("Removed contradicted free_text_term(s)")
+
+    # --- Passthrough NOT clauses (covers all remaining fields) ---
+    if not intent.passthrough_clauses:
+        return
+
+    # Parse all NOT field:"value" from passthrough clauses
+    negated_by_field: dict[str, set[str]] = {}
+    not_pattern = re.compile(r'NOT\s+(\w+):"([^"]+)"', re.IGNORECASE)
+    for clause in intent.passthrough_clauses:
+        m = not_pattern.match(clause)
+        if m:
+            field = m.group(1).lower()
+            value = m.group(2)
+            negated_by_field.setdefault(field, set()).add(value.lower())
+
+    if not negated_by_field:
+        return
+
+    # Map passthrough field names to IntentSpec list/set attributes
+    _LIST_FIELDS = {
+        "author": "authors",
+        "aff": "affiliations",
+        "inst": "affiliations",
+        "bibstem": "bibstems",
+        "object": "objects",
+    }
+    _SET_FIELDS = {
+        "doctype": "doctype",
+        "property": "property",
+        "bibgroup": "bibgroup",
+        "collection": "collection",
+        "esources": "esources",
+        "data": "data",
+    }
+
+    for neg_field, neg_values in negated_by_field.items():
+        # Handle list fields (case-insensitive match)
+        if neg_field in _LIST_FIELDS:
+            attr = _LIST_FIELDS[neg_field]
+            current = getattr(intent, attr)
+            if current:
+                filtered = [v for v in current if v.lower() not in neg_values]
+                if len(filtered) < len(current):
+                    setattr(intent, attr, filtered)
+                    logger.info("Removed contradicted %s value(s) from %s", neg_field, attr)
+
+        # Handle set fields (case-insensitive match)
+        if neg_field in _SET_FIELDS:
+            attr = _SET_FIELDS[neg_field]
+            current = getattr(intent, attr)
+            if current:
+                to_remove = {v for v in current if v.lower() in neg_values}
+                if to_remove:
+                    setattr(intent, attr, current - to_remove)
+                    logger.info("Removed contradicted %s value(s) from %s", neg_field, attr)
+
+
 def merge_intents(
     ner: IntentSpec,
     llm: IntentSpec,
@@ -198,8 +292,16 @@ def merge_intents(
     # Authors: prefer NER (better name formatting via NER patterns)
     merged.authors = ner.authors if ner.authors else llm.authors
 
-    # Free text: prefer LLM (understands context/intent better)
-    merged.free_text_terms = llm.free_text_terms if llm.free_text_terms else ner.free_text_terms
+    # Free text: prefer LLM (understands context/intent better).
+    # If LLM produced other fields (operator, citation_count, negation, etc.)
+    # but left free_text_terms empty, trust that — don't backfill NER's residual
+    # noise (NER dumps unrecognized text into free_text_terms as a catch-all).
+    if llm.free_text_terms:
+        merged.free_text_terms = llm.free_text_terms
+    elif not llm.has_content():
+        # LLM produced nothing at all — fall back to NER
+        merged.free_text_terms = ner.free_text_terms
+    # else: LLM has content in other fields but no free_text — intentionally empty
     merged.or_terms = llm.or_terms if llm.or_terms else ner.or_terms
 
     # Years: prefer NER if it extracted them
@@ -244,17 +346,31 @@ def merge_intents(
     merged.citation_count_min = llm.citation_count_min
     merged.citation_count_max = llm.citation_count_max
     merged.read_count_min = llm.read_count_min
+    merged.mention_count_min = llm.mention_count_min
+    merged.mention_count_max = llm.mention_count_max
+    merged.credit_count_min = llm.credit_count_min
+    merged.credit_count_max = llm.credit_count_max
+    merged.author_count_min = llm.author_count_min
+    merged.author_count_max = llm.author_count_max
+    merged.page_count_min = llm.page_count_min
+    merged.page_count_max = llm.page_count_max
     merged.ack_terms = llm.ack_terms
     merged.grant_terms = llm.grant_terms
     merged.title_terms = llm.title_terms
     merged.full_text_terms = llm.full_text_terms
     merged.exact_match_fields = llm.exact_match_fields
+    merged.identifiers = llm.identifiers
+    merged.keyword_terms = llm.keyword_terms
+    merged.arxiv_classes = llm.arxiv_classes
+    merged.orcid_ids = llm.orcid_ids
+    merged.entdate_range = llm.entdate_range
     merged.passthrough_clauses = llm.passthrough_clauses
 
     # Post-merge cleanups at intent level
     _strip_default_doctype(merged, nl_text)
     _remove_inst_from_free_text(merged)
     _dedup_bibgroup_and_aff(merged)
+    _resolve_negation_conflicts(merged)
 
     return merged
 
@@ -292,13 +408,21 @@ def merge_ner_and_nls_intent(
             # Assembly broke something — try raw passthrough
             clean_query = assemble_query(llm_intent)
 
+        # Ultimate fallback if still empty
+        used_fallback = False
+        if not clean_query.strip():
+            if nl_text and nl_text.strip():
+                safe_text = nl_text.strip().replace('"', '\\"')
+                clean_query = f'abs:"{safe_text}"'
+                used_fallback = True
+
         merge_ms = (time.perf_counter() - merge_start) * 1000
         return MergeResult(
             query=clean_query,
-            source="nls_only",
+            source="fallback" if used_fallback else "nls_only",
             nls_query="",
             ner_query=ner_query or "",
-            confidence=0.8,
+            confidence=0.1 if used_fallback else 0.8,
             timing={"merge_ms": merge_ms},
             ner_intent=ner_intent.to_dict() if ner_intent else None,
             llm_intent=llm_intent.to_dict(),
@@ -418,9 +542,15 @@ def merge_ner_and_nls(
     # Case 1: Both empty/invalid
     if not nls_valid and not ner_valid:
         merge_ms = (time.perf_counter() - merge_start) * 1000
+        # Fallback: return abs:"original text" rather than empty
+        fallback_query = ""
+        source = "fallback"
+        if nl_text and nl_text.strip():
+            safe_text = nl_text.strip().replace('"', '\\"')
+            fallback_query = f'abs:"{safe_text}"'
         return MergeResult(
-            query=nls_query or ner_query or "",
-            source="nls_only" if nls_query else "ner_only",
+            query=fallback_query,
+            source=source,
             nls_query=nls_query or "",
             ner_query=ner_query or "",
             confidence=0.1,

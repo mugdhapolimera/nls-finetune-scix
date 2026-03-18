@@ -518,27 +518,39 @@ YEAR_PATTERNS: list[tuple[re.Pattern, str]] = [
 # AUTHOR EXTRACTION PATTERNS
 # =============================================================================
 
+# Stop words that signal end of an author name in NL text.
+# "by El-Badry on binary stars" → name ends before "on"
+_AUTHOR_STOP = (
+    r"(?=\s+(?:on|about|in|from|at|with|for|and|or|the|of|papers?|articles?|"
+    r"work|regarding|concerning|during|since|before|after|between|using|studying|"
+    r"published|who|whose|that|which|these|this|those)\b|\s*$|,|\s+\d)"
+)
+
+# Reusable name pattern:
+# Optional first name/initial + optional particles + required surname (with hyphens/apostrophes)
+# - "Hawking", "El-Badry", "de Groot-Hedlin", "Le Floc'h", "van der Waals"
+# - "S. Hawking", "Stephen Hawking", "al-Sufi"
+_AUTHOR_FIRST = r"(?:[A-Z][a-z]+\s+|[A-Z]\.?\s+)?"  # "Stephen " or "S. "
+_AUTHOR_PARTICLE = r"(?:(?:de|von|van|der|den|le|la|al|el|di|du|del|dos|das|ibn)\s+)*"  # case-insensitive particles
+_AUTHOR_SURNAME = r"[A-Za-z][a-zA-Z'-]+(?:[-'][a-zA-Z]+)*"  # surname: El-Badry, Le Floc'h, al-Sufi
+_AUTHOR_FULL = _AUTHOR_FIRST + _AUTHOR_PARTICLE + _AUTHOR_SURNAME
+
 AUTHOR_PATTERNS: list[re.Pattern] = [
-    # "by Hawking", "by Stephen Hawking", "by S. Hawking"
-    # Use word boundary \b and explicit stopword exclusion with negative lookahead
+    # "by Hawking", "by El-Badry", "by de Groot-Hedlin", "by S. Hawking"
     re.compile(
-        r"\bby\s+([A-Z][a-z]+)(?:\s+([A-Z]\.?))?\b",
-        re.IGNORECASE,
+        r"\bby\s+(" + _AUTHOR_FULL + r")" + _AUTHOR_STOP,
     ),
-    # "author Hawking", "author: Hawking"
+    # "author Hawking", "author: El-Badry"
     re.compile(
-        r"\bauthors?\s*:?\s+([A-Z][a-z]+)(?:\s+([A-Z]\.?))?\b",
-        re.IGNORECASE,
+        r"\bauthors?\s*:?\s+(" + _AUTHOR_FULL + r")" + _AUTHOR_STOP,
     ),
-    # "first author Hawking", "first-author Hawking"
+    # "first author Hawking", "first-author El-Badry"
     re.compile(
-        r"\bfirst[-\s]?author\s+([A-Z][a-z]+)(?:\s+([A-Z]\.?))?\b",
-        re.IGNORECASE,
+        r"\bfirst[-\s]?author\s+(" + _AUTHOR_FULL + r")" + _AUTHOR_STOP,
     ),
-    # "Hawking et al." - captures name before et al.
+    # "Hawking et al.", "El-Badry et al."
     re.compile(
-        r"\b([A-Z][a-z]+)\s+et\s+al\.?\b",
-        re.IGNORECASE,
+        r"\b(" + _AUTHOR_SURNAME + r")\s+et\s+al\.?",
     ),
 ]
 

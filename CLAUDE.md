@@ -39,6 +39,16 @@ NL text ──→ LLM → <think>...</think> + JSON → IntentSpec_LLM ──┘
 ```
 Server auto-detects format: IntentSpec JSON skips `parse_query_to_intent()` and 3 string rewrites (inst, bibstem, author wildcarding — assembler handles these). UAT augmentation still runs post-assembly.
 
+### Phase C Data Flow (RAG-augmented LLM)
+```
+NL text ──→ NER ──────────→ IntentSpec_NER ──┐
+         │                                    ├─→ merge_intents() → IntentSpec_merged → assembler → clean query
+         └→ [RAG: few-shot examples + field cards]
+              ↓
+            LLM (with context) ──→ IntentSpec_LLM ──┘
+```
+RAG retrieval (<20ms) runs in parallel with NER. Injects 2-3 similar gold examples as few-shot user/assistant pairs + 1-2 field reference cards into the LLM prompt. No new dependencies (reuses existing BM25 index).
+
 ### Merge Per-Field Policies
 | Field | Preferred Source | Rationale |
 |-------|-----------------|-----------|
@@ -54,11 +64,26 @@ Server auto-detects format: IntentSpec JSON skips `parse_query_to_intent()` and 
 ### Merge Module (`merge.py`)
 - `merge_intents(ner, llm, nl_text)` → IntentSpec — per-field merge with clear policies
 - `merge_ner_and_nls(ner_result, nls_query, nl_text)` → `MergeResult` — orchestrator
-- Returns `MergeResult` with: query, source ("hybrid"/"nls_only"/"ner_only"), fields_injected, timing, ner_intent, llm_intent, merged_intent (debug traces)
+- Returns `MergeResult` with: query, source ("hybrid"/"nls_only"/"ner_only"/"fallback"), fields_injected, timing, ner_intent, llm_intent, merged_intent (debug traces)
+- **Fallback:** When both NER and LLM fail, returns `abs:"<original text>"` with `source="fallback"` and `confidence=0.1` instead of empty query
+
+### Query Repair (`constrain.py`)
+Post-assembly deterministic repairs applied before enum constraint filtering:
+- **First-author caret fix:** `^author:"Last"` → `author:"^Last"` (prevents ADS 400 error)
+- **Backwards year range:** `pubdate:[2025 TO 2020]` → `pubdate:[2020 TO 2025]`
+- **Unquoted operator values:** `citations(abs:dark matter)` → `citations(abs:"dark matter")`
+- **Enum misspelling correction:** 21 common misspellings auto-corrected (e.g., `doctype:preprint`→`eprint`, `property:peer-reviewed`→`refereed`, `database:astrophysics`→`astronomy`)
 
 ### Parse Query Module (`parse_query.py`)
 - `parse_query_to_intent(query)` → IntentSpec — inverse of assembler
 - Extracts all field:value pairs, validates enum values, handles negation, operators, ranges
+
+### Reliability Features
+- **LLM timeout:** `asyncio.wait_for()` with 1.5s timeout on LLM generation; on timeout, returns NER-only result
+- **Empty query fallback:** Both NER+LLM fail → `abs:"<original user text>"` instead of empty query
+- **Input validation:** Queries >500 chars truncated, null bytes stripped, non-printable chars removed
+- **Large response guard:** LLM responses >10KB skip JSON parsing (returns raw text)
+- **Production telemetry:** Structured JSON logging for every query via `nls.telemetry` logger (source, confidence, latency, errors, repairs)
 
 ### Debug Endpoints
 - `GET /debug/hybrid?q=...` — Run hybrid merge, returns: final query, source, raw NLS/NER queries, **intent traces** (NER/LLM/merged IntentSpec dicts), fields_injected, timing
@@ -66,6 +91,10 @@ Server auto-detects format: IntentSpec JSON skips `parse_query_to_intent()` and 
 
 ### Environment Variables
 - `HYBRID_MODE=true` — Enable hybrid merge (default). Set `false` for NER-only when pipeline available.
+- `RAG_ENABLED=true` — Enable RAG few-shot augmentation on the LLM path (default). Set `false` to disable.
+- `RAG_NUM_EXAMPLES=3` — Number of few-shot examples to inject (default: 3).
+- `RAG_MAX_CARDS=2` — Maximum field reference cards to inject (default: 2).
+- `LLM_TIMEOUT=1.5` — LLM generation timeout in seconds (default: 1.5). Set to `10` for local MPS/CPU demos.
 
 ## Training Data
 
@@ -191,11 +220,11 @@ Names with hyphens or apostrophes have inconsistent ADS indexing (e.g., "de Groo
 
 | Input | Output | Why |
 |-------|--------|-----|
-| `de Groot-Hedlin` | `author:"de Groot*"` | Truncate at hyphen (long prefix) |
-| `Garcia-Perez` | `author:"Garcia*"` | Truncate at hyphen (long prefix) |
-| `Le Floc'h` | `author:"Le Floc*"` | Truncate at apostrophe |
-| `El-Badry` | `author:"El-Badry*"` | Short prefix (El-) → keep full + `*` |
-| `al-Sufi` | `author:"al-Sufi*"` | Short prefix (al-) → keep full + `*` |
+| `de Groot-Hedlin` | `author:"de*Groot*Hedlin*"` | All separators → `*` |
+| `Garcia-Perez` | `author:"Garcia*Perez*"` | Hyphen → `*`, trailing `*` |
+| `Le Floc'h` | `author:"Le*Floc*h*"` | Space + apostrophe → `*` |
+| `El-Badry` | `author:"El*Badry*"` | Catches "El Badry", "ElBadry", "El-Badry" |
+| `al-Sufi` | `author:"al*Sufi*"` | Catches "alSufi", "al Sufi", "al-Sufi" |
 | `Hawking` | `author:"Hawking"` | Simple name → no change |
 | `Hawking, S` | `author:"Hawking, S"` | Comma-formatted → no change |
 
@@ -205,7 +234,7 @@ Names with hyphens or apostrophes have inconsistent ADS indexing (e.g., "de Groo
 
 **ADS wildcard rules for authors:**
 - Trailing `*` inside quotes works: `author:"de Groot*"` ✓
-- Mid-name `*` inside quotes does NOT work: `author:"Garcia*Perez"` ✗
+- Mid-name `*` inside quotes works: `author:"El*Badry*"` ✓ (catches El-Badry, El Badry, ElBadry)
 - Unquoted wildcards with special chars do NOT work: `author:de*Groot*Hedlin` ✗
 - ADS normalizes accents automatically: `author:"Garcia Perez"` matches `García Pérez` ✓
 
@@ -284,12 +313,15 @@ User experience testing identified 7 issue types. Some are addressable by NLS tr
 - `packages/finetune/src/finetune/domains/scix/intent_spec.py` — IntentSpec dataclass (NER→assembler contract)
 - `packages/finetune/src/finetune/domains/scix/institution_lookup.py` — Institution RAG lookup for `(inst: OR aff:)` clauses
 - `packages/finetune/src/finetune/domains/scix/bibstem_lookup.py` — Journal bibstem lookup and `rewrite_bibstem_values()` post-processor
+- `packages/finetune/src/finetune/domains/scix/rag_retrieval.py` — RAG few-shot retrieval for LLM prompt augmentation (Phase C)
+- `packages/finetune/src/finetune/domains/scix/field_cards.py` — Static field reference cards for reducing enum hallucination (Phase C)
+- `packages/finetune/src/finetune/domains/scix/retrieval.py` — BM25 retrieval index over gold examples (used by RAG and pipeline)
 - `packages/finetune/src/finetune/domains/scix/uat_lookup.py` — UAT thesaurus lookup; `rewrite_abs_to_abs_or_uat()` augments abs: with uat: at serving time
 - `packages/finetune/src/finetune/domains/scix/planetary_feature_lookup.py` — Planetary feature Gazetteer lookup; NER extraction of multi-word feature names + `rewrite_abs_to_abs_or_planetary_feature()` augments abs: with planetary_feature: at serving time
 - `packages/finetune/src/finetune/domains/scix/fields.py` — ADS field definitions
 - `packages/finetune/src/finetune/domains/scix/field_constraints.py` — Enum values
 - `packages/finetune/src/finetune/domains/scix/validate.py` — Query validation
-- `packages/finetune/src/finetune/domains/scix/constrain.py` — Post-assembly constraint filter
+- `packages/finetune/src/finetune/domains/scix/constrain.py` — Post-assembly query repair + constraint filter (caret fix, year range swap, unquoted operator values, enum misspelling correction, then enum validation)
 - `packages/finetune/src/finetune/domains/scix/parse_query.py` — Parses LLM raw query string back into IntentSpec (inverse of assembler)
 - `packages/finetune/src/finetune/domains/scix/merge.py` — Intent-level merge (parse LLM→IntentSpec, merge with NER IntentSpec, assembler produces final query)
 - `packages/finetune/src/finetune/domains/scix/pipeline.py` — End-to-end NER pipeline orchestration
@@ -323,7 +355,9 @@ All template-based, deterministic (seeded), output to `data/datasets/generated/`
 - `scripts/generate_compound_examples.py` — Multi-field combinations, negation, grant+topic, credit/mention (104 examples)
 - `scripts/generate_misc_field_examples.py` — temporal, object, syntax (NEAR/=author:), orcid, pos(), metrics, second-order ops, similar() (76 examples)
 - `scripts/merge_examples.py` — Deduplicates and merges generated files into gold_examples.json
+- `scripts/normalize_year_syntax.py` — Converts `year:YYYY` → `pubdate:YYYY` and `year:YYYY-YYYY` → `pubdate:[YYYY TO YYYY]` in gold_examples.json (dry-run default, `--apply` to write)
 - `scripts/validate_gold_examples.py` — Syntax + API validation of training examples
+- `scripts/analyze_telemetry.py` — Parses structured telemetry JSON logs → summary report (source distribution, error rate, latency percentiles, NER injection frequency, repair frequency)
 - `scripts/generate_coverage_gap_examples.py` — Coverage audit gap-fill: 210 examples across 17 categories (esources, data, NOT, has, grant, ack, keyword, arxiv_class, orcid, entry_date, object, proximity, exact author, cross-domain, mentions, verbose NL, similar, references)
 - `scripts/fix_validation_issues.py` — Fixes for validation issues in coverage-gap examples (idempotent)
 - `scripts/generate_blog_examples.py` — Blog-sourced patterns: nested operators (trending(useful(...))), similar()+entdate, property:(...) multi-value, bibstem wildcards/OR, full: field, data-linking, earth science collection (91 examples)
@@ -332,6 +366,7 @@ All template-based, deterministic (seeded), output to `data/datasets/generated/`
 - `scripts/generate_training_improvements.py` — Coverage gap improvements: reference parsing, UAT, negation, software mentions, date diversity, caption, arxiv IDs, count filters (98 examples + 15 planetary_feature)
 - `scripts/convert_to_intent_format.py` — Converts gold_examples.json to intent format (IntentSpec JSON + think traces) for Phase B training
 - `scripts/remove_synonym_expansion.py` — Removes 24 examples teaching LLM synonym expansion (OR-lists, fabricated abs: terms, broken queries), fixes 4 abbreviation swaps, adds 13 clean replacements
+- `scripts/build_rag_dataset.py` — Builds RAG-augmented training JSONL: for each example, retrieves k nearest neighbors as few-shot context (Phase C)
 
 ## Reference Material for Training Data Generation
 

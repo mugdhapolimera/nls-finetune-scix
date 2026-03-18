@@ -517,6 +517,9 @@ def get_index(filepath: str | Path | None = None) -> GoldExampleIndex:
     """
     global _global_index
     if _global_index is None:
+        # Re-check env var at creation time (not import time)
+        if filepath is None:
+            filepath = _get_gold_examples_path()
         _global_index = GoldExampleIndex(filepath=filepath)
     return _global_index
 

@@ -73,7 +73,7 @@ class TestConvertExample:
         })
         assert result is not None
         assert "error" not in result
-        assert any("orcid" in c for c in result["intent_json"].get("passthrough_clauses", []))
+        assert "0000-0001-2345-6789" in result["intent_json"].get("orcid_ids", [])
 
     def test_affiliation_query(self):
         result = convert_example({

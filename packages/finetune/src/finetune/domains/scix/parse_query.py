@@ -225,14 +225,14 @@ def parse_query_to_intent(query: str) -> IntentSpec:
 
     # Step 3: Extract NOT clauses
     # NOT abs:"X", NOT property:X, NOT doctype:X
+    # Also handle ADS "-" prefix syntax: -author:"X", -property:X, -aff:"X"
     not_pattern = re.compile(
-        r"\bNOT\s+(abs|title|property|doctype|bibstem|author):", re.IGNORECASE
+        r"(?:\bNOT\s+|-)(abs|title|property|doctype|bibstem|author|aff|inst):", re.IGNORECASE
     )
     not_positions = [(m.start(), m.end(), m.group(1).lower()) for m in not_pattern.finditer(q)]
     # Process in reverse to preserve positions
     for start, field_end, field_name in reversed(not_positions):
         val, val_end = _parse_field_value(q, field_end)
-        negated_clause = q[start:val_end]
 
         if field_name in ("abs", "title"):
             if isinstance(val, str):
@@ -259,11 +259,21 @@ def parse_query_to_intent(query: str) -> IntentSpec:
                     canonical = _validate_enum("doctype", v)
                     if canonical:
                         intent.negated_doctypes.add(canonical)
+        elif field_name == "author":
+            # No dedicated negated_authors field; emit as passthrough with NOT syntax
+            if isinstance(val, str):
+                intent.passthrough_clauses.append(f'NOT author:"{val}"')
+            elif isinstance(val, list):
+                for v in val:
+                    intent.passthrough_clauses.append(f'NOT author:"{v}"')
         else:
-            # Keep as passthrough
-            intent.passthrough_clauses.append(negated_clause)
-            q = q[:start] + " " + q[val_end:]
-            continue
+            # bibstem, aff, inst — no dedicated negated field; normalize to NOT syntax
+            if isinstance(val, str):
+                val_str = f'"{val}"' if '"' not in val else f'"{val}"'
+                intent.passthrough_clauses.append(f"NOT {field_name}:{val_str}")
+            elif isinstance(val, list):
+                for v in val:
+                    intent.passthrough_clauses.append(f'NOT {field_name}:"{v}"')
 
         q = q[:start] + " " + q[val_end:]
 
@@ -280,9 +290,9 @@ def parse_query_to_intent(query: str) -> IntentSpec:
         "aff", "inst", "affil", "doctype", "property", "database",
         "collection", "bibgroup", "esources", "data", "has", "grant",
         "ack", "caption", "full", "body", "keyword", "orcid", "doi",
-        "identifier", "arxiv", "citation_count", "read_count",
-        "uat", "planetary_feature", "mention_count", "credit_count",
-        "page_count", "author_count", "entdate",
+        "identifier", "arxiv_class", "arxiv", "bibcode", "citation_count",
+        "read_count", "uat", "planetary_feature", "mention_count",
+        "credit_count", "page_count", "author_count", "entdate",
     )
     field_pattern = re.compile(
         r"\b(" + "|".join(field_names) + r"):\s*", re.IGNORECASE
@@ -324,6 +334,32 @@ def parse_query_to_intent(query: str) -> IntentSpec:
     return intent
 
 
+def _parse_count_range(intent: IntentSpec, field_name: str, lo: str | None, hi: str | None) -> None:
+    """Parse a count range [lo TO hi] into the appropriate IntentSpec min/max fields."""
+    _COUNT_FIELD_MAP = {
+        "citation_count": ("citation_count_min", "citation_count_max"),
+        "read_count": ("read_count_min", None),
+        "mention_count": ("mention_count_min", "mention_count_max"),
+        "credit_count": ("credit_count_min", "credit_count_max"),
+        "author_count": ("author_count_min", "author_count_max"),
+        "page_count": ("page_count_min", "page_count_max"),
+    }
+    mapping = _COUNT_FIELD_MAP.get(field_name)
+    if not mapping:
+        return
+    min_attr, max_attr = mapping
+    if lo and min_attr:
+        try:
+            setattr(intent, min_attr, int(lo))
+        except ValueError:
+            pass
+    if hi and max_attr:
+        try:
+            setattr(intent, max_attr, int(hi))
+        except ValueError:
+            pass
+
+
 def _add_field_to_intent(intent: IntentSpec, field_name: str, val: str | list[str]) -> None:
     """Add a parsed field:value to the appropriate IntentSpec field."""
 
@@ -357,7 +393,7 @@ def _add_field_to_intent(intent: IntentSpec, field_name: str, val: str | list[st
         for v in _as_list(val):
             intent.title_terms.append(v)
 
-    elif field_name in ("pubdate", "year", "entdate"):
+    elif field_name in ("pubdate", "year"):
         val_str = _as_str(val)
         if val_str.startswith("["):
             if _is_now_range(val_str):
@@ -373,13 +409,28 @@ def _add_field_to_intent(intent: IntentSpec, field_name: str, val: str | list[st
                     y = _try_parse_year(hi)
                     if y:
                         intent.year_to = y
-        elif field_name == "entdate":
-            intent.passthrough_clauses.append(f"entdate:{val_str}")
         else:
-            y = _try_parse_year(val_str)
-            if y:
-                intent.year_from = y
-                intent.year_to = y
+            # Check for dash-separated range like "2014-2023"
+            dash_match = re.match(r'^(\d{4})-(\d{4})$', val_str)
+            if dash_match:
+                y_from = _try_parse_year(dash_match.group(1))
+                y_to = _try_parse_year(dash_match.group(2))
+                if y_from:
+                    intent.year_from = y_from
+                if y_to:
+                    intent.year_to = y_to
+            else:
+                y = _try_parse_year(val_str)
+                if y:
+                    intent.year_from = y
+                    intent.year_to = y
+
+    elif field_name == "entdate":
+        val_str = _as_str(val)
+        if val_str.startswith("["):
+            intent.entdate_range = val_str
+        else:
+            intent.passthrough_clauses.append(f"entdate:{val_str}")
 
     elif field_name == "bibstem":
         for v in _as_list(val):
@@ -452,31 +503,40 @@ def _add_field_to_intent(intent: IntentSpec, field_name: str, val: str | list[st
         for v in _as_list(val):
             intent.full_text_terms.append(v)
 
+    elif field_name == "keyword":
+        for v in _as_list(val):
+            intent.keyword_terms.append(v)
+
+    elif field_name == "orcid":
+        for v in _as_list(val):
+            intent.orcid_ids.append(v)
+
+    elif field_name == "identifier":
+        for v in _as_list(val):
+            intent.identifiers.append(v)
+
+    elif field_name == "doi":
+        for v in _as_list(val):
+            intent.identifiers.append(f"doi:{v}")
+
+    elif field_name == "arxiv":
+        val_str = _as_str(val)
+        intent.identifiers.append(f"arxiv:{val_str}")
+
+    elif field_name == "arxiv_class":
+        for v in _as_list(val):
+            intent.arxiv_classes.append(v)
+
+    elif field_name == "bibcode":
+        for v in _as_list(val):
+            intent.identifiers.append(f"bibcode:{v}")
+
     elif field_name in ("citation_count", "read_count", "mention_count",
                          "credit_count", "page_count", "author_count"):
         val_str = _as_str(val)
         if val_str.startswith("["):
             lo, hi = _parse_range(val_str)
-            if field_name == "citation_count":
-                if lo:
-                    try:
-                        intent.citation_count_min = int(lo)
-                    except ValueError:
-                        pass
-                if hi:
-                    try:
-                        intent.citation_count_max = int(hi)
-                    except ValueError:
-                        pass
-            elif field_name == "read_count":
-                if lo:
-                    try:
-                        intent.read_count_min = int(lo)
-                    except ValueError:
-                        pass
-            else:
-                # Preserve other count ranges as passthrough
-                intent.passthrough_clauses.append(f"{field_name}:{val_str}")
+            _parse_count_range(intent, field_name, lo, hi)
         else:
             intent.passthrough_clauses.append(f"{field_name}:{val_str}")
 

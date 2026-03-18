@@ -166,6 +166,56 @@ class TestParseNegation:
         intent = parse_query_to_intent("abs:cosmology NOT doctype:eprint")
         assert "eprint" in intent.negated_doctypes
 
+    def test_dash_abs_negation(self):
+        """Dash-prefix -abs:"X" should populate negated_terms."""
+        intent = parse_query_to_intent('-abs:"dark energy"')
+        assert "dark energy" in intent.negated_terms
+        assert not intent.passthrough_clauses
+
+    def test_dash_property_negation(self):
+        """Dash-prefix -property:X should populate negated_properties."""
+        intent = parse_query_to_intent("-property:refereed")
+        assert "refereed" in intent.negated_properties
+        assert not intent.passthrough_clauses
+
+    def test_dash_doctype_negation(self):
+        """Dash-prefix -doctype:X should populate negated_doctypes."""
+        intent = parse_query_to_intent("-doctype:eprint")
+        assert "eprint" in intent.negated_doctypes
+        assert not intent.passthrough_clauses
+
+    def test_dash_author_negation(self):
+        """Dash-prefix -author:"X" should produce clean NOT passthrough."""
+        intent = parse_query_to_intent('-author:"Smith"')
+        assert 'NOT author:"Smith"' in intent.passthrough_clauses
+        assert "-" not in intent.passthrough_clauses  # No orphaned dash
+        assert not intent.authors  # Should NOT be added as positive author
+
+    def test_not_aff_negation(self):
+        """NOT aff:X should be captured as passthrough, not positive affiliation."""
+        intent = parse_query_to_intent("NOT aff:LIGO")
+        assert 'NOT aff:"LIGO"' in intent.passthrough_clauses
+        assert not intent.affiliations  # Should NOT be added as positive
+
+    def test_dash_aff_negation(self):
+        """Dash-prefix -aff:"X" should produce clean NOT passthrough."""
+        intent = parse_query_to_intent('-aff:"LIGO"')
+        assert 'NOT aff:"LIGO"' in intent.passthrough_clauses
+        assert not intent.affiliations
+
+    def test_not_aff_in_compound_query(self):
+        """NOT aff: in a compound query should not leak into affiliations."""
+        intent = parse_query_to_intent('abs:"gravitational waves" NOT aff:"LIGO"')
+        assert "gravitational waves" in intent.free_text_terms
+        assert 'NOT aff:"LIGO"' in intent.passthrough_clauses
+        assert not intent.affiliations
+
+    def test_dash_bibstem_negation(self):
+        """Dash-prefix -bibstem:"X" should produce clean NOT passthrough."""
+        intent = parse_query_to_intent('-bibstem:"AGUFM"')
+        assert 'NOT bibstem:"AGUFM"' in intent.passthrough_clauses
+        assert not intent.bibstems
+
 
 class TestParseOperators:
     def test_citations(self):
@@ -209,6 +259,93 @@ class TestParseAdvancedFields:
         assert intent.exact_match_fields.get("keyword") == "accretion"
 
 
+class TestParseIdentifiers:
+    def test_identifier_bibcode(self):
+        intent = parse_query_to_intent("identifier:2020ApJ...123L..45S")
+        assert "2020ApJ...123L..45S" in intent.identifiers
+
+    def test_identifier_quoted(self):
+        intent = parse_query_to_intent('identifier:"2020ApJ...123L..45S"')
+        assert "2020ApJ...123L..45S" in intent.identifiers
+
+    def test_doi(self):
+        intent = parse_query_to_intent("doi:10.1038/s41586-020-2649-2")
+        assert "doi:10.1038/s41586-020-2649-2" in intent.identifiers
+
+    def test_arxiv_id(self):
+        intent = parse_query_to_intent("arxiv:2301.12345")
+        assert "arxiv:2301.12345" in intent.identifiers
+
+    def test_bibcode_field(self):
+        intent = parse_query_to_intent("bibcode:2020ApJ...900..100D")
+        assert "bibcode:2020ApJ...900..100D" in intent.identifiers
+
+
+class TestParseKeywords:
+    def test_keyword_quoted(self):
+        intent = parse_query_to_intent('keyword:"dark matter"')
+        assert "dark matter" in intent.keyword_terms
+
+    def test_keyword_bare(self):
+        intent = parse_query_to_intent("keyword:accretion")
+        assert "accretion" in intent.keyword_terms
+
+
+class TestParseArxivClass:
+    def test_arxiv_class(self):
+        intent = parse_query_to_intent("arxiv_class:astro-ph.HE")
+        assert "astro-ph.HE" in intent.arxiv_classes
+
+    def test_arxiv_class_multiple(self):
+        intent = parse_query_to_intent("arxiv_class:astro-ph.HE arxiv_class:astro-ph.SR")
+        assert "astro-ph.HE" in intent.arxiv_classes
+        assert "astro-ph.SR" in intent.arxiv_classes
+
+
+class TestParseOrcid:
+    def test_orcid(self):
+        intent = parse_query_to_intent("orcid:0000-0001-2345-6789")
+        assert "0000-0001-2345-6789" in intent.orcid_ids
+        assert not intent.passthrough_clauses
+
+
+class TestParseEntdate:
+    def test_entdate_now_range(self):
+        intent = parse_query_to_intent("entdate:[NOW-7DAYS TO *]")
+        assert intent.entdate_range == "[NOW-7DAYS TO *]"
+        assert not intent.passthrough_clauses
+
+    def test_entdate_now_month(self):
+        intent = parse_query_to_intent("entdate:[NOW-1MONTH TO *]")
+        assert intent.entdate_range == "[NOW-1MONTH TO *]"
+
+
+class TestParseMetricCounts:
+    def test_mention_count(self):
+        intent = parse_query_to_intent("mention_count:[5 TO *]")
+        assert intent.mention_count_min == 5
+        assert intent.mention_count_max is None
+        assert not intent.passthrough_clauses
+
+    def test_credit_count(self):
+        intent = parse_query_to_intent("credit_count:[20 TO *]")
+        assert intent.credit_count_min == 20
+
+    def test_author_count(self):
+        intent = parse_query_to_intent("author_count:[100 TO *]")
+        assert intent.author_count_min == 100
+
+    def test_page_count_range(self):
+        intent = parse_query_to_intent("page_count:[1 TO 10]")
+        assert intent.page_count_min == 1
+        assert intent.page_count_max == 10
+
+    def test_mention_count_in_compound(self):
+        intent = parse_query_to_intent('abs:"astropy" mention_count:[1 TO *]')
+        assert "astropy" in intent.free_text_terms
+        assert intent.mention_count_min == 1
+
+
 class TestParseComplexQueries:
     def test_full_query(self):
         q = 'author:"Hawking" abs:"black holes" pubdate:[2020 TO 2023] doctype:article property:refereed'
@@ -240,11 +377,13 @@ class TestParseComplexQueries:
         intent = parse_query_to_intent("")
         assert not intent.has_content()
 
-    def test_unknown_field_passthrough(self):
+    def test_orcid_parsed_not_passthrough(self):
+        """orcid should now be parsed into orcid_ids, not passthrough."""
         q = 'orcid:0000-0001-2345-6789 abs:"dark matter"'
         intent = parse_query_to_intent(q)
         assert "dark matter" in intent.free_text_terms
-        assert any("orcid" in c for c in intent.passthrough_clauses)
+        assert "0000-0001-2345-6789" in intent.orcid_ids
+        assert not any("orcid" in c for c in intent.passthrough_clauses)
 
 
 class TestRoundTrip:
