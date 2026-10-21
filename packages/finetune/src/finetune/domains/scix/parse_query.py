@@ -35,7 +35,7 @@ The parser handles:
 import logging
 import re
 
-from .field_constraints import FIELD_ENUMS
+from .field_constraints import FIELD_ENUMS, canonicalize_enum_value
 from .intent_spec import OPERATORS, IntentSpec
 
 logger = logging.getLogger(__name__)
@@ -76,13 +76,9 @@ def _get_known_bibstems() -> set[str]:
 
 def _validate_enum(field: str, value: str) -> str | None:
     """Return canonical value if valid for field, else None."""
-    valid = FIELD_ENUMS.get(field)
-    if valid is None:
+    if FIELD_ENUMS.get(field) is None:
         return value  # No constraints
-    for v in valid:
-        if v.lower() == value.lower():
-            return v
-    return None
+    return canonicalize_enum_value(field, value)
 
 
 def _extract_quoted_value(query: str, pos: int) -> tuple[str, int]:

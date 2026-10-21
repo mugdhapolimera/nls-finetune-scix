@@ -68,7 +68,8 @@ class TestYearExtraction:
     def test_recent(self):
         intent = extract_intent("recent papers on exoplanets")
         current = datetime.now().year
-        assert intent.year_from == current - 3
+        assert intent.year_from == current - 5
+        assert intent.year_to == current
 
     def test_before(self):
         intent = extract_intent("papers before 2000")

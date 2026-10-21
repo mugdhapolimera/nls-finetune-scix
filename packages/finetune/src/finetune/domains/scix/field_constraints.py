@@ -239,6 +239,29 @@ FIELD_ENUMS = {
     "has": HAS_VALUES,
 }
 
+# User/LLM synonyms → canonical FIELD_ENUMS value (case-insensitive lookup)
+ENUM_ALIASES: dict[str, dict[str, str]] = {
+    "bibgroup": {
+        "eso": "ESO/Telescopes",
+    },
+}
+
+
+def canonicalize_enum_value(field: str, value: str) -> str | None:
+    """Return canonical enum value if valid directly or via alias."""
+    field_key = field.lower()
+    valid_values = FIELD_ENUMS.get(field_key)
+    if valid_values is None:
+        return value
+    value_lower = value.lower()
+    alias_map = ENUM_ALIASES.get(field_key, {})
+    if value_lower in alias_map:
+        return alias_map[value_lower]
+    for v in valid_values:
+        if v.lower() == value_lower:
+            return v
+    return None
+
 
 def get_valid_values(field: str) -> frozenset[str] | None:
     """Get the set of valid values for a constrained field.
@@ -262,10 +285,7 @@ def is_valid_value(field: str, value: str) -> bool:
     Returns:
         True if valid, False if invalid or field has no constraints
     """
-    valid_values = get_valid_values(field)
-    if valid_values is None:
-        return True  # No constraints for this field
-    return value.lower() in {v.lower() for v in valid_values}
+    return canonicalize_enum_value(field, value) is not None
 
 
 def suggest_correction(field: str, invalid_value: str) -> list[str]:

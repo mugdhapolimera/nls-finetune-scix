@@ -12,6 +12,10 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+output/
+
+# Local agent config (machine-specific paths)
+.claude/settings.json
 
 # Environment
 .env

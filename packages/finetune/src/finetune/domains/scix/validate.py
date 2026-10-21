@@ -10,7 +10,11 @@ from dataclasses import field as dataclass_field
 
 import httpx
 
-from finetune.domains.scix.field_constraints import FIELD_ENUMS, suggest_correction
+from finetune.domains.scix.field_constraints import (
+    FIELD_ENUMS,
+    canonicalize_enum_value,
+    suggest_correction,
+)
 from finetune.domains.scix.fields import ADS_FIELDS
 
 # Valid field prefixes (including ^ for first author), normalized to lowercase
@@ -189,7 +193,7 @@ def validate_field_constraints(query: str) -> ConstraintValidationResult:
                     v.strip().strip('"') for v in re.split(r"\s+OR\s+", inner, flags=re.IGNORECASE)
                 ]
                 for v in values:
-                    if v and v.lower() not in {val.lower() for val in valid_values}:
+                    if v and canonicalize_enum_value(field_name, v) is None:
                         suggestions = suggest_correction(field_name, v)
                         errors.append(
                             FieldConstraintError(
@@ -202,8 +206,7 @@ def validate_field_constraints(query: str) -> ConstraintValidationResult:
             else:  # Unquoted value
                 value = match.group(3)
 
-            # Check if the value is valid (case-insensitive)
-            if value.lower() not in {v.lower() for v in valid_values}:
+            if canonicalize_enum_value(field_name, value) is None:
                 suggestions = suggest_correction(field_name, value)
                 errors.append(
                     FieldConstraintError(

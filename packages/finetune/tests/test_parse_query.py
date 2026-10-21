@@ -136,8 +136,8 @@ class TestParseEnumFields:
         assert "astronomy" in intent.collection
 
     def test_bibgroup(self):
-        intent = parse_query_to_intent("bibgroup:LIGO")
-        assert "LIGO" in intent.bibgroup
+        intent = parse_query_to_intent("bibgroup:HST")
+        assert "HST" in intent.bibgroup
 
     def test_esources(self):
         intent = parse_query_to_intent("esources:PUB_PDF")
