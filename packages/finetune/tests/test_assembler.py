@@ -10,6 +10,7 @@ from finetune.domains.scix.assembler import (
     _build_enum_clause,
     _build_object_clause,
     _build_year_clause,
+    _is_valid_passthrough,
     _wildcard_complex_author,
     _wrap_with_operator,
     assemble_query,
@@ -341,3 +342,82 @@ class TestValidateQuerySyntax:
         is_valid, errors = validate_query_syntax('citations(abs:"dark matter"')
         assert not is_valid
         assert any("parentheses" in e.lower() for e in errors)
+
+
+class TestIsValidPassthrough:
+    """Tests for _is_valid_passthrough — passthrough clause validation."""
+
+    def test_reject_json_fragment(self):
+        """JSON fragments should be rejected."""
+        assert _is_valid_passthrough('{"journals": ["Nature"]}') is False
+
+    def test_reject_curly_braces(self):
+        """Any curly braces should cause rejection."""
+        assert _is_valid_passthrough('{key: "value"}') is False
+
+    def test_reject_unknown_field(self):
+        """Unknown field names should cause rejection."""
+        assert _is_valid_passthrough('journals:"Nature"') is False
+
+    def test_reject_unknown_field_topics(self):
+        """Unknown field 'topics' should be rejected."""
+        assert _is_valid_passthrough('topics:"exoplanets"') is False
+
+    def test_accept_not_author(self):
+        """NOT author clause should be accepted."""
+        assert _is_valid_passthrough('NOT author:"Smith"') is True
+
+    def test_accept_pubdate_range(self):
+        """pubdate range should be accepted."""
+        assert _is_valid_passthrough("pubdate:[NOW-5YEARS TO *]") is True
+
+    def test_accept_operator_fragment(self):
+        """Operator fragment should be accepted (no field: pattern)."""
+        assert _is_valid_passthrough("topn(50,") is True
+
+    def test_accept_bare_term(self):
+        """Bare term without field: should be accepted."""
+        assert _is_valid_passthrough("disk") is True
+
+    def test_accept_citation_count(self):
+        """Known field citation_count should be accepted."""
+        assert _is_valid_passthrough("citation_count:0") is True
+
+    def test_accept_sort_parameter(self):
+        """Sort parameters should be accepted (no field: match)."""
+        assert _is_valid_passthrough('"citation_count desc"') is True
+
+
+class TestAssemblePassthroughFiltering:
+    """Tests that assemble_query filters invalid passthrough clauses."""
+
+    def test_json_in_passthrough_dropped(self):
+        """JSON in passthrough_clauses should be dropped during assembly."""
+        intent = IntentSpec(
+            free_text_terms=["supernova"],
+            passthrough_clauses=['{"journals": ["Nature"]}'],
+        )
+        query = assemble_query(intent)
+        assert "supernova" in query
+        assert "{" not in query
+        assert "journals" not in query
+
+    def test_unknown_field_in_passthrough_dropped(self):
+        """Unknown fields in passthrough should be dropped."""
+        intent = IntentSpec(
+            free_text_terms=["supernova"],
+            passthrough_clauses=['topics:"exoplanets"'],
+        )
+        query = assemble_query(intent)
+        assert "supernova" in query
+        assert "topics" not in query
+
+    def test_valid_passthrough_preserved(self):
+        """Valid passthrough clauses should be preserved."""
+        intent = IntentSpec(
+            free_text_terms=["supernova"],
+            passthrough_clauses=['NOT author:"Smith"'],
+        )
+        query = assemble_query(intent)
+        assert "supernova" in query
+        assert 'NOT author:"Smith"' in query

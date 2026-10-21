@@ -1,8 +1,9 @@
-"""Tests for validate_field_constraints function."""
+"""Tests for validate_field_constraints function and lint_query curly brace detection."""
 
 
 from finetune.domains.scix.validate import (
     FieldConstraintError,
+    lint_query,
     validate_field_constraints,
 )
 
@@ -191,3 +192,43 @@ class TestValidateFieldConstraints:
         error = FieldConstraintError(field="doctype", value="xyz")
         assert "xyz" in str(error)
         assert "did you mean" not in str(error)
+
+
+class TestLintQueryCurlyBraces:
+    """Tests for curly brace detection in lint_query."""
+
+    def test_json_fragment_detected(self):
+        """JSON fragment after valid query should be detected."""
+        result = lint_query('abs:"test" {"journals": ["Nature"]}')
+        assert result.valid is False
+        assert any("curly" in e.lower() for e in result.errors)
+
+    def test_bare_curly_braces_detected(self):
+        """Bare curly braces should be detected."""
+        result = lint_query('abs:"test" {key: "value"}')
+        assert result.valid is False
+
+    def test_valid_query_no_curly_braces(self):
+        """Valid query without curly braces should pass."""
+        result = lint_query('abs:"test" bibstem:"ApJ"')
+        assert result.valid is True
+
+    def test_square_brackets_not_affected(self):
+        """Square brackets (valid range syntax) should not be affected."""
+        result = lint_query("pubdate:[2020 TO 2025]")
+        assert result.valid is True
+
+    def test_parentheses_not_affected(self):
+        """Parentheses (valid grouping syntax) should not be affected."""
+        result = lint_query("doctype:(article OR eprint)")
+        assert result.valid is True
+
+    def test_single_open_brace_detected(self):
+        """Single open curly brace should be detected."""
+        result = lint_query('abs:"test" {')
+        assert result.valid is False
+
+    def test_single_close_brace_detected(self):
+        """Single close curly brace should be detected."""
+        result = lint_query('abs:"test" }')
+        assert result.valid is False

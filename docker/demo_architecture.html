@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLS Pipeline Architecture</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --purple: #bc8cff; --orange: #d29922;
+    --red: #f85149; --blue: #58a6ff; --cyan: #56d4dd;
+    --off: #21262d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; font-size: 17px; line-height: 1.6; }
+
+  /* Top bar */
+  .topbar { display: flex; align-items: center; gap: 16px; padding: 10px 24px;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
+  .topbar h1 { font-size: 22px; font-weight: 600; white-space: nowrap; }
+  .tab-nav { display: flex; gap: 4px; margin-left: 8px; }
+  .tab-nav a { padding: 4px 14px; border-radius: 6px; font-size: 15px; font-weight: 500;
+    text-decoration: none; color: var(--text-dim); border: 1px solid transparent;
+    transition: all 0.15s; }
+  .tab-nav a:hover { color: var(--text); background: rgba(88,166,255,0.08); }
+  .tab-nav a.active { color: var(--accent); border-color: var(--accent); background: rgba(88,166,255,0.1); }
+
+  .content { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  h2 { font-size: 26px; font-weight: 700; margin: 48px 0 16px; color: var(--text);
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2:first-of-type { margin-top: 8px; }
+  h3 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+  p { margin-bottom: 14px; color: var(--text); }
+  .dim { color: var(--text-dim); }
+
+  /* Mode selector */
+  .mode-selector { display: flex; gap: 6px; margin: 20px 0; flex-wrap: wrap; }
+  .mode-selector button { padding: 8px 18px; border-radius: 8px; font-size: 16px; font-weight: 500;
+    cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    transition: all 0.15s; }
+  .mode-selector button:hover { border-color: var(--accent); }
+  .mode-selector button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+
+  /* Interactive pipeline diagram */
+  .pipeline { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px; margin: 20px 0 32px; position: relative; }
+
+  .pipe-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 8px 0;
+    flex-wrap: wrap; }
+
+  .pipe-node { border-radius: 10px; padding: 14px 20px; text-align: center; font-size: 15px;
+    font-weight: 600; transition: all 0.3s; min-width: 160px; position: relative; }
+  .pipe-node.on { opacity: 1; }
+  .pipe-node.off { opacity: 0.2; border-color: var(--off) !important; }
+
+  .pipe-node.input { background: rgba(88,166,255,0.15); border: 2px solid var(--accent); color: var(--accent); }
+  .pipe-node.ner { background: rgba(63,185,80,0.12); border: 2px solid var(--green); color: var(--green); }
+  .pipe-node.rag { background: rgba(86,212,221,0.12); border: 2px solid var(--cyan); color: var(--cyan); }
+  .pipe-node.llm { background: rgba(188,140,255,0.12); border: 2px solid var(--purple); color: var(--purple); }
+  .pipe-node.merge { background: rgba(210,153,34,0.12); border: 2px solid var(--orange); color: var(--orange); }
+  .pipe-node.asm { background: rgba(88,166,255,0.12); border: 2px solid var(--accent); color: var(--accent); }
+  .pipe-node.aug { background: rgba(86,212,221,0.12); border: 2px solid var(--cyan); color: var(--cyan); }
+  .pipe-node.output { background: rgba(63,185,80,0.15); border: 2px solid var(--green); color: var(--green); }
+
+  .pipe-node .sub { font-size: 12px; font-weight: 400; color: var(--text-dim); margin-top: 4px;
+    transition: color 0.3s; }
+  .pipe-node.off .sub { color: var(--off); }
+
+  .pipe-arrow { font-size: 22px; color: var(--text-dim); transition: opacity 0.3s; }
+  .pipe-arrow.off { opacity: 0.15; }
+  .pipe-arrow.vert { display: block; text-align: center; margin: 4px 0; }
+
+  .pipe-split { display: flex; gap: 40px; justify-content: center; align-items: flex-start; }
+  .pipe-branch { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+  .pipe-label { font-size: 12px; color: var(--text-dim); text-align: center; margin: 2px 0;
+    transition: opacity 0.3s; }
+  .pipe-label.off { opacity: 0.15; }
+
+  /* IntentSpec cards — shown beside pipeline nodes */
+  .pipe-node-with-card { display: flex; align-items: center; gap: 14px; justify-content: center;
+    transition: opacity 0.3s; }
+  .pipe-node-with-card.off { opacity: 0.15; }
+
+  .pipe-card { background: var(--bg); border-radius: 6px; padding: 10px 14px;
+    font-size: 14px; max-width: 420px; line-height: 1.5; }
+  .pipe-card code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; }
+  .pipe-card.ner { border: 1px solid rgba(63,185,80,0.3); color: var(--green); }
+  .pipe-card.llm { border: 1px solid rgba(188,140,255,0.3); color: var(--purple); }
+  .pipe-card.rag { border: 1px solid rgba(86,212,221,0.3); color: var(--cyan); }
+  .pipe-card.merge { border: 1px solid rgba(210,153,34,0.3); color: var(--orange); }
+  .pipe-card.asm { border: 1px solid rgba(88,166,255,0.3); color: var(--accent); }
+  .pipe-card.aug { border: 1px solid rgba(86,212,221,0.3); color: var(--green); }
+  .pipe-card .card-title { font-size: 11px; text-transform: uppercase; color: var(--text-dim);
+    letter-spacing: 0.3px; margin-bottom: 4px; font-weight: 600; }
+
+  .pipe-card-standalone { display: flex; justify-content: center; margin: 4px 0;
+    transition: opacity 0.3s; }
+  .pipe-card-standalone.off { opacity: 0.15; }
+
+  /* Step cards */
+  .step { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; margin: 16px 0; transition: opacity 0.3s; }
+  .step.off { opacity: 0.25; }
+  .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .step-num.ner { background: rgba(63,185,80,0.2); color: var(--green); }
+  .step-num.llm { background: rgba(188,140,255,0.2); color: var(--purple); }
+  .step-num.rag { background: rgba(86,212,221,0.2); color: var(--cyan); }
+  .step-num.merge { background: rgba(210,153,34,0.2); color: var(--orange); }
+  .step-num.asm { background: rgba(88,166,255,0.2); color: var(--accent); }
+  .step-num.aug { background: rgba(86,212,221,0.2); color: var(--cyan); }
+  .step-title { font-size: 19px; font-weight: 600; }
+
+  .example { background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0; }
+  .example-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--text-dim); margin-bottom: 6px; font-weight: 600; }
+  .example code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 15px; }
+  .example .input { color: var(--text-dim); }
+  .example .output { color: var(--green); }
+  .example .arrow { color: var(--orange); margin: 4px 0; display: block; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 16px; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface); color: var(--text-dim);
+    font-weight: 600; border-bottom: 2px solid var(--border); font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.3px; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  td code { background: rgba(88,166,255,0.1); padding: 1px 5px; border-radius: 3px;
+    font-size: 14px; color: var(--accent); }
+
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 13px;
+    font-weight: 600; white-space: nowrap; }
+  .badge-ner { background: rgba(63,185,80,0.2); color: var(--green); }
+  .badge-llm { background: rgba(188,140,255,0.2); color: var(--purple); }
+  .badge-both { background: rgba(210,153,34,0.2); color: var(--orange); }
+  .badge-runtime { background: rgba(86,212,221,0.2); color: var(--cyan); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin: 16px 0 24px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px; text-align: center; }
+  .stat-card .num { font-size: 32px; font-weight: 700; color: var(--accent); }
+  .stat-card .label { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+
+  .aug-example { display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    margin: 8px 0; font-size: 15px; }
+  .aug-example .before { color: var(--text-dim); font-family: monospace; }
+  .aug-example .arr { color: var(--orange); font-weight: 700; flex-shrink: 0; }
+  .aug-example .after { color: var(--green); font-family: monospace; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>NLS Pipeline</h1>
+  <div class="tab-nav">
+    <a href="/demo">Demo</a>
+    <a href="/demo/architecture" class="active">Architecture</a>
+  </div>
+</div>
+
+<div class="content">
+
+<div class="stats">
+  <div class="stat-card"><div class="num">4,924</div><div class="label">Gold training examples</div></div>
+  <div class="stat-card"><div class="num">1.7B</div><div class="label">Qwen3 fine-tuned LLM</div></div>
+  <div class="stat-card"><div class="num">5</div><div class="label">Runtime augmentation modules</div></div>
+  <div class="stat-card"><div class="num">&lt;2s</div><div class="label">End-to-end latency</div></div>
+</div>
+
+<h2>Interactive Pipeline Diagram</h2>
+<p>Select a mode to see which components are active. Greyed-out components are bypassed in that mode.</p>
+
+<div class="mode-selector">
+  <button onclick="setArchMode('heuristics')">Heuristics only</button>
+  <button onclick="setArchMode('llm')">LLM only</button>
+  <button onclick="setArchMode('hybrid')">Hybrid</button>
+  <button class="active" onclick="setArchMode('hybrid-rag')">Hybrid + RAG</button>
+</div>
+
+<div class="pipeline" id="pipeline-diagram">
+  <!-- Input -->
+  <div class="pipe-row">
+    <div class="pipe-node input on" id="n-input">
+      NL Input
+      <div class="sub">"PhD theses about galaxy evolution from CfA"</div>
+    </div>
+  </div>
+
+  <div class="pipe-arrow vert on" id="a-split">|</div>
+  <div class="pipe-label on" id="l-parallel">parallel execution</div>
+
+  <!-- Split: Heuristics / RAG+LLM -->
+  <div class="pipe-split">
+
+    <!-- Heuristics branch -->
+    <div class="pipe-branch">
+      <div class="pipe-node ner on" id="n-ner">
+        Heuristics Pipeline
+        <div class="sub">rules-based, &lt;20ms</div>
+      </div>
+      <div class="pipe-arrow vert on" id="a-ner-down">|</div>
+      <div class="pipe-node-with-card on" id="ex-ner">
+        <div class="pipe-node ner on" id="n-ner-intent" style="min-width:140px">
+          IntentSpec<sub>Heuristics</sub>
+        </div>
+        <div class="pipe-card ner">
+          <code>"free_text_terms": ["galaxy evolution"]<br>"affiliations": ["CfA"]<br>"bibgroup": ["CfA"]</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- RAG + LLM branch -->
+    <div class="pipe-branch">
+      <div class="pipe-node rag on" id="n-rag">
+        RAG Retrieval
+        <div class="sub">BM25, &lt;20ms, 3 examples</div>
+      </div>
+      <div class="pipe-card-standalone on" id="ex-rag">
+        <div class="pipe-card rag">
+          <div class="card-title">Few-shot context</div>
+          <code>"PhD theses on galaxy evolution"<br>-> {"doctype": ["phdthesis"]}</code>
+        </div>
+      </div>
+      <div class="pipe-arrow vert on" id="a-rag-down">|</div>
+      <div class="pipe-node llm on" id="n-llm">
+        Fine-Tuned LLM
+        <div class="sub">Qwen3-1.7B, ~500ms</div>
+      </div>
+      <div class="pipe-card-standalone on" id="ex-llm-raw">
+        <div class="pipe-card llm">
+          <div class="card-title">Raw LLM output</div>
+          <code><span style="color:var(--text-dim)">&lt;think&gt;<br>User wants PhD theses about galaxy evolution.<br>Doctype: phdthesis. Topic: galaxy evolution.<br>&lt;/think&gt;</span><br>{"free_text_terms": ["galaxy evolution"],<br> "doctype": ["phdthesis"]}</code>
+        </div>
+      </div>
+      <div class="pipe-arrow vert on" id="a-llm-down">|</div>
+      <div class="pipe-node-with-card on" id="ex-llm">
+        <div class="pipe-node llm on" id="n-llm-intent" style="min-width:140px">
+          IntentSpec<sub>LLM</sub>
+        </div>
+        <div class="pipe-card llm">
+          <code>"free_text_terms": ["galaxy evolution"]<br>"doctype": ["phdthesis"]</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-label on" id="l-merge-label">per-field merge policies</div>
+  <div class="pipe-arrow vert on" id="a-merge-in">|</div>
+
+  <!-- Merge -->
+  <div class="pipe-row">
+    <div class="pipe-node merge on" id="n-merge">
+      merge_intents()
+      <div class="sub">per-field: authors from Heuristics, topics from LLM, operator from LLM, affiliations from Heuristics</div>
+    </div>
+  </div>
+
+  <div class="pipe-arrow vert on" id="a-merge-out">|</div>
+
+  <div class="pipe-row">
+    <div class="pipe-node-with-card on" id="ex-merge">
+      <div class="pipe-node merge on" style="min-width:140px">
+        IntentSpec<sub>Merged</sub>
+      </div>
+      <div class="pipe-card merge">
+        <code>"free_text_terms": ["galaxy evolution"] <span style="color:var(--text-dim)">// LLM</span><br>"affiliations": ["CfA"] <span style="color:var(--text-dim)">// Heuristics</span><br>"bibgroup": ["CfA"] <span style="color:var(--text-dim)">// Heuristics</span><br>"doctype": ["phdthesis"] <span style="color:var(--text-dim)">// LLM</span></code>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-arrow vert on" id="a-asm-in">|</div>
+
+  <!-- Assembler -->
+  <div class="pipe-row">
+    <div class="pipe-node asm on" id="n-asm">
+      assemble_query()
+      <div class="sub">deterministic, valid ADS syntax</div>
+    </div>
+  </div>
+
+  <div class="pipe-card-standalone on" id="ex-asm" style="margin:8px auto;max-width:560px">
+    <div class="pipe-card asm">
+      <div class="card-title">Assembled query</div>
+      <code>abs:"galaxy evolution" (inst:"CfA" OR aff:"CfA") bibgroup:CfA doctype:phdthesis</code>
+    </div>
+  </div>
+
+  <div class="pipe-arrow vert on" id="a-aug-in">|</div>
+
+  <!-- Augmentation -->
+  <div class="pipe-row">
+    <div class="pipe-node aug on" id="n-aug">
+      Runtime Augmentation
+      <div class="sub">UAT, planetary, inst, bibstem, author wildcard</div>
+    </div>
+  </div>
+
+  <div class="pipe-card-standalone on" id="ex-aug" style="margin:8px auto;max-width:580px">
+    <div class="pipe-card aug">
+      <div class="card-title">Final query</div>
+      <code>(abs:"galaxy evolution" OR uat:"Galaxy evolution")<br>(inst:"CfA" OR aff:"CfA") bibgroup:CfA doctype:phdthesis</code>
+    </div>
+  </div>
+
+  <div class="pipe-arrow vert on" id="a-out">|</div>
+
+  <!-- Output -->
+  <div class="pipe-row">
+    <div class="pipe-node output on" id="n-output">
+      ADS Query
+      <div class="sub">sent to SciXplorer</div>
+    </div>
+  </div>
+</div>
+
+<!-- Step-by-step walkthrough -->
+<h2>Step-by-Step Walkthrough</h2>
+<p class="dim">Example: <b style="color:var(--text)">"PhD theses about galaxy evolution from CfA"</b></p>
+
+<div class="step on" id="s-ner" data-for="ner llm hybrid hybrid-rag">
+  <div class="step-header">
+    <div class="step-num ner">1</div>
+    <div class="step-title">Heuristics Pipeline <span class="badge badge-ner">rules-based, &lt;20ms</span></div>
+  </div>
+  <p>Pattern matching extracts authors, years, institutions, bibstems, objects, and topics. Validated against curated synonym lists.</p>
+  <div class="example">
+    <div class="example-label">Output: IntentSpec (Heuristics)</div>
+    <div class="output"><code>{ "free_text_terms": ["galaxy evolution"],
+  "affiliations": ["CfA"], "bibgroup": ["CfA"] }</code></div>
+  </div>
+  <p class="dim">Heuristics catch affiliations and bibgroups but can't understand "PhD theses" = <code>doctype:phdthesis</code>.</p>
+</div>
+
+<div class="step on" id="s-rag" data-for="hybrid-rag">
+  <div class="step-header">
+    <div class="step-num rag">2</div>
+    <div class="step-title">RAG Retrieval <span class="badge badge-runtime">parallel with heuristics, &lt;20ms</span></div>
+  </div>
+  <p>BM25 finds 2-3 similar gold examples from 4,924 training pairs. Injected as few-shot user/assistant pairs before the user query. Field cards with valid enum values also injected.</p>
+  <div class="example">
+    <div class="example-label">Retrieved few-shot examples</div>
+    <div class="output"><code>1. "PhD theses on galaxy evolution"
+   -> {"free_text_terms": ["galaxy evolution"], "doctype": ["phdthesis"]}
+2. "looking for masters theses"
+   -> {"doctype": ["mastersthesis"]}</code></div>
+  </div>
+</div>
+
+<div class="step on" id="s-llm" data-for="llm hybrid hybrid-rag">
+  <div class="step-header">
+    <div class="step-num llm">3</div>
+    <div class="step-title">Fine-Tuned LLM <span class="badge badge-llm">Qwen3-1.7B, ~500ms</span></div>
+  </div>
+  <p>Generates <code>&lt;think&gt;</code> reasoning followed by IntentSpec JSON. Understands operators, negation, metrics, doctypes.</p>
+  <div class="example">
+    <div class="example-label">LLM output</div>
+    <div class="output"><code>&lt;think&gt;
+User wants PhD theses about galaxy evolution. Doctype: phdthesis.
+&lt;/think&gt;
+{"free_text_terms": ["galaxy evolution"], "doctype": ["phdthesis"]}</code></div>
+  </div>
+</div>
+
+<div class="step on" id="s-merge" data-for="hybrid hybrid-rag">
+  <div class="step-header">
+    <div class="step-num merge">4</div>
+    <div class="step-title">Intent Merge <span class="badge badge-both">&lt;1ms</span></div>
+  </div>
+  <p>Per-field policies combine the best of both intents. Each field has a preferred source.</p>
+  <div class="example">
+    <div class="example-label">Merged result</div>
+    <div class="output"><code>{ "free_text_terms": ["galaxy evolution"],  <span class="dim">// LLM (preferred)</span>
+  "affiliations": ["CfA"],                 <span class="dim">// Heuristics (validated)</span>
+  "bibgroup": ["CfA"],                     <span class="dim">// Heuristics</span>
+  "doctype": ["phdthesis"] }               <span class="dim">// LLM (Heuristics can't detect)</span></code></div>
+  </div>
+</div>
+
+<div class="step on" id="s-asm" data-for="ner llm hybrid hybrid-rag">
+  <div class="step-header">
+    <div class="step-num asm">5</div>
+    <div class="step-title">Assembler <span class="badge" style="background:rgba(88,166,255,0.2);color:var(--accent)">deterministic</span></div>
+  </div>
+  <p>IntentSpec -> valid ADS query. Always produces correct syntax.</p>
+  <div class="example">
+    <div class="example-label">Assembled query</div>
+    <div class="output"><code>abs:"galaxy evolution" (inst:"CfA" OR aff:"CfA") bibgroup:CfA doctype:phdthesis</code></div>
+  </div>
+</div>
+
+<div class="step on" id="s-aug" data-for="ner llm hybrid hybrid-rag">
+  <div class="step-header">
+    <div class="step-num aug">6</div>
+    <div class="step-title">Runtime Augmentation <span class="badge badge-runtime">post-assembly</span></div>
+  </div>
+  <p>Five modules transparently enhance the query at serving time. No retraining needed.</p>
+  <div class="example">
+    <div class="example-label">Final query</div>
+    <div class="output"><code>(abs:"galaxy evolution" OR uat:"Galaxy evolution") (inst:"CfA" OR aff:"CfA") bibgroup:CfA doctype:phdthesis</code></div>
+  </div>
+</div>
+
+<!-- Merge Policies -->
+<h2>Merge Policies</h2>
+<table>
+  <tr><th>Field</th><th>Source</th><th>Why</th></tr>
+  <tr><td><code>authors</code></td><td><span class="badge badge-ner">Heuristics</span></td><td>Better name formatting ("Last, F" format)</td></tr>
+  <tr><td><code>free_text_terms</code></td><td><span class="badge badge-llm">LLM</span></td><td>Understands context, distills verbose descriptions</td></tr>
+  <tr><td><code>year_from/year_to</code></td><td><span class="badge badge-ner">Heuristics</span></td><td>Validated against date patterns</td></tr>
+  <tr><td><code>affiliations</code></td><td><span class="badge badge-ner">Heuristics</span></td><td>Validated against institution_synonyms.json</td></tr>
+  <tr><td><code>bibstems</code></td><td><span class="badge badge-ner">Heuristics</span></td><td>Validated against bibstem_synonyms.json</td></tr>
+  <tr><td><code>operator</code></td><td><span class="badge badge-llm">LLM</span></td><td>Handles citations(), trending(), similar()</td></tr>
+  <tr><td><code>negation</code></td><td><span class="badge badge-llm">LLM only</span></td><td>Heuristics can't detect "excluding", "without"</td></tr>
+  <tr><td><code>citation_count</code></td><td><span class="badge badge-llm">LLM only</span></td><td>Heuristics can't extract numeric thresholds</td></tr>
+  <tr><td><code>doctype / property</code></td><td><span class="badge badge-both">Union</span></td><td>Both contribute; strips <code>doctype:article</code> for generic "papers"</td></tr>
+</table>
+
+<!-- Runtime Augmentation -->
+<h2>Runtime Augmentation (5 Modules)</h2>
+
+<h3>UAT (Unified Astronomy Thesaurus) &mdash; 4,144 terms</h3>
+<div class="aug-example"><span class="before">abs:"dark matter"</span><span class="arr">--></span><span class="after">(abs:"dark matter" OR uat:"Dark matter")</span></div>
+<div class="aug-example"><span class="before">abs:"exoplanet atmospheres"</span><span class="arr">--></span><span class="after">(abs:"exoplanet atmospheres" OR uat:"Exoplanet atmospheres")</span></div>
+
+<h3>Planetary Feature Gazetteer &mdash; 8,915 terms</h3>
+<div class="aug-example"><span class="before">abs:"Olympus Mons"</span><span class="arr">--></span><span class="after">(abs:"Olympus Mons" OR planetary_feature:"Olympus Mons")</span></div>
+
+<h3>Institution Expansion &mdash; 56 institutions, 170 synonyms</h3>
+<div class="aug-example"><span class="before">aff:"NASA"</span><span class="arr">--></span><span class="after">(inst:"JPL" OR inst:"GSFC" OR inst:"NASA Ames" OR inst:"MSFC" OR aff:"NASA")</span></div>
+<div class="aug-example"><span class="before">aff:"Max Planck"</span><span class="arr">--></span><span class="after">(inst:"MPA" OR inst:"MPE" OR inst:"MPIA" OR aff:"Max Planck")</span></div>
+
+<h3>Bibstem Normalization &mdash; 70 journal mappings</h3>
+<div class="aug-example"><span class="before">bibstem:"Nature"</span><span class="arr">--></span><span class="after">bibstem:"Natur"</span></div>
+<div class="aug-example"><span class="before">bibstem:"Astrophysical Journal"</span><span class="arr">--></span><span class="after">bibstem:"ApJ"</span></div>
+
+<h3>Complex Author Wildcarding</h3>
+<div class="aug-example"><span class="before">author:"El-Badry"</span><span class="arr">--></span><span class="after">author:"El*Badry*"</span></div>
+<div class="aug-example"><span class="before">author:"de Groot-Hedlin"</span><span class="arr">--></span><span class="after">author:"de*Groot*Hedlin*"</span></div>
+
+<!-- Capability matrix -->
+<h2>What Each System Handles</h2>
+<table>
+  <tr><th>Capability</th><th>Heuristics</th><th>LLM</th><th>Example</th></tr>
+  <tr><td>Author names</td><td><span class="badge badge-ner">Yes</span></td><td><span class="badge badge-llm">Yes</span></td><td><code>author:"Hawking, S"</code></td></tr>
+  <tr><td>Date ranges</td><td><span class="badge badge-ner">Yes</span></td><td><span class="badge badge-llm">Yes</span></td><td><code>pubdate:[1970 TO 1979]</code></td></tr>
+  <tr><td>Institutions</td><td><span class="badge badge-ner">Yes</span></td><td style="color:var(--text-dim)">Weak</td><td><code>(inst:"CfA" OR aff:"CfA")</code></td></tr>
+  <tr><td>Journals</td><td><span class="badge badge-ner">Yes</span></td><td style="color:var(--text-dim)">Weak</td><td><code>bibstem:"ApJ"</code></td></tr>
+  <tr><td>Operators</td><td style="color:var(--text-dim)">No</td><td><span class="badge badge-llm">Yes</span></td><td><code>citations(abs:"LIGO")</code></td></tr>
+  <tr><td>Negation</td><td style="color:var(--text-dim)">No</td><td><span class="badge badge-llm">Yes</span></td><td><code>NOT doctype:eprint</code></td></tr>
+  <tr><td>Citation count</td><td style="color:var(--text-dim)">No</td><td><span class="badge badge-llm">Yes</span></td><td><code>citation_count:[500 TO *]</code></td></tr>
+  <tr><td>Doctype</td><td style="color:var(--text-dim)">Limited</td><td><span class="badge badge-llm">Yes</span></td><td><code>doctype:phdthesis</code></td></tr>
+  <tr><td>Relative dates</td><td style="color:var(--text-dim)">No</td><td><span class="badge badge-llm">Yes</span></td><td><code>entdate:[NOW-7DAYS TO *]</code></td></tr>
+</table>
+
+</div>
+
+<script>
+let archMode = 'hybrid-rag';
+
+// Which diagram nodes are active per mode
+const modeConfig = {
+  'heuristics': {
+    on: ['n-input', 'n-ner', 'n-ner-intent', 'n-asm', 'n-aug', 'n-output',
+         'ex-ner', 'ex-asm', 'ex-aug', 'a-split', 'a-ner-down', 'a-asm-in', 'a-aug-in', 'a-out',
+         'l-parallel'],
+    off: ['n-rag', 'n-llm', 'n-llm-intent', 'n-merge',
+          'ex-rag', 'ex-llm-raw', 'ex-llm', 'ex-merge', 'a-rag-down', 'a-llm-down',
+          'a-merge-in', 'a-merge-out', 'l-merge-label'],
+    steps: ['s-ner', 's-asm', 's-aug'],
+  },
+  'llm': {
+    on: ['n-input', 'n-llm', 'n-llm-intent', 'n-asm', 'n-aug', 'n-output',
+         'ex-llm-raw', 'ex-llm', 'ex-asm', 'ex-aug', 'a-split', 'a-llm-down',
+         'a-asm-in', 'a-aug-in', 'a-out', 'l-parallel'],
+    off: ['n-ner', 'n-ner-intent', 'n-rag', 'n-merge',
+          'ex-ner', 'ex-rag', 'ex-merge', 'a-ner-down', 'a-rag-down',
+          'a-merge-in', 'a-merge-out', 'l-merge-label'],
+    steps: ['s-llm', 's-asm', 's-aug'],
+  },
+  'hybrid': {
+    on: ['n-input', 'n-ner', 'n-ner-intent', 'n-llm', 'n-llm-intent', 'n-merge', 'n-asm', 'n-aug', 'n-output',
+         'ex-ner', 'ex-llm-raw', 'ex-llm', 'ex-merge', 'ex-asm', 'ex-aug',
+         'a-split', 'a-ner-down', 'a-llm-down', 'a-merge-in', 'a-merge-out',
+         'a-asm-in', 'a-aug-in', 'a-out', 'l-parallel', 'l-merge-label'],
+    off: ['n-rag', 'ex-rag', 'a-rag-down'],
+    steps: ['s-ner', 's-llm', 's-merge', 's-asm', 's-aug'],
+  },
+  'hybrid-rag': {
+    on: ['n-input', 'n-ner', 'n-ner-intent', 'n-rag', 'n-llm', 'n-llm-intent', 'n-merge', 'n-asm', 'n-aug', 'n-output',
+         'ex-ner', 'ex-rag', 'ex-llm-raw', 'ex-llm', 'ex-merge', 'ex-asm', 'ex-aug',
+         'a-split', 'a-ner-down', 'a-rag-down', 'a-llm-down', 'a-merge-in', 'a-merge-out',
+         'a-asm-in', 'a-aug-in', 'a-out', 'l-parallel', 'l-merge-label'],
+    off: [],
+    steps: ['s-ner', 's-rag', 's-llm', 's-merge', 's-asm', 's-aug'],
+  },
+};
+
+function setArchMode(mode) {
+  archMode = mode;
+  document.querySelectorAll('.mode-selector button').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase().replace(/\s+/g, '-')
+      .replace('heuristics-only', 'heuristics').replace('llm-only', 'llm')
+      .replace('hybrid-+-rag', 'hybrid-rag') === mode);
+  });
+
+  const cfg = modeConfig[mode];
+
+  // Diagram nodes
+  cfg.on.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.classList.add('on'); el.classList.remove('off'); }
+  });
+  cfg.off.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove('on'); el.classList.add('off'); }
+  });
+
+  // Step cards
+  const allSteps = ['s-ner', 's-rag', 's-llm', 's-merge', 's-asm', 's-aug'];
+  allSteps.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('off', !cfg.steps.includes(id));
+  });
+}
+
+// Fix mode button matching
+document.querySelectorAll('.mode-selector button').forEach(btn => {
+  const text = btn.textContent.trim();
+  if (text === 'Heuristics only') btn.dataset.mode = 'heuristics';
+  else if (text === 'LLM only') btn.dataset.mode = 'llm';
+  else if (text === 'Hybrid') btn.dataset.mode = 'hybrid';
+  else if (text === 'Hybrid + RAG') btn.dataset.mode = 'hybrid-rag';
+  btn.onclick = () => setArchMode(btn.dataset.mode);
+});
+
+// Init
+setArchMode('hybrid-rag');
+</script>
+</body>
+</html>

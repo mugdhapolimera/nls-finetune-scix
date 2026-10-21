@@ -193,6 +193,13 @@ class IntentSpec:
         "negated_properties", "negated_doctypes", "has_fields",
     )
 
+    _LIST_FIELDS = (
+        "free_text_terms", "or_terms", "authors", "affiliations", "bibstems",
+        "objects", "planetary_features", "negated_terms", "identifiers",
+        "keyword_terms", "arxiv_classes", "orcid_ids", "ack_terms",
+        "grant_terms", "title_terms", "full_text_terms", "passthrough_clauses",
+    )
+
     def to_dict(self) -> dict:
         """Convert to dictionary for JSON serialization.
 
@@ -213,6 +220,7 @@ class IntentSpec:
         """Create IntentSpec from dictionary.
 
         Handles conversion of lists back to sets for enum fields.
+        Coerces scalar strings to single-element lists for list fields.
         Filters out unknown keys to prevent crashes from extra fields.
         """
         from dataclasses import fields as dc_fields
@@ -223,6 +231,11 @@ class IntentSpec:
         for key in cls._SET_FIELDS:
             if key in filtered and isinstance(filtered[key], list):
                 filtered[key] = set(filtered[key])
+        # Coerce scalar strings to [string] for list fields
+        # (prevents character-by-character iteration bugs)
+        for key in cls._LIST_FIELDS:
+            if key in filtered and isinstance(filtered[key], str):
+                filtered[key] = [filtered[key]]
         return cls(**filtered)
 
     @classmethod
@@ -248,6 +261,7 @@ class IntentSpec:
 
         Unlike from_dict(), this safely ignores keys that don't correspond
         to IntentSpec fields (e.g., extra metadata from LLM output).
+        Coerces scalar strings to single-element lists for list fields.
         """
         from dataclasses import fields as dc_fields
 
@@ -257,6 +271,11 @@ class IntentSpec:
         for key in cls._SET_FIELDS:
             if key in filtered and isinstance(filtered[key], list):
                 filtered[key] = set(filtered[key])
+        # Coerce scalar strings to [string] for list fields
+        # (prevents character-by-character iteration bugs)
+        for key in cls._LIST_FIELDS:
+            if key in filtered and isinstance(filtered[key], str):
+                filtered[key] = [filtered[key]]
         return cls(**filtered)
 
     def __repr__(self) -> str:

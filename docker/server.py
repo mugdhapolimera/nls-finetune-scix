@@ -42,6 +42,7 @@ import torch
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -54,12 +55,19 @@ RAG_ENABLED = os.environ.get("RAG_ENABLED", "true").lower() in ("true", "1", "ye
 RAG_NUM_EXAMPLES = int(os.environ.get("RAG_NUM_EXAMPLES", "3"))
 RAG_MAX_CARDS = int(os.environ.get("RAG_MAX_CARDS", "2"))
 LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "1.5"))
-SYSTEM_PROMPT = '''Convert natural language to ADS/SciX search query. Output JSON: {"query": "..."}
+SYSTEM_PROMPT_LEGACY = '''Convert natural language to ADS/SciX search query. Output JSON: {"query": "..."}
 
 Example:
 User: Query: papers by Hawking on black holes from the 1970s
 Date: 2025-03-16
 Assistant: {"query": "author:\\"Hawking, S\\" abs:\\"black holes\\" pubdate:[1970 TO 1979]"}'''
+
+# Use intent prompt if available (for intent-format models), fall back to legacy
+try:
+    from finetune.domains.scix.prompts import SYSTEM_PROMPT_INTENT
+    SYSTEM_PROMPT = SYSTEM_PROMPT_INTENT
+except ImportError:
+    SYSTEM_PROMPT = SYSTEM_PROMPT_LEGACY
 
 # Try to import pipeline components (optional, for full pipeline mode)
 try:
@@ -357,6 +365,7 @@ def generate_query(messages: list[ChatMessage], max_tokens: int = 256, raw: bool
             **inputs,
             max_new_tokens=max_tokens,
             do_sample=False,
+            repetition_penalty=1.1,
             pad_token_id=tokenizer.eos_token_id,
         )
 
@@ -488,8 +497,8 @@ def parse_llm_response(response: str) -> tuple[object | None, str]:
 
         data = json.loads(response[json_start:json_end])
 
-        # Old format: {"query": "..."}
-        if "query" in data and len(data) == 1:
+        # Old format: {"query": "..."} (possibly with extra keys like "journals")
+        if "query" in data:
             return None, data["query"]
 
         # New format: IntentSpec compact dict
@@ -497,10 +506,19 @@ def parse_llm_response(response: str) -> tuple[object | None, str]:
             intent = IntentSpec.from_compact_dict(data)
             if intent.has_content():
                 return intent, raw
-            # Empty intent — fall back
-            return None, response
+            # Empty intent — JSON didn't match IntentSpec fields.
+            # Strip the unrecognized JSON from the response so it doesn't
+            # leak into the final query (e.g. {"journals": [...]}).
+            text_before = response[:json_start].strip()
+            text_after = response[json_end:].strip()
+            stripped = f"{text_before} {text_after}".strip() if text_after else text_before
+            return None, stripped if stripped else response
 
-        return None, response
+        # IntentSpec not available — strip unrecognized JSON
+        text_before = response[:json_start].strip()
+        text_after = response[json_end:].strip()
+        stripped = f"{text_before} {text_after}".strip() if text_after else text_before
+        return None, stripped if stripped else response
     except (json.JSONDecodeError, TypeError, ValueError):
         return None, response
 
@@ -633,6 +651,63 @@ async def health():
     }
 
 
+class ConfigUpdate(BaseModel):
+    hybrid_mode: bool | None = None
+    rag_enabled: bool | None = None
+    rag_num_examples: int | None = None
+    rag_max_cards: int | None = None
+    llm_timeout: float | None = None
+
+
+@app.get("/config")
+async def get_config():
+    """Return current runtime configuration."""
+    return {
+        "hybrid_mode": HYBRID_MODE,
+        "rag_enabled": RAG_ENABLED,
+        "rag_num_examples": RAG_NUM_EXAMPLES,
+        "rag_max_cards": RAG_MAX_CARDS,
+        "llm_timeout": LLM_TIMEOUT,
+        "pipeline_available": PIPELINE_AVAILABLE,
+        "model_loaded": model is not None,
+    }
+
+
+@app.post("/config")
+async def update_config(update: ConfigUpdate):
+    """Update runtime configuration (mutates module-level globals)."""
+    global HYBRID_MODE, RAG_ENABLED, RAG_NUM_EXAMPLES, RAG_MAX_CARDS, LLM_TIMEOUT
+    if update.hybrid_mode is not None:
+        HYBRID_MODE = update.hybrid_mode
+    if update.rag_enabled is not None:
+        RAG_ENABLED = update.rag_enabled
+    if update.rag_num_examples is not None:
+        RAG_NUM_EXAMPLES = update.rag_num_examples
+    if update.rag_max_cards is not None:
+        RAG_MAX_CARDS = update.rag_max_cards
+    if update.llm_timeout is not None:
+        LLM_TIMEOUT = update.llm_timeout
+    return await get_config()
+
+
+@app.get("/demo", response_class=HTMLResponse)
+async def demo_dashboard():
+    """Serve the demo dashboard HTML page."""
+    html_path = Path(__file__).parent / "demo_dashboard.html"
+    if html_path.exists():
+        return HTMLResponse(content=html_path.read_text())
+    raise HTTPException(status_code=404, detail="demo_dashboard.html not found")
+
+
+@app.get("/demo/architecture", response_class=HTMLResponse)
+async def demo_architecture():
+    """Serve the pipeline architecture page."""
+    html_path = Path(__file__).parent / "demo_architecture.html"
+    if html_path.exists():
+        return HTMLResponse(content=html_path.read_text())
+    raise HTTPException(status_code=404, detail="demo_architecture.html not found")
+
+
 @app.get("/debug/pipeline")
 async def debug_pipeline(q: str = "recent papers from cfa on the hubble tension"):
     """Debug endpoint: run pipeline directly, return result or error."""
@@ -700,6 +775,82 @@ async def debug_hybrid(q: str = "recent papers from cfa on the hubble tension"):
                 "field_cards": select_cards(q, RAG_MAX_CARDS) if RAG_ENABLED and select_cards else [],
             },
         }
+    except Exception as e:
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}
+
+
+@app.get("/debug/llm")
+async def debug_llm(q: str = "recent papers from cfa on the hubble tension"):
+    """Debug endpoint: run LLM-only path, return full details."""
+    if model is None:
+        return {"error": "Model not loaded"}
+    try:
+        start = time.time()
+        messages = [
+            ChatMessage(role="system", content=SYSTEM_PROMPT),
+            ChatMessage(role="user", content=f"Query: {q}\nDate: {datetime.now().strftime('%Y-%m-%d')}"),
+        ]
+
+        # Optional RAG augmentation
+        rag_info: dict[str, Any] = {"enabled": RAG_ENABLED}
+        if RAG_ENABLED and retrieve_few_shot is not None:
+            few_shot = retrieve_few_shot(q, RAG_NUM_EXAMPLES)
+            cards = select_cards(q, RAG_MAX_CARDS) if select_cards else []
+            messages = build_rag_messages(messages, few_shot, cards)
+            rag_info["few_shot_count"] = len(few_shot)
+            rag_info["few_shot_examples"] = [
+                {"nl": ex["nl"], "intent_json": ex["intent_json"]} for ex in few_shot
+            ]
+            rag_info["field_cards"] = cards
+        else:
+            rag_info["few_shot_count"] = 0
+            rag_info["few_shot_examples"] = []
+            rag_info["field_cards"] = []
+
+        raw_response, p_tok, c_tok = generate_query(messages, 256, raw=True)
+        llm_ms = (time.time() - start) * 1000
+
+        # Parse response
+        llm_intent, clean_response = parse_llm_response(raw_response)
+
+        result: dict[str, Any] = {
+            "source": "llm_only",
+            "raw_response": raw_response,
+            "prompt_tokens": p_tok,
+            "completion_tokens": c_tok,
+            "rag": rag_info,
+        }
+
+        if llm_intent is not None:
+            from finetune.domains.scix.assembler import assemble_query
+            query = assemble_query(llm_intent)
+            if rewrite_abs_to_abs_or_uat is not None:
+                query = rewrite_abs_to_abs_or_uat(query)
+            if rewrite_abs_to_abs_or_planetary_feature is not None:
+                query = rewrite_abs_to_abs_or_planetary_feature(query)
+            result["query"] = query
+            result["intent"] = llm_intent.__dict__ if hasattr(llm_intent, "__dict__") else {}
+        else:
+            # Old format: apply string rewrites
+            query = clean_response
+            if rewrite_aff_to_inst_or_aff is not None:
+                query = rewrite_aff_to_inst_or_aff(query)
+            if rewrite_bibstem_values is not None:
+                query = rewrite_bibstem_values(query)
+            if rewrite_complex_author_wildcards is not None:
+                query = rewrite_complex_author_wildcards(query)
+            if rewrite_abs_to_abs_or_uat is not None:
+                query = rewrite_abs_to_abs_or_uat(query)
+            if rewrite_abs_to_abs_or_planetary_feature is not None:
+                query = rewrite_abs_to_abs_or_planetary_feature(query)
+            result["query"] = query
+            result["intent"] = None
+
+        total_ms = (time.time() - start) * 1000
+        result["timing"] = {"llm_ms": round(llm_ms, 1), "total_ms": round(total_ms, 1)}
+        return result
+
     except Exception as e:
         import traceback
         return {"error": str(e), "traceback": traceback.format_exc()}

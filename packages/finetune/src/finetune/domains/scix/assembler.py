@@ -16,6 +16,7 @@ from .constrain import constrain_query_output
 from .field_constraints import FIELD_ENUMS
 from .intent_spec import OPERATORS, IntentSpec
 from .pipeline import GoldExample
+from .validate import VALID_FIELD_PREFIXES
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +134,30 @@ def _wildcard_complex_author(name: str) -> str:
         wildcarded += "*"
 
     return f"{prefix}{wildcarded}"
+
+
+def _is_valid_passthrough(clause: str) -> bool:
+    """Check if a passthrough clause contains only valid ADS syntax.
+
+    Rejects:
+    - JSON fragments (curly braces)
+    - Unknown field names not in the Solr schema
+
+    Preserves: operator fragments, NOT clauses, bare terms, known field:value,
+    boolean connectors, ranges, bibcodes, DOIs, sort parameters.
+    """
+    # Curly braces are never valid in ADS syntax
+    if '{' in clause or '}' in clause:
+        return False
+
+    # Check any field:value patterns use recognized Solr fields
+    field_pattern = re.compile(r'(?<![.\d])(\^?[a-z_]{2,}):', re.IGNORECASE)
+    for match in field_pattern.finditer(clause):
+        field = match.group(1).lower()
+        if field not in VALID_FIELD_PREFIXES:
+            return False
+
+    return True
 
 
 def _build_author_clause(authors: Sequence[str]) -> str:
@@ -532,7 +557,16 @@ def assemble_query(intent: IntentSpec, examples: list[GoldExample] | None = None
 
     # Append passthrough clauses (complex patterns the parser couldn't decompose)
     if intent.passthrough_clauses:
-        clauses.extend(intent.passthrough_clauses)
+        # Defensive: if a string slipped through instead of a list, wrap it
+        pt_clauses = intent.passthrough_clauses
+        if isinstance(pt_clauses, str):
+            logger.warning("passthrough_clauses was a string, not a list — wrapping")
+            pt_clauses = [pt_clauses]
+        for clause in pt_clauses:
+            if _is_valid_passthrough(clause):
+                clauses.append(clause)
+            else:
+                logger.warning(f"Dropped invalid passthrough clause: {clause[:100]}")
 
     # Join all clauses with space (implicit AND)
     base_query = " ".join(clauses)

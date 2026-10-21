@@ -8,6 +8,7 @@ import logging
 import re
 
 from finetune.domains.scix.field_constraints import FIELD_ENUMS
+from finetune.domains.scix.validate import VALID_FIELD_PREFIXES
 
 logger = logging.getLogger(__name__)
 
@@ -185,6 +186,268 @@ def _fix_common_enum_misspellings(query: str) -> str:
     return query
 
 
+# --- Data-driven misplaced field value redirect ---
+# Build reverse index: value.lower() → (field_name, original_value)
+# Priority order: first match wins (doctype > property > database > ...)
+# "collection" omitted since it's an alias for "database" with identical values
+_FIELD_PRIORITY = ["doctype", "property", "database", "bibgroup", "esources", "data", "has"]
+
+_ENUM_REVERSE_INDEX: dict[str, tuple[str, str]] = {}
+for _field in _FIELD_PRIORITY:
+    if _field in FIELD_ENUMS:
+        for _val in FIELD_ENUMS[_field]:
+            _key = _val.lower()
+            if _key not in _ENUM_REVERSE_INDEX:  # First field wins (priority)
+                _ENUM_REVERSE_INDEX[_key] = (_field, _val)
+
+# Common English words that are valid enum values BUT also legitimate abs:/title:
+# search terms. These MUST NOT be redirected.
+_COMMON_WORDS: frozenset[str] = frozenset({
+    # Doctypes that are common English words / legitimate abstract topics
+    "abstract", "article", "book", "catalog", "circular", "editorial",
+    "talk", "software", "proceedings", "proposal", "obituary", "misc",
+    # Properties that are common words
+    "data", "presentation",
+    # Collections — all are common topic words
+    "astronomy", "physics", "general", "earthscience",
+    # Telescope/mission names — valid abs: terms (abs:"Chandra" ≠ bibgroup:Chandra)
+    "hst", "jwst", "chandra", "xmm", "galex", "tess", "k2",
+    "spitzer", "kepler", "copernicus", "swift", "herschel",
+    "iso", "gemini", "keck", "magellan", "subaru", "alma",
+    "soho", "stereo", "rosat", "fuse", "iue", "euve",
+    # Data/archive names that appear in abstracts
+    "mast", "simbad", "vizier", "ned", "irsa", "esa", "eso",
+    "heasarc", "pds", "cxo",
+    # Institutional/program names
+    "leiden", "seti", "cfa",
+}) | frozenset(
+    # All has: values safelisted — has:X means "paper has field X populated",
+    # semantically different from searching for "X" in abstract text
+    v.lower() for v in FIELD_ENUMS.get("has", ())
+)
+
+# User-friendly synonyms: natural terms that aren't exact enum values
+# but unambiguously map to a specific field:value
+_USER_SYNONYMS: dict[str, tuple[str, str]] = {
+    "preprint": ("doctype", "eprint"),
+    "preprints": ("doctype", "eprint"),
+    "peer-reviewed": ("property", "refereed"),
+    "peer reviewed": ("property", "refereed"),
+    "open access": ("property", "openaccess"),
+    "open-access": ("property", "openaccess"),
+    "non-refereed": ("property", "nonarticle"),
+}
+
+
+def _fix_misplaced_field_values(query: str) -> str:
+    """Redirect abs:/title: values that belong in enum-constrained fields.
+
+    Uses a reverse index built from FIELD_ENUMS to automatically detect
+    when an enum value is misplaced in abs: or title:. A common-words
+    safelist prevents redirecting legitimate abstract search terms.
+
+    Handles both positive and negated forms:
+    - abs:"eprint" -> doctype:eprint
+    - NOT abs:"preprint" -> NOT doctype:eprint
+    - -abs:"nonarticle" -> -property:nonarticle
+    """
+    for field in ("abs", "title"):
+        # Match quoted: abs:"value" or NOT abs:"value" or -abs:"value"
+        for match in re.finditer(
+            rf'((?:NOT\s+|-)?){field}:\s*"([^"]+)"', query, re.IGNORECASE
+        ):
+            prefix = match.group(1)  # "NOT " or "-" or ""
+            value = match.group(2)
+            value_lower = value.lower()
+
+            # Check user synonyms first (preprint, peer-reviewed, etc.)
+            if value_lower in _USER_SYNONYMS:
+                target_field, target_val = _USER_SYNONYMS[value_lower]
+                replacement = f"{prefix}{target_field}:{target_val}"
+                query = query[:match.start()] + replacement + query[match.end():]
+                logger.warning(f"Redirected: {match.group(0)} -> {replacement}")
+                return _fix_misplaced_field_values(query)  # Re-scan
+
+            # Check reverse index (exact enum values)
+            if value_lower in _ENUM_REVERSE_INDEX and value_lower not in _COMMON_WORDS:
+                target_field, target_val = _ENUM_REVERSE_INDEX[value_lower]
+                replacement = f"{prefix}{target_field}:{target_val}"
+                query = query[:match.start()] + replacement + query[match.end():]
+                logger.warning(f"Redirected: {match.group(0)} -> {replacement}")
+                return _fix_misplaced_field_values(query)  # Re-scan
+
+        # Match unquoted: abs:value (single word only)
+        for match in re.finditer(
+            rf'((?:NOT\s+|-)?){field}:([^\s"()\[\]]+)', query, re.IGNORECASE
+        ):
+            prefix = match.group(1)
+            value = match.group(2)
+            value_lower = value.lower()
+
+            if value_lower in _USER_SYNONYMS:
+                target_field, target_val = _USER_SYNONYMS[value_lower]
+                replacement = f"{prefix}{target_field}:{target_val}"
+                query = query[:match.start()] + replacement + query[match.end():]
+                logger.warning(f"Redirected: {match.group(0)} -> {replacement}")
+                return _fix_misplaced_field_values(query)
+
+            if value_lower in _ENUM_REVERSE_INDEX and value_lower not in _COMMON_WORDS:
+                target_field, target_val = _ENUM_REVERSE_INDEX[value_lower]
+                replacement = f"{prefix}{target_field}:{target_val}"
+                query = query[:match.start()] + replacement + query[match.end():]
+                logger.warning(f"Redirected: {match.group(0)} -> {replacement}")
+                return _fix_misplaced_field_values(query)
+
+    return query
+
+
+def _fix_spaced_out_ranges(query: str) -> str:
+    """Fix spaced-out characters in bracket ranges.
+
+    LLM tokenization artifact where characters are output separated by spaces:
+    [1 0 0 T O *] → [100 TO *]
+    [2 0 2 0 T O 2 0 2 5] → [2020 TO 2025]
+    """
+
+    def fix_bracket(match: re.Match) -> str:
+        inner = match.group(1)
+        tokens = inner.split()
+
+        # Only fix if most tokens are single characters (spaced-out indicator)
+        single_char_count = sum(1 for t in tokens if len(t) == 1)
+        if single_char_count < 3 or len(tokens) < 3:
+            return match.group(0)
+
+        # Collapse consecutive single chars of same type (digit/alpha)
+        result: list[str] = []
+        i = 0
+        while i < len(tokens):
+            tok = tokens[i]
+            if len(tok) == 1 and (tok.isdigit() or tok.isalpha()):
+                group = tok
+                is_digit = tok.isdigit()
+                j = i + 1
+                while j < len(tokens) and len(tokens[j]) == 1:
+                    nxt = tokens[j]
+                    if (is_digit and nxt.isdigit()) or (not is_digit and nxt.isalpha()):
+                        group += nxt
+                        j += 1
+                    else:
+                        break
+                result.append(group)
+                i = j
+            else:
+                result.append(tok)
+                i += 1
+
+        collapsed = " ".join(result)
+        if collapsed != inner.strip():
+            logger.warning(
+                f"Fixed spaced-out range: [{inner.strip()}] -> [{collapsed}]"
+            )
+        return f"[{collapsed}]"
+
+    return re.sub(r"\[([^\]]+)\]", fix_bracket, query)
+
+
+def _fix_unbalanced_quotes(query: str) -> str:
+    """Fix unbalanced quotation marks by adding a missing closing quote.
+
+    Common LLM error: abs:"dark matter → abs:"dark matter"
+    Only acts when an opening quote after a field: prefix is unclosed.
+    """
+    if query.count('"') % 2 == 0:
+        return query
+
+    # Walk to find the last unmatched opening quote
+    in_quote = False
+    last_open = -1
+    for i, ch in enumerate(query):
+        if ch == '"':
+            if in_quote:
+                in_quote = False
+            else:
+                in_quote = True
+                last_open = i
+
+    if not in_quote or last_open < 0:
+        return query
+
+    # Only fix if the unclosed quote follows a field: prefix
+    before = query[:last_open]
+    if not re.search(r"\w+:\s*$", before):
+        return query  # Stray quote in unexpected position, leave alone
+
+    # Add closing quote before next field: prefix or at end of string
+    remaining = query[last_open + 1 :]
+    field_match = re.search(r"\s+(?=[a-zA-Z_]+:)", remaining)
+    if field_match:
+        close_pos = last_open + 1 + field_match.start()
+        query = query[:close_pos] + '"' + query[close_pos:]
+    else:
+        query = query.rstrip() + '"'
+    logger.warning("Fixed unbalanced quotes: added missing closing quote")
+
+    return query
+
+
+def _strip_non_ads_syntax(query: str) -> str:
+    """Remove syntax that is never valid in ADS queries.
+
+    1. Curly braces {} — not part of ADS/Solr syntax (ranges use [], groups use ())
+    2. Unknown field names — field:value where field is not in the Solr schema
+    """
+    if not query:
+        return query
+
+    # Strip balanced {...} blocks (JSON fragments)
+    if '{' in query or '}' in query:
+        result = []
+        depth = 0
+        for ch in query:
+            if ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth = max(0, depth - 1)
+            elif depth == 0:
+                result.append(ch)
+        cleaned = ''.join(result).strip()
+        if cleaned != query.strip():
+            logger.warning("Stripped curly-brace block from query")
+        query = cleaned
+
+    # Strip unknown field:value pairs
+    unknown_field_pattern = re.compile(
+        r'(?<![.\d])(\^?[a-z_]{2,}):"[^"]*"'        # field:"quoted value"
+        r'|(?<![.\d])(\^?[a-z_]{2,}):(\([^)]*\))'    # field:(grouped)
+        r'|(?<![.\d])(\^?[a-z_]{2,}):(\[[^\]]*\])'   # field:[range]
+        r'|(?<![.\d])(\^?[a-z_]{2,}):([^\s()]+)',     # field:unquoted
+        re.IGNORECASE,
+    )
+
+    def check_field(m):
+        # Extract the field name from whichever group matched
+        field = (m.group(1) or m.group(2) or m.group(4) or m.group(6) or '').lower()
+        if field and field not in VALID_FIELD_PREFIXES:
+            logger.warning(f"Stripped unknown field from query: {m.group(0)[:60]}")
+            return ''
+        return m.group(0)
+
+    query = unknown_field_pattern.sub(check_field, query)
+
+    # Strip bare [X TO Y] ranges not preceded by a field: prefix
+    # (e.g., "[100 TO *]" free-floating is meaningless without citation_count: etc.)
+    query = re.sub(
+        r'(?<![:\w])\[[\w*]+\s+TO\s+[\w*]+\]',
+        lambda m: (logger.warning(f"Stripped bare range without field prefix: {m.group(0)}") or ''),
+        query,
+    )
+
+    # Clean up extra whitespace from removals
+    query = re.sub(r'\s+', ' ', query).strip()
+    return query
+
+
 def constrain_query_output(query: str) -> str:
     """Clean up model-generated query by removing invalid field values.
 
@@ -210,12 +473,18 @@ def constrain_query_output(query: str) -> str:
 
     result = query.strip()
 
-    # Phase 1: Structural repairs
+    # Phase 1: Structural repairs (order matters — low-level fixes first)
+    result = _fix_spaced_out_ranges(result)
+    result = _fix_unbalanced_quotes(result)
     result = _fix_malformed_operators(result)
     result = _fix_first_author_caret(result)
     result = _fix_backwards_year_range(result)
     result = _fix_unquoted_operator_values(result)
+    result = _fix_misplaced_field_values(result)
     result = _fix_common_enum_misspellings(result)
+
+    # Phase 1.5: Strip non-ADS syntax (curly braces, unknown fields)
+    result = _strip_non_ads_syntax(result)
 
     # Phase 2: Enum constraint filtering
     for field_name, valid_values in FIELD_ENUMS.items():
@@ -332,6 +601,10 @@ def _cleanup_query(query: str) -> str:
 
     # Collapse multiple spaces into one
     query = re.sub(r"\s+", " ", query)
+
+    # Remove whitespace inside parentheses edges: "( X )" → "(X)"
+    query = re.sub(r"\(\s+", "(", query)
+    query = re.sub(r"\s+\)", ")", query)
 
     # Remove parentheses that now contain only a single term (no operators)
     # e.g., "(article)" -> "article"

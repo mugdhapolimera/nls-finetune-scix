@@ -89,11 +89,13 @@ COLLECTIONS: frozenset[str] = frozenset(
 # using data from specific telescopes/institutions
 BIBGROUPS: frozenset[str] = frozenset(
     {
-        # Space telescopes
+        # Space telescopes (MAST-curated: Copernicus, EUVE, FUSE, GALEX, IUE, K2, Kepler, TESS)
         "HST",  # Hubble Space Telescope
         "JWST",  # James Webb Space Telescope
         "Spitzer",  # Spitzer Space Telescope
         "Chandra",  # Chandra X-ray Observatory
+        "Chandra/CSC",  # Chandra Source Catalog
+        "Chandra/Technical",  # Chandra Technical Papers
         "XMM",  # XMM-Newton
         "GALEX",  # Galaxy Evolution Explorer
         "Kepler",  # Kepler mission
@@ -102,53 +104,39 @@ BIBGROUPS: frozenset[str] = frozenset(
         "FUSE",  # Far Ultraviolet Spectroscopic Explorer
         "IUE",  # International Ultraviolet Explorer
         "EUVE",  # Extreme Ultraviolet Explorer
-        "Copernicus",  # Copernicus satellite
-        "IRAS",  # Infrared Astronomical Satellite
-        "WISE",  # Wide-field Infrared Survey Explorer
-        "NEOWISE",  # NEOWISE mission
-        "Fermi",  # Fermi Gamma-ray Space Telescope
+        "Copernicus",  # Copernicus satellite (OAO-3, 1972-1981)
         "Swift",  # Swift Observatory
-        "RXTE",  # Rossi X-ray Timing Explorer
-        "NuSTAR",  # Nuclear Spectroscopic Telescope Array
+        "Herschel",  # Herschel Space Observatory
+        "ISO",  # Infrared Space Observatory
+        "ROSAT",  # Röntgensatellit
         # Solar missions
         "SOHO",  # Solar and Heliospheric Observatory
         "STEREO",  # Solar TErrestrial RElations Observatory
-        "SDO",  # Solar Dynamics Observatory
         # Ground-based observatories
-        "ESO/Telescopes",  # European Southern Observatory
+        "ESO/Telescopes",  # European Southern Observatory (all ESO telescopes)
         "CFHT",  # Canada-France-Hawaii Telescope
         "Gemini",  # Gemini Observatory
         "Keck",  # W.M. Keck Observatory
-        "VLT",  # Very Large Telescope
+        "Magellan",  # Magellan Telescopes
         "Subaru",  # Subaru Telescope
-        "NOAO",  # National Optical Astronomy Observatory
+        "NOAO",  # National Optical Astronomy Observatory (legacy, pre-2019)
         "NOIRLab",  # NSF's National Optical-Infrared Astronomy Research Laboratory
-        "CTIO",  # Cerro Tololo Inter-American Observatory
-        "KPNO",  # Kitt Peak National Observatory
-        "Pan-STARRS",  # Panoramic Survey Telescope & Rapid Response System
-        "SDSS",  # Sloan Digital Sky Survey
-        "2MASS",  # Two Micron All Sky Survey
         "UKIRT",  # United Kingdom Infrared Telescope
+        "Pan-STARRS",  # Panoramic Survey Telescope & Rapid Response System
         "ALMA",  # Atacama Large Millimeter Array
         "JCMT",  # James Clerk Maxwell Telescope
-        "APEX",  # Atacama Pathfinder Experiment
-        "ARECIBO",  # Arecibo Observatory
-        "VLA",  # Very Large Array
-        "VLBA",  # Very Long Baseline Array
-        "GBT",  # Green Bank Telescope
-        "LOFAR",  # Low-Frequency Array
-        "MeerKAT",  # MeerKAT radio telescope
-        "SKA",  # Square Kilometre Array
-        # Astrometry
-        "Gaia",  # Gaia mission
-        "Hipparcos",  # Hipparcos satellite
-        # Other
+        "SMA",  # Submillimeter Array
+        "NRAO",  # National Radio Astronomy Observatory
+        # Institutional
         "CfA",  # Center for Astrophysics publications
+        "ARI",  # Astronomisches Rechen-Institut
+        "Leiden",  # Leiden Observatory
+        "USNO",  # US Naval Observatory
+        # Other
         "NASA PubSpace",  # NASA public access repository
-        "LISA",  # Laser Interferometer Space Antenna
-        "LIGO",  # Laser Interferometer Gravitational-Wave Observatory
         "SETI",  # SETI Institute publications
-        "ESO",  # European Southern Observatory (alias for ESO/Telescopes)
+        "HCOWAC",  # Harvard College Observatory Women Astronomical Computers
+        "USGS",  # United States Geological Survey
     }
 )
 

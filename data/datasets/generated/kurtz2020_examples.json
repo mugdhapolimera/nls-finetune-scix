@@ -1,0 +1,982 @@
+[
+  {
+    "natural_language": "what papers are researchers finding useful in exoplanet atmospheres recently",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the most useful papers on exoplanet atmospheres from 2019 to 2020",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "key references in exoplanet atmospheres research from 2019-2020",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the most frequently cited papers in exoplanet atmospheres research from 2019 to 2020?",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "useful papers in exoplanet atmospheres excluding references from Fortney's papers",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find me useful exoplanet atmosphere papers from 2019-2020 but exclude anything referenced by Fortney",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "key references in exoplanet atmospheres 2019-2020 excluding Fortney's bibliography",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the key referenced papers in exoplanet atmospheres from 2019-2020, excluding works cited by Fortney?",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "useful exoplanet atmosphere papers mentioning ammonia in the full text, excluding Fortney's references",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me useful exoplanet atmosphere papers from 2019-2020 that mention ammonia, excluding Fortney's references",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "key exoplanet atmospheres references 2019-2020 excluding Fortney's bibliography mentioning ammonia",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the important exoplanet atmospheres papers from 2019-2020 that mention ammonia, excluding Fortney's references?",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers about ammonia in Fortney's references that are useful for exoplanet atmospheres",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers about ammonia in Fortney's references that are useful for exoplanet atmospheres from 2019-2020",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "ammonia papers from Fortney's references that are influential in exoplanet atmospheres",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which papers about ammonia appear in Fortney's references that are also useful for exoplanet atmospheres research from 2019-2020?",
+    "ads_query": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) references(author:\"fortney,j\") full:NH3",
+    "category": "operator"
+  },
+  {
+    "natural_language": "HITRAN papers in Fortney's reference lists",
+    "ads_query": "references(author:\"fortney,j\") HITRAN",
+    "category": "operator"
+  },
+  {
+    "natural_language": "which HITRAN papers does Fortney cite in his work",
+    "ads_query": "references(author:\"fortney,j\") HITRAN",
+    "category": "operator"
+  },
+  {
+    "natural_language": "HITRAN papers cited by Fortney",
+    "ads_query": "references(author:\"fortney,j\") HITRAN",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which HITRAN database papers has Fortney cited in his work?",
+    "ads_query": "references(author:\"fortney,j\") HITRAN",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers on exoplanet atmospheres that cite the Kasting 1982 paper",
+    "ads_query": "citations(\"exoplanet atmosphere\" pubdate:[2019 TO 2020]) citations(bibcode:1982JGR....87.3091K)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers that cite both Kasting 1982 and exoplanet atmosphere work from 2019-2020",
+    "ads_query": "citations(\"exoplanet atmosphere\" pubdate:[2019 TO 2020]) citations(bibcode:1982JGR....87.3091K)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers citing both 2019-2020 exoplanet atmosphere work and Kasting 1982 JGR paper",
+    "ads_query": "citations(\"exoplanet atmosphere\" pubdate:[2019 TO 2020]) citations(bibcode:1982JGR....87.3091K)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Who has cited the Kasting 1982 geophysics paper in the context of exoplanet atmosphere research from 2019-2020?",
+    "ads_query": "citations(\"exoplanet atmosphere\" pubdate:[2019 TO 2020]) citations(bibcode:1982JGR....87.3091K)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "top 150 most cited papers by Sandage",
+    "ads_query": "topn(150,author:\"sandage,a\",citation_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the top 150 most cited papers by Sandage",
+    "ads_query": "topn(150,author:\"sandage,a\",citation_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Sandage's 150 most-cited papers",
+    "ads_query": "topn(150,author:\"sandage,a\",citation_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the 150 most cited papers by Allan Sandage?",
+    "ads_query": "topn(150,author:\"sandage,a\",citation_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "most useful papers among those that cite the Brown et al. 2005 hypervelocity star paper",
+    "ads_query": "useful(citations(bibcode:2005ApJ...622L..33B))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are the most useful papers among those citing the Brown 2005 hypervelocity star discovery",
+    "ads_query": "useful(citations(bibcode:2005ApJ...622L..33B))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "co-citation analysis of Brown 2005 hypervelocity star discovery paper",
+    "ads_query": "useful(citations(bibcode:2005ApJ...622L..33B))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the foundational papers in the hypervelocity star field based on who cited the Brown 2005 discovery paper?",
+    "ads_query": "useful(citations(bibcode:2005ApJ...622L..33B))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers that cite the Brown et al. 2005 hypervelocity star discovery",
+    "ads_query": "citations(bibcode:2005ApJ...622L..33B)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find all papers that cite the Brown 2005 hypervelocity star paper",
+    "ads_query": "citations(bibcode:2005ApJ...622L..33B)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers citing Brown 2005 hypervelocity star discovery",
+    "ads_query": "citations(bibcode:2005ApJ...622L..33B)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Who has cited the Brown 2005 paper on hypervelocity stars?",
+    "ads_query": "citations(bibcode:2005ApJ...622L..33B)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find potential colloquium speakers: authors whose work was cited by recent Harvard astronomy papers but who are not at Harvard",
+    "ads_query": "useful(aff:\"^harvard\" pubdate:2020 database:astronomy property:refereed) -aff:\"harvard\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find non-Harvard authors whose work is useful to Harvard first-author astronomy papers from 2020, looking at 2019-2020 papers",
+    "ads_query": "useful(aff:\"^harvard\" pubdate:2020 database:astronomy property:refereed) -aff:\"harvard\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "external colloquium candidates frequently cited by Harvard first-author astronomy papers in 2020",
+    "ads_query": "useful(aff:\"^harvard\" pubdate:2020 database:astronomy property:refereed) -aff:\"harvard\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which non-Harvard astronomers are being frequently cited by Harvard first-author refereed astronomy papers from 2019-2020, as potential colloquium speakers?",
+    "ads_query": "useful(aff:\"^harvard\" pubdate:2020 database:astronomy property:refereed) -aff:\"harvard\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers and authors that Thorstensen cites most frequently, to find potential grad school advisors in cataclysmic variables",
+    "ads_query": "useful(author:\"^thorstensen,j,r.\" pubdate:[2010 TO 2020]) pubdate:[2005 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the most influential references cited by Thorstensen as first author from 2010-2020, published between 2005 and 2020",
+    "ads_query": "useful(author:\"^thorstensen,j,r.\" pubdate:[2010 TO 2020]) pubdate:[2005 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "authors most frequently referenced by Thorstensen in cataclysmic variable work 2010-2020",
+    "ads_query": "useful(author:\"^thorstensen,j,r.\" pubdate:[2010 TO 2020]) pubdate:[2005 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which researchers does Thorstensen cite most in his 2010-2020 first-author papers, for identifying potential grad school advisors in cataclysmic variable research?",
+    "ads_query": "useful(author:\"^thorstensen,j,r.\" pubdate:[2010 TO 2020]) pubdate:[2005 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers about globular clusters in M31",
+    "ads_query": "object:m31 \"globular cluster\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers about globular clusters in M31",
+    "ads_query": "object:m31 \"globular cluster\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "globular clusters in M31",
+    "ads_query": "object:m31 \"globular cluster\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers discuss globular clusters in the Andromeda galaxy?",
+    "ads_query": "object:m31 \"globular cluster\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers similar to the Mazzarella 2020 NED infrared galaxies abstract",
+    "ads_query": "similar(bibcode:2020AAS...23545505M)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me papers similar to the Mazzarella 2020 NED infrared abstract",
+    "ads_query": "similar(bibcode:2020AAS...23545505M)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers similar to Mazzarella 2020 NED infrared galaxies abstract",
+    "ads_query": "similar(bibcode:2020AAS...23545505M)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers are similar to the Mazzarella 2020 study on NED infrared galaxies?",
+    "ads_query": "similar(bibcode:2020AAS...23545505M)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers by D. Fabricant about spectrographs",
+    "ads_query": "author:\"Fabricant,D\" spectrograph",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers by Fabricant about spectrographs",
+    "ads_query": "author:\"Fabricant,D\" spectrograph",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Fabricant papers on spectrographs",
+    "ads_query": "author:\"Fabricant,D\" spectrograph",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers has Daniel Fabricant published about spectrographs?",
+    "ads_query": "author:\"Fabricant,D\" spectrograph",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers similar to Fabricant's work on spectrographs",
+    "ads_query": "similar(author:\"Fabricant,D\" spectrograph)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me papers similar to Fabricant's spectrograph work",
+    "ads_query": "similar(author:\"Fabricant,D\" spectrograph)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "related work to Fabricant's spectrograph instrumentation papers",
+    "ads_query": "similar(author:\"Fabricant,D\" spectrograph)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What research is related to Fabricant's work on spectrographs?",
+    "ads_query": "similar(author:\"Fabricant,D\" spectrograph)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "top 200 papers similar to Fabricant's spectrograph work, excluding MMT, from 2000 onward",
+    "ads_query": "topn(200,similar(author:\"Fabricant,D\" spectrograph) -MMT pubdate:[2000 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find the top 200 papers similar to Fabricant's spectrograph work from 2000-2020, excluding MMT",
+    "ads_query": "topn(200,similar(author:\"Fabricant,D\" spectrograph) -MMT pubdate:[2000 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "top 200 spectrograph papers related to Fabricant's work excluding MMT since 2000",
+    "ads_query": "topn(200,similar(author:\"Fabricant,D\" spectrograph) -MMT pubdate:[2000 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the top 200 papers related to Fabricant's spectrograph work since 2000, excluding those about MMT?",
+    "ads_query": "topn(200,similar(author:\"Fabricant,D\" spectrograph) -MMT pubdate:[2000 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "200 papers most similar to the Johnson and Morgan 1953 spectral classification paper",
+    "ads_query": "topn(200,similar(1953ApJ...117..313J))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me 200 papers most similar to the Johnson and Morgan 1953 spectral classification paper",
+    "ads_query": "topn(200,similar(1953ApJ...117..313J))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "200 papers most related to Johnson and Morgan 1953 MK spectral classification",
+    "ads_query": "topn(200,similar(1953ApJ...117..313J))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers are most similar to the Johnson and Morgan 1953 stellar spectral classification paper?",
+    "ads_query": "topn(200,similar(1953ApJ...117..313J))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "most cited papers in the field of stellar classification, starting from Johnson and Morgan 1953",
+    "ads_query": "useful(topn(200,similar(1953ApJ...117..313J)))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are the most cited papers among those similar to the Johnson and Morgan 1953 spectral classification work",
+    "ads_query": "useful(topn(200,similar(1953ApJ...117..313J)))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "most impactful papers in the stellar classification field seeded from Johnson and Morgan 1953",
+    "ads_query": "useful(topn(200,similar(1953ApJ...117..313J)))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the most impactful papers in stellar classification that built on Johnson and Morgan 1953?",
+    "ads_query": "useful(topn(200,similar(1953ApJ...117..313J)))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers related to weak lensing",
+    "ads_query": "similar(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find me papers related to weak lensing",
+    "ads_query": "similar(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "literature related to weak lensing",
+    "ads_query": "similar(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers are related to weak gravitational lensing?",
+    "ads_query": "similar(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "top 200 most relevant weak lensing papers",
+    "ads_query": "topn(200,\"weak lensing\",score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the top 200 most relevant weak lensing papers",
+    "ads_query": "topn(200,\"weak lensing\",score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the top 200 most relevant weak lensing papers?",
+    "ads_query": "topn(200,\"weak lensing\",score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "2020 papers similar to 2019 weak lensing research",
+    "ads_query": "similar(\"weak lensing\" pubdate:2019) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find 2020 papers that are similar to the 2019 weak lensing literature",
+    "ads_query": "similar(\"weak lensing\" pubdate:2019) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "new 2020 papers continuing 2019 weak lensing research threads",
+    "ads_query": "similar(\"weak lensing\" pubdate:2019) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What 2020 papers follow up on the weak lensing research threads from 2019?",
+    "ads_query": "similar(\"weak lensing\" pubdate:2019) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "new papers this week related to the SETI bibliography",
+    "ads_query": "similar(bibgroup:SETI) entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what new papers came out this week that are related to SETI research",
+    "ads_query": "similar(bibgroup:SETI) entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers from this week relevant to SETI research",
+    "ads_query": "similar(bibgroup:SETI) entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What new papers related to the search for extraterrestrial intelligence were published this week?",
+    "ads_query": "similar(bibgroup:SETI) entdate:[NOW-7DAYS TO *]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "this week's arXiv preprints related to weak lensing",
+    "ads_query": "similar(\"weak lensing\" -entdate:[NOW-7DAYS TO *]) entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me this week's arXiv preprints related to weak lensing",
+    "ads_query": "similar(\"weak lensing\" -entdate:[NOW-7DAYS TO *]) entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "custom weekly arXiv digest for weak lensing research",
+    "ads_query": "similar(\"weak lensing\" -entdate:[NOW-7DAYS TO *]) entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What new weak lensing preprints appeared on arXiv this week?",
+    "ads_query": "similar(\"weak lensing\" -entdate:[NOW-7DAYS TO *]) entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are researchers who study weak lensing b-modes currently reading",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are weak lensing b-mode researchers reading lately from 2020",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending reads in weak lensing B-mode research from 2020",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are weak lensing B-mode researchers reading in 2020?",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers among weak lensing b-mode researchers involving HST",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) HST",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are weak lensing b-mode researchers reading about HST",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) HST",
+    "category": "operator"
+  },
+  {
+    "natural_language": "HST-related trending reads among the weak lensing B-mode community",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) HST",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which Hubble Space Telescope papers are trending among weak lensing B-mode researchers?",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) HST",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers among weak lensing researchers about galaxy clusters",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) galaxy_cluster",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are weak lensing b-mode researchers reading about galaxy clusters",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) galaxy_cluster",
+    "category": "operator"
+  },
+  {
+    "natural_language": "galaxy cluster papers trending among weak lensing B-mode readers",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) galaxy_cluster",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which galaxy cluster papers are popular among weak lensing B-mode researchers?",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) galaxy_cluster",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers by Donahue that are trending among weak lensing researchers",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) author:\"donahue,m\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "are Donahue's papers trending among the weak lensing b-mode community",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) author:\"donahue,m\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Donahue papers popular among weak lensing B-mode readers",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) author:\"donahue,m\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which of Megan Donahue's papers are popular with weak lensing B-mode researchers?",
+    "ads_query": "trending(\"weak lensing\" full:b-mode pubdate:2020) author:\"donahue,m\"",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent first-author papers by Chilingarian",
+    "ads_query": "author:\"^chilingarian,i\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me recent first-author papers by Chilingarian from 2019-2020",
+    "ads_query": "author:\"^chilingarian,i\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Chilingarian first-author papers from 2019-2020",
+    "ads_query": "author:\"^chilingarian,i\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers did Chilingarian publish as first author in 2019 and 2020?",
+    "ads_query": "author:\"^chilingarian,i\" pubdate:[2019 TO 2020]",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are people who read Chilingarian's papers also reading",
+    "ads_query": "trending(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are people who read Chilingarian's recent papers also reading",
+    "ads_query": "trending(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what people are reading alongside Chilingarian's recent papers",
+    "ads_query": "trending(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are readers of Chilingarian's recent papers also reading?",
+    "ads_query": "trending(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers referenced by Chilingarian's recent first-author publications",
+    "ads_query": "references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me all references cited in Chilingarian's first-author papers from 2019-2020",
+    "ads_query": "references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "bibliography of Chilingarian's 2019-2020 papers",
+    "ads_query": "references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers does Chilingarian cite in his recent 2019-2020 first-author publications?",
+    "ads_query": "references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what is trending among the research community around Chilingarian's work",
+    "ads_query": "trending(useful(author:\"^chilingarian,i\" pubdate:[2019 TO 2020]))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what's trending in Chilingarian's research community right now",
+    "ads_query": "trending(useful(author:\"^chilingarian,i\" pubdate:[2019 TO 2020]))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "hive mind reading model of Chilingarian's research community",
+    "ads_query": "trending(useful(author:\"^chilingarian,i\" pubdate:[2019 TO 2020]))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What is currently trending in Chilingarian's broader research community?",
+    "ads_query": "trending(useful(author:\"^chilingarian,i\" pubdate:[2019 TO 2020]))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers on ultra diffuse galaxies among readers of Chilingarian's references",
+    "ads_query": "trending(references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])) UDG",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find trending ultra-diffuse galaxy papers among people who read Chilingarian's references",
+    "ads_query": "trending(references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])) UDG",
+    "category": "operator"
+  },
+  {
+    "natural_language": "ultra-diffuse galaxy research trending in Chilingarian's citation network",
+    "ads_query": "trending(references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])) UDG",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which ultra-diffuse galaxy papers are trending among people who read Chilingarian's references?",
+    "ads_query": "trending(references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])) UDG",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are people currently reading about nucleosynthesis",
+    "ads_query": "trending(nucleosynthesis)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are people reading about nucleosynthesis right now",
+    "ads_query": "trending(nucleosynthesis)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "current reading trends in nucleosynthesis",
+    "ads_query": "trending(nucleosynthesis)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "top 200 most relevant nucleosynthesis papers",
+    "ads_query": "topn(200,nucleosynthesis,score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the top 200 most relevant nucleosynthesis papers",
+    "ads_query": "topn(200,nucleosynthesis,score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the top 200 most relevant nucleosynthesis papers?",
+    "ads_query": "topn(200,nucleosynthesis,score desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "200 most recent papers on nucleosynthesis that cite the B2FH paper",
+    "ads_query": "topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find the most recent papers citing the B2FH paper that discuss nucleosynthesis",
+    "ads_query": "topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent nucleosynthesis papers citing B2FH",
+    "ads_query": "topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the most recent nucleosynthesis papers that cite the Burbidge, Burbidge, Fowler, and Hoyle 1957 paper?",
+    "ads_query": "topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are readers of B2FH-citing nucleosynthesis papers currently reading",
+    "ads_query": "trending(topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what's trending among the community that cites the B2FH paper and works on nucleosynthesis",
+    "ads_query": "trending(topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reading trends among recent nucleosynthesis papers that cite B2FH",
+    "ads_query": "trending(topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What is trending in the nucleosynthesis community that builds on B2FH?",
+    "ads_query": "trending(topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers among the top weak lensing research community",
+    "ads_query": "trending(topn(200,\"weak lensing\",score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what's trending among the top weak lensing research community",
+    "ads_query": "trending(topn(200,\"weak lensing\",score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reading trends among the top weak lensing community",
+    "ads_query": "trending(topn(200,\"weak lensing\",score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What is trending among the weak lensing research community?",
+    "ads_query": "trending(topn(200,\"weak lensing\",score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "200 most read weak lensing papers",
+    "ads_query": "topn(200,\"weak lensing\",read_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me the 200 most read weak lensing papers",
+    "ads_query": "topn(200,\"weak lensing\",read_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "200 most-read weak lensing papers",
+    "ads_query": "topn(200,\"weak lensing\",read_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the 200 most read weak lensing papers?",
+    "ads_query": "topn(200,\"weak lensing\",read_count desc)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "trending papers among the most active weak lensing readers",
+    "ads_query": "trending(topn(200,\"weak lensing\",read_count desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what are the most active weak lensing readers looking at now",
+    "ads_query": "trending(topn(200,\"weak lensing\",read_count desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what the most active weak lensing readers are trending toward",
+    "ads_query": "trending(topn(200,\"weak lensing\",read_count desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What is trending among the most active weak lensing readers?",
+    "ads_query": "trending(topn(200,\"weak lensing\",read_count desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "review articles on weak lensing",
+    "ads_query": "reviews(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find me review articles on weak lensing",
+    "ads_query": "reviews(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the major review articles on weak gravitational lensing?",
+    "ads_query": "reviews(\"weak lensing\")",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent review papers on dark matter and the Higgs boson",
+    "ads_query": "reviews(dark matter higgs) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me recent 2020 reviews on dark matter and the Higgs boson",
+    "ads_query": "reviews(dark matter higgs) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "recent reviews covering dark matter and Higgs from 2020",
+    "ads_query": "reviews(dark matter higgs) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What review papers on dark matter and the Higgs boson were published in 2020?",
+    "ads_query": "reviews(dark matter higgs) pubdate:2020",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reviews of weak lensing research from the last five years",
+    "ads_query": "reviews(\"weak lensing\" pubdate:[2015 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find review papers covering weak lensing from 2015 to 2020",
+    "ads_query": "reviews(\"weak lensing\" pubdate:[2015 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "reviews of weak lensing literature from 2015 to 2020",
+    "ads_query": "reviews(\"weak lensing\" pubdate:[2015 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the review articles covering weak lensing research from 2015 to 2020?",
+    "ads_query": "reviews(\"weak lensing\" pubdate:[2015 TO 2020])",
+    "category": "operator"
+  },
+  {
+    "natural_language": "review papers covering the most important recent weak lensing research",
+    "ads_query": "reviews(topn(200, \"weak lensing\" pubdate:[2015 TO 2020], score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me reviews that cover the most important recent weak lensing papers from 2015-2020",
+    "ads_query": "reviews(topn(200, \"weak lensing\" pubdate:[2015 TO 2020], score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "comprehensive reviews of the highest-impact weak lensing papers from 2015-2020",
+    "ads_query": "reviews(topn(200, \"weak lensing\" pubdate:[2015 TO 2020], score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What are the most comprehensive review articles covering recent weak lensing research?",
+    "ads_query": "reviews(topn(200, \"weak lensing\" pubdate:[2015 TO 2020], score desc))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "research directions influenced by the PHAT Andromeda survey by Dalcanton",
+    "ads_query": "reviews(full:PHAT author:dalcanton)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "what research directions have come out of Dalcanton's PHAT survey",
+    "ads_query": "reviews(full:PHAT author:dalcanton)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "review-level impact assessment of Dalcanton's PHAT survey",
+    "ads_query": "reviews(full:PHAT author:dalcanton)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What is the broader impact of Dalcanton's PHAT survey on the field?",
+    "ads_query": "reviews(full:PHAT author:dalcanton)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers by other authors that review or build on the PHAT survey, excluding Dalcanton's own papers",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers by other authors that review or build on the PHAT survey, not by Dalcanton herself",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton",
+    "category": "operator"
+  },
+  {
+    "natural_language": "external papers reviewing the impact of Dalcanton's PHAT program",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which papers by authors other than Dalcanton have reviewed or built upon the PHAT survey?",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers that substantively discuss and build on the PHAT survey, by authors other than Dalcanton",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton full:PHAT",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me papers by other researchers that substantively discuss the PHAT survey in detail",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton full:PHAT",
+    "category": "operator"
+  },
+  {
+    "natural_language": "non-team papers substantively building on the PHAT survey results",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton full:PHAT",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Which papers by researchers outside the PHAT team substantively discuss the PHAT survey in their text?",
+    "ads_query": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton full:PHAT",
+    "category": "operator"
+  },
+  {
+    "natural_language": "papers bibliometrically coupled with the Koda et al. 2015 ultra-diffuse galaxies paper",
+    "ads_query": "reviews(references(bibcode:2015ApJ...807L...2K))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find papers with overlapping references to the Koda 2015 ultra-diffuse galaxy paper",
+    "ads_query": "reviews(references(bibcode:2015ApJ...807L...2K))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "bibliometric coupling with Koda 2015 ultra-diffuse galaxies in Coma paper",
+    "ads_query": "reviews(references(bibcode:2015ApJ...807L...2K))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers are bibliometrically coupled with the Koda 2015 paper on ultra-diffuse galaxies?",
+    "ads_query": "reviews(references(bibcode:2015ApJ...807L...2K))",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Seager's paper on mass-radius relationships for solid exoplanets",
+    "ads_query": "author:\"^seager,s\" mass-radius solid exoplanets",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find Seager's paper on mass-radius relationships for solid exoplanets",
+    "ads_query": "author:\"^seager,s\" mass-radius solid exoplanets",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Seager mass-radius relations for solid exoplanets",
+    "ads_query": "author:\"^seager,s\" mass-radius solid exoplanets",
+    "category": "operator"
+  },
+  {
+    "natural_language": "Where can I find Seager's paper on mass-radius relationships for solid exoplanets?",
+    "ads_query": "author:\"^seager,s\" mass-radius solid exoplanets",
+    "category": "operator"
+  },
+  {
+    "natural_language": "all papers that have ever cited an Astrophysical Journal paper",
+    "ads_query": "citations(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "show me all papers that cite articles published in the Astrophysical Journal",
+    "ads_query": "citations(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "complete citation network of the Astrophysical Journal",
+    "ads_query": "citations(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers have cited articles published in the Astrophysical Journal?",
+    "ads_query": "citations(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "all papers referenced by Astrophysical Journal articles",
+    "ads_query": "references(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "find all papers that are referenced by Astrophysical Journal articles",
+    "ads_query": "references(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "complete reference network of the Astrophysical Journal",
+    "ads_query": "references(bibstem:ApJ)",
+    "category": "operator"
+  },
+  {
+    "natural_language": "What papers are referenced by articles published in the Astrophysical Journal?",
+    "ads_query": "references(bibstem:ApJ)",
+    "category": "operator"
+  }
+]

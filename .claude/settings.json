@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python scripts/train_local_mps.py --skip-dataset-build --base-model Qwen/Qwen3-1.7B --output-dir ./output/NLQT-Qwen3-1.7B-v3 --batch-size 1 --grad-accum 16 --num-lora-layers 24 --epochs 3 --grad-checkpoint)",
+      "Bash(tee /tmp/mlx_training_v3.log)",
+      "Bash(MODEL_NAME=output/NLQT-Qwen3-1.7B-v3/fused DEVICE=mps LLM_TIMEOUT=30 PYTHONPATH=packages/finetune/src PORT=8001 /Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python docker/server.py)",
+      "Bash(/Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python -c \":*)",
+      "Bash(/Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python -c \"import json; d=json.load\\(open\\(''data/datasets/benchmark/benchmark_queries.json''\\)\\); t=d[''field_types''][0]; print\\(list\\(t.keys\\(\\)\\)\\)\")",
+      "Bash(/Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python:*)",
+      "Bash(MODEL_NAME=adsabs/NLQT-Qwen3-1.7B DEVICE=mps LLM_TIMEOUT=30 PYTHONPATH=packages/finetune/src PORT=8001 /Users/mugdhapolimera/github/nls-finetune-scix/nls/bin/python docker/server.py)",
+      "Bash(tee /tmp/server_old.log)",
+      "Bash(git -C /Users/mugdhapolimera/github/nls-finetune-scix log --all --oneline -- data/datasets/benchmark/benchmark_queries.json)",
+      "Bash(git -C /Users/mugdhapolimera/github/nls-finetune-scix log --format=\"%H %ai %an %s\" 8fd826a)"
+    ]
+  }
+}

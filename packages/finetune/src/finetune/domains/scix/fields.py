@@ -17,6 +17,7 @@ ADS_FIELDS = {
     "author": "Author name (Last, First or Last, F)",
     "^author": "First author only (prefix with ^)",
     "author_count": "Number of authors",
+    "page_count": "Number of pages",
     "orcid": "ORCID identifier",
     "orcid_pub": "ORCID from publishers",
     "orcid_user": "ORCID claimed by ADS users",
@@ -52,6 +53,8 @@ ADS_FIELDS = {
     "esources": "Electronic source types",
     # Astronomy-specific
     "object": "Astronomical object name or coordinates",
+    "uat": "Unified Astronomy Thesaurus controlled vocabulary term",
+    "planetary_feature": "Planetary nomenclature (target, feature type, or feature name)",
     # Affiliations (virtual)
     "affil": "Virtual field searching aff, aff_abbrev, aff_canonical, aff_id, institution",
     # Software/data mentions and credits

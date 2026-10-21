@@ -1,0 +1,352 @@
+[
+  {
+    "query_raw": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020])",
+    "persona": "PostDocX",
+    "scenario": "PostDocX has familiarity with exoplanet atmospheres and wants to search the recent literature to check what other researchers in the field are currently finding useful",
+    "section": "useful",
+    "natural_language": "what papers are researchers finding useful in exoplanet atmospheres recently"
+  },
+  {
+    "query_raw": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\")",
+    "persona": "PostDocX",
+    "scenario": "PostDocX is very familiar with the most prolific author Fortney's papers and does not need to see papers cited by Fortney's work",
+    "section": "useful",
+    "natural_language": "useful papers in exoplanet atmospheres excluding references from Fortney's papers"
+  },
+  {
+    "query_raw": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) -references(author:\"fortney,j\") full:NH3",
+    "persona": "PostDocX",
+    "scenario": "PostDocX is really interested in atmospheric ammonia and wants to filter useful exoplanet atmosphere papers for those mentioning NH3 in the full text",
+    "section": "useful",
+    "natural_language": "useful exoplanet atmosphere papers mentioning ammonia in the full text, excluding Fortney's references"
+  },
+  {
+    "query_raw": "useful(\"exoplanet atmospheres\" pubdate:[2019 TO 2020]) references(author:\"fortney,j\") full:NH3",
+    "persona": "PostDocX",
+    "scenario": "PostDocX wants to check for NH3 specifically in papers cited by Fortney that are useful in exoplanet atmospheres",
+    "section": "useful",
+    "natural_language": "papers about ammonia in Fortney's references that are useful for exoplanet atmospheres"
+  },
+  {
+    "query_raw": "references(author:\"fortney,j\") HITRAN",
+    "persona": "PostDocX",
+    "scenario": "PostDocX notices Fortney has often cited HITRAN papers and wants to find them",
+    "section": "useful",
+    "natural_language": "HITRAN papers in Fortney's reference lists"
+  },
+  {
+    "query_raw": "citations(\"exoplanet atmosphere\" pubdate:[2019 TO 2020]) citations(bibcode:1982JGR....87.3091K)",
+    "persona": "PostDocX",
+    "scenario": "Kasting 1982 is an interesting historical publication and PostDocX wants to see which papers/authors cited it in the context of exoplanet atmospheres",
+    "section": "useful",
+    "natural_language": "papers on exoplanet atmospheres that cite the Kasting 1982 paper"
+  },
+  {
+    "query_raw": "topn(150,author:\"sandage,a\",citation_count desc)",
+    "persona": "general",
+    "scenario": "Looking at the 150 most cited papers by a specific author, sorted by citation count",
+    "section": "useful",
+    "natural_language": "top 150 most cited papers by Sandage"
+  },
+  {
+    "query_raw": "useful(citations(bibcode:2005ApJ...622L..33B))",
+    "persona": "general",
+    "scenario": "Co-citation analysis: taking the hypervelocity star discovery paper by Brown et al. 2005, get all papers that cite it, then find the most useful papers among those citers — this implements bibliometric co-citation",
+    "section": "useful",
+    "natural_language": "most useful papers among those that cite the Brown et al. 2005 hypervelocity star paper"
+  },
+  {
+    "query_raw": "citations(bibcode:2005ApJ...622L..33B)",
+    "persona": "general",
+    "scenario": "Simple citation query: find all papers that cite the hypervelocity star paper",
+    "section": "useful",
+    "natural_language": "papers that cite the Brown et al. 2005 hypervelocity star discovery"
+  },
+  {
+    "query_raw": "useful(aff:\"^harvard\" pubdate:2020 database:astronomy property:refereed) -aff:\"harvard\" pubdate:[2019 TO 2020]",
+    "persona": "ProfX",
+    "scenario": "ProfX is in charge of the Harvard Astronomy Colloquium and is looking for speakers of local interest. The query finds people who were authors on papers published 2019-2020 which were cited by refereed Harvard first-author papers in 2020, but who did not have a Harvard affiliation — potential colloquium speakers",
+    "section": "useful",
+    "natural_language": "find potential colloquium speakers: authors whose work was cited by recent Harvard astronomy papers but who are not at Harvard"
+  },
+  {
+    "query_raw": "useful(author:\"^thorstensen,j,r.\" pubdate:[2010 TO 2020]) pubdate:[2005 TO 2020]",
+    "persona": "StudentX",
+    "scenario": "StudentX has just completed a senior thesis on cataclysmic variables and has read articles by Thorstensen. The query finds recent papers and authors that Thorstensen has cited most in the last decade, to identify potential grad school advisors working on similar topics",
+    "section": "useful",
+    "natural_language": "papers and authors that Thorstensen cites most frequently, to find potential grad school advisors in cataclysmic variables"
+  },
+  {
+    "query_raw": "object:m31 \"globular cluster\"",
+    "persona": "general",
+    "scenario": "Historical example: searching for papers about globular clusters in the Andromeda Nebula (M31), used as input to the useful operator to show the Paper Network visualization",
+    "section": "useful",
+    "natural_language": "papers about globular clusters in M31"
+  },
+  {
+    "query_raw": "similar(bibcode:2020AAS...23545505M)",
+    "persona": "general",
+    "scenario": "Find papers similar to a specific NED team abstract — the similar operator takes the abstract text, combines all abstracts into a single document, and ranks all ADS abstracts by text similarity",
+    "section": "similar",
+    "natural_language": "papers similar to the Mazzarella 2020 NED infrared galaxies abstract"
+  },
+  {
+    "query_raw": "author:\"Fabricant,D\" spectrograph",
+    "persona": "ScienceWriterX",
+    "scenario": "ScienceWriterX is writing about optical spectrographs and knows D. Fabricant's work — this finds his relevant papers",
+    "section": "similar",
+    "natural_language": "papers by D. Fabricant about spectrographs"
+  },
+  {
+    "query_raw": "similar(author:\"Fabricant,D\" spectrograph)",
+    "persona": "ScienceWriterX",
+    "scenario": "ScienceWriterX wants to find papers similar to Fabricant's spectrograph work — discovers non-spectroscopic MMT instrument papers and older related papers",
+    "section": "similar",
+    "natural_language": "papers similar to Fabricant's work on spectrographs"
+  },
+  {
+    "query_raw": "topn(200,similar(author:\"Fabricant,D\" spectrograph) -MMT pubdate:[2000 TO 2020])",
+    "persona": "ScienceWriterX",
+    "scenario": "ScienceWriterX refines the similar query by excluding MMT papers and truncating to top 200 recent results — shows main projects and the importance of SPIE Conference Series",
+    "section": "similar",
+    "natural_language": "top 200 papers similar to Fabricant's spectrograph work, excluding MMT, from 2000 onward"
+  },
+  {
+    "query_raw": "topn(200,similar(1953ApJ...117..313J))",
+    "persona": "HistorianX",
+    "scenario": "HistorianX is interested in the most influential work on stars and starts with Johnson & Morgan 1953, the fundamental paper for MK spectral classification and UBV photometry. Selecting 200 similar papers nearly uniformly samples 75 years of astronomical publications",
+    "section": "similar",
+    "natural_language": "200 papers most similar to the Johnson and Morgan 1953 spectral classification paper"
+  },
+  {
+    "query_raw": "useful(topn(200,similar(1953ApJ...117..313J)))",
+    "persona": "HistorianX",
+    "scenario": "Three levels deep: find the most cited papers among the 200 most similar to Johnson & Morgan 1953. Shows important research directions in classical stellar astronomy: narrow band photometry, Hipparcos, open clusters, model atmospheres, infrared photometry",
+    "section": "similar",
+    "natural_language": "most cited papers in the field of stellar classification, starting from Johnson and Morgan 1953"
+  },
+  {
+    "query_raw": "similar(\"weak lensing\")",
+    "persona": "general",
+    "scenario": "Simple similar query on a topic — finds papers textually similar to weak lensing literature",
+    "section": "similar",
+    "natural_language": "papers related to weak lensing"
+  },
+  {
+    "query_raw": "topn(200,\"weak lensing\",score desc)",
+    "persona": "general",
+    "scenario": "Top 200 weak lensing papers sorted by relevance score rather than default sort",
+    "section": "similar",
+    "natural_language": "top 200 most relevant weak lensing papers"
+  },
+  {
+    "query_raw": "similar(\"weak lensing\" pubdate:2019) pubdate:2020",
+    "persona": "general",
+    "scenario": "Temporal disjoint: find 2020 papers that are similar to 2019 weak lensing work. Forces the inner and outer results to be from different years, avoiding overlap",
+    "section": "similar",
+    "natural_language": "2020 papers similar to 2019 weak lensing research"
+  },
+  {
+    "query_raw": "similar(bibgroup:SETI) entdate:[NOW-7DAYS TO *]",
+    "persona": "general",
+    "scenario": "Current awareness: find very recent publications similar to those listed in the SETI bibliographic group — useful for maintainers of the SETI bibliography",
+    "section": "similar",
+    "natural_language": "new papers this week related to the SETI bibliography"
+  },
+  {
+    "query_raw": "similar(\"weak lensing\" -entdate:[NOW-7DAYS TO *]) entdate:[NOW-7DAYS TO *] bibstem:\"arXiv\"",
+    "persona": "general",
+    "scenario": "Custom ranked arXiv feed: find this week's arXiv postings that are similar to older weak lensing papers. The -entdate in the inner query forces disjoint results, and bibstem:arXiv restricts to preprints only",
+    "section": "similar",
+    "natural_language": "this week's arXiv preprints related to weak lensing"
+  },
+  {
+    "query_raw": "trending(\"weak lensing\" full:b-mode pubdate:2020)",
+    "persona": "GradStudentX",
+    "scenario": "GradStudentX wants reading suggestions from researchers who recently read papers about weak lensing b-mode analysis — trending provides recommendations from the collective reading behavior of active researchers",
+    "section": "trending",
+    "natural_language": "what are researchers who study weak lensing b-modes currently reading"
+  },
+  {
+    "query_raw": "trending(\"weak lensing\" full:b-mode pubdate:2020) HST",
+    "persona": "GradStudentX",
+    "scenario": "GradStudentX refines trending results by adding HST as a keyword filter to focus on Hubble-related work",
+    "section": "trending",
+    "natural_language": "trending papers among weak lensing b-mode researchers involving HST"
+  },
+  {
+    "query_raw": "trending(\"weak lensing\" full:b-mode pubdate:2020) galaxy_cluster",
+    "persona": "GradStudentX",
+    "scenario": "GradStudentX filters trending results for galaxy cluster content",
+    "section": "trending",
+    "natural_language": "trending papers among weak lensing researchers about galaxy clusters"
+  },
+  {
+    "query_raw": "trending(\"weak lensing\" full:b-mode pubdate:2020) author:\"donahue,m\"",
+    "persona": "GradStudentX",
+    "scenario": "GradStudentX filters trending results to find papers by a specific author that are popular among weak lensing readers",
+    "section": "trending",
+    "natural_language": "papers by Donahue that are trending among weak lensing researchers"
+  },
+  {
+    "query_raw": "author:\"^chilingarian,i\" pubdate:[2019 TO 2020]",
+    "persona": "general",
+    "scenario": "Find recent first-author articles by Igor Chilingarian — used as starting point to model the researcher's interests",
+    "section": "trending",
+    "natural_language": "recent first-author papers by Chilingarian"
+  },
+  {
+    "query_raw": "trending(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "persona": "general",
+    "scenario": "See what people who are interested in Chilingarian's work are also reading — this models the reader community, not the author's own interests",
+    "section": "trending",
+    "natural_language": "what are people who read Chilingarian's papers also reading"
+  },
+  {
+    "query_raw": "references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])",
+    "persona": "general",
+    "scenario": "Get the reference lists from Chilingarian's recent papers — these represent the author's own intellectual inputs",
+    "section": "trending",
+    "natural_language": "papers referenced by Chilingarian's recent first-author publications"
+  },
+  {
+    "query_raw": "trending(useful(author:\"^chilingarian,i\" pubdate:[2019 TO 2020]))",
+    "persona": "general",
+    "scenario": "Build a 'hive mind' model of Chilingarian: useful() ranks references by how often they appear in the reference lists, then trending() shows what the readers of those key papers are currently reading. This models the community's opinion, not the author's",
+    "section": "trending",
+    "natural_language": "what is trending among the research community around Chilingarian's work"
+  },
+  {
+    "query_raw": "trending(references(author:\"^chilingarian,i\" pubdate:[2019 TO 2020])) UDG",
+    "persona": "general",
+    "scenario": "Query the 'hive mind' model about Ultra Diffuse Galaxies — trending among readers of Chilingarian's references, filtered for UDG content",
+    "section": "trending",
+    "natural_language": "trending papers on ultra diffuse galaxies among readers of Chilingarian's references"
+  },
+  {
+    "query_raw": "trending(nucleosynthesis)",
+    "persona": "general",
+    "scenario": "Simple trending query for nucleosynthesis — what are people currently reading about nucleosynthesis",
+    "section": "trending",
+    "natural_language": "what are people currently reading about nucleosynthesis"
+  },
+  {
+    "query_raw": "topn(200,nucleosynthesis,score desc)",
+    "persona": "general",
+    "scenario": "Top 200 nucleosynthesis papers by relevance score — forms the model for the trending operator",
+    "section": "trending",
+    "natural_language": "top 200 most relevant nucleosynthesis papers"
+  },
+  {
+    "query_raw": "topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc)",
+    "persona": "general",
+    "scenario": "Build an alternative model: top 200 papers that cite the seminal B2FH nucleosynthesis paper, sorted by date. Different models give different trending results",
+    "section": "trending",
+    "natural_language": "200 most recent papers on nucleosynthesis that cite the B2FH paper"
+  },
+  {
+    "query_raw": "trending(topn(200, citations(1957RvMP...29..547B) nucleosynthesis,date desc))",
+    "persona": "general",
+    "scenario": "What readers of the B2FH-citing nucleosynthesis papers are currently reading — a custom trending model built from a specific citation community",
+    "section": "trending",
+    "natural_language": "what are readers of B2FH-citing nucleosynthesis papers currently reading"
+  },
+  {
+    "query_raw": "trending(topn(200,\"weak lensing\",score desc))",
+    "persona": "general",
+    "scenario": "Trending using the top 200 papers by score as the model — for broad queries this gives the same result as simple trending()",
+    "section": "trending",
+    "natural_language": "trending papers among the top weak lensing research community"
+  },
+  {
+    "query_raw": "topn(200,\"weak lensing\",read_count desc)",
+    "persona": "general",
+    "scenario": "Top 200 weak lensing papers sorted by read count instead of citations — gives substantially different results emphasizing recent popular papers",
+    "section": "trending",
+    "natural_language": "200 most read weak lensing papers"
+  },
+  {
+    "query_raw": "trending(topn(200,\"weak lensing\",read_count desc))",
+    "persona": "general",
+    "scenario": "Trending using most-read papers as the model instead of most-cited — emphasizes current popular reading rather than historical citation impact",
+    "section": "trending",
+    "natural_language": "trending papers among the most active weak lensing readers"
+  },
+  {
+    "query_raw": "reviews(\"weak lensing\")",
+    "persona": "general",
+    "scenario": "Find review articles on weak lensing — reviews returns papers that cite the largest number of the most cited papers on the topic, so review articles naturally rise to the top",
+    "section": "reviews",
+    "natural_language": "review articles on weak lensing"
+  },
+  {
+    "query_raw": "reviews(dark matter higgs) pubdate:2020",
+    "persona": "general",
+    "scenario": "Recent review papers about dark matter Higgs — adding a year filter to focus on current reviews",
+    "section": "reviews",
+    "natural_language": "recent review papers on dark matter and the Higgs boson"
+  },
+  {
+    "query_raw": "reviews(\"weak lensing\" pubdate:[2015 TO 2020])",
+    "persona": "general",
+    "scenario": "Reviews of recent weak lensing papers — sorting by citation count works best for general review queries",
+    "section": "reviews",
+    "natural_language": "reviews of weak lensing research from the last five years"
+  },
+  {
+    "query_raw": "reviews(topn(200, \"weak lensing\" pubdate:[2015 TO 2020], score desc))",
+    "persona": "general",
+    "scenario": "Reviews using top 200 by score as the model — when sorting by score yields better results than citation count, especially for newer papers that haven't built up citations",
+    "section": "reviews",
+    "natural_language": "review papers covering the most important recent weak lensing research"
+  },
+  {
+    "query_raw": "reviews(full:PHAT author:dalcanton)",
+    "persona": "AdministratorX",
+    "scenario": "AdministratorX wants to find the main research directions heavily influenced by the Panchromatic Hubble Andromeda Treasury (PHAT) project led by Dalcanton",
+    "section": "reviews",
+    "natural_language": "research directions influenced by the PHAT Andromeda survey by Dalcanton"
+  },
+  {
+    "query_raw": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton",
+    "persona": "AdministratorX",
+    "scenario": "AdministratorX removes Dalcanton's own papers from the reviews results to see external impact — papers where PHAT is explicitly referred to in the text but authored by others",
+    "section": "reviews",
+    "natural_language": "papers by other authors that review or build on the PHAT survey, excluding Dalcanton's own papers"
+  },
+  {
+    "query_raw": "reviews(full:PHAT author:\"dalcanton\") -author:dalcanton full:PHAT",
+    "persona": "AdministratorX",
+    "scenario": "Further refined: AdministratorX requires PHAT to appear in the full text of the reviewing papers as well, ensuring they substantively discuss the project",
+    "section": "reviews",
+    "natural_language": "papers that substantively discuss and build on the PHAT survey, by authors other than Dalcanton"
+  },
+  {
+    "query_raw": "reviews(references(bibcode:2015ApJ...807L...2K))",
+    "persona": "general",
+    "scenario": "Bibliometric coupling: find papers that share many references with Koda et al. 2015 (ultra-diffuse galaxies in Coma Cluster). Papers that cite similar sources are bibliometrically coupled — the more references they share, the stronger the coupling",
+    "section": "reviews",
+    "natural_language": "papers bibliometrically coupled with the Koda et al. 2015 ultra-diffuse galaxies paper"
+  },
+  {
+    "query_raw": "author:\"^seager,s\" mass-radius solid exoplanets",
+    "persona": "general",
+    "scenario": "Finding a specific paper: Seager et al. 2007 on mass-radius relationships for solid exoplanets — demonstrates how specific author+topic queries can pinpoint individual papers",
+    "section": "synopsis",
+    "natural_language": "Seager's paper on mass-radius relationships for solid exoplanets"
+  },
+  {
+    "query_raw": "citations(bibstem:ApJ)",
+    "persona": "general",
+    "scenario": "Every paper known to ADS which has ever cited an Astrophysical Journal paper — demonstrates the scale of first-order operations that SOOs operate on",
+    "section": "synopsis",
+    "natural_language": "all papers that have ever cited an Astrophysical Journal paper"
+  },
+  {
+    "query_raw": "references(bibstem:ApJ)",
+    "persona": "general",
+    "scenario": "Every paper known to ADS referenced by an Astrophysical Journal paper — the inverse of citations(bibstem:ApJ)",
+    "section": "synopsis",
+    "natural_language": "all papers referenced by Astrophysical Journal articles"
+  }
+]

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLS Pipeline Demo</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --purple: #bc8cff; --orange: #d29922;
+    --red: #f85149; --blue: #58a6ff;
+    --left-w: 300px; --right-w: 500px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column;
+    overflow: hidden; font-size: 16px; }
+
+  /* Top bar */
+  .topbar { display: flex; align-items: center; gap: 14px; padding: 10px 20px;
+    background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0;
+    flex-wrap: wrap; min-height: 48px; }
+  .topbar h1 { font-size: 22px; font-weight: 600; white-space: nowrap; }
+  .topbar input { background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 10px; border-radius: 4px; font-size: 16px; min-width: 0; }
+  .topbar input#server-url { width: 260px; }
+  .topbar input#api-key { width: 220px; }
+  .status-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+  .status-dot.ok { background: var(--green); }
+  .topbar label { font-size: 15px; color: var(--text-dim); white-space: nowrap; }
+
+  /* Main layout — 3 columns with drag handles */
+  .main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+
+  /* Drag handles */
+  .drag-handle { width: 5px; flex-shrink: 0; cursor: col-resize; background: var(--border);
+    position: relative; z-index: 10; transition: background 0.15s; }
+  .drag-handle:hover, .drag-handle.active { background: var(--accent); }
+  .drag-handle::after { content: ''; position: absolute; top: 0; bottom: 0;
+    left: -3px; right: -3px; } /* wider hit area */
+
+  /* Left panel */
+  .left { width: var(--left-w); min-width: 180px; max-width: 50vw; flex-shrink: 0;
+    background: var(--surface); overflow-y: auto; overflow-x: hidden; padding: 14px; }
+  .mode-section { margin-bottom: 20px; }
+  .mode-section h3 { font-size: 14px; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 10px; letter-spacing: 0.5px; }
+  .mode-btn { display: block; width: 100%; text-align: left; padding: 8px 12px; margin-bottom: 5px;
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 16px; cursor: pointer; transition: all 0.15s; }
+  .mode-btn:hover { border-color: var(--accent); }
+  .mode-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+
+  .demo-section { margin-bottom: 14px; }
+  .demo-section h3 { font-size: 14px; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 8px; letter-spacing: 0.5px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .demo-btn { display: block; width: 100%; text-align: left; padding: 7px 10px; margin-bottom: 4px;
+    background: transparent; border: 1px solid transparent; border-radius: 4px;
+    color: var(--text); font-size: 15px; cursor: pointer; line-height: 1.4;
+    overflow: hidden; text-overflow: ellipsis; }
+  .demo-btn:hover { background: rgba(88,166,255,0.1); border-color: var(--border); }
+  .demo-btn .tag { font-size: 12px; padding: 2px 6px; border-radius: 3px;
+    background: rgba(88,166,255,0.15); color: var(--accent); margin-left: 6px; vertical-align: middle;
+    white-space: nowrap; }
+
+  /* Center panel */
+  .center { flex: 1; min-width: 200px; display: flex; flex-direction: column; overflow-y: auto;
+    overflow-x: hidden; padding: 24px; }
+  .search-row { display: flex; gap: 10px; margin-bottom: 24px; flex-shrink: 0; }
+  .search-row input { flex: 1; min-width: 0; padding: 12px 16px; font-size: 18px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); outline: none; }
+  .search-row input:focus { border-color: var(--accent); }
+  .search-row button { padding: 12px 24px; background: var(--accent); color: #000; border: none;
+    border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 18px; white-space: nowrap; }
+  .search-row button:hover { opacity: 0.9; }
+  .search-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .result-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px; margin-bottom: 18px; overflow: hidden; }
+  .result-query { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 20px;
+    color: var(--green); line-height: 1.5; word-break: break-all; overflow-wrap: anywhere;
+    margin-bottom: 14px; }
+  .result-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    white-space: nowrap; }
+  .badge-hybrid { background: rgba(88,166,255,0.2); color: var(--blue); }
+  .badge-heuristics, .badge-ner_only { background: rgba(63,185,80,0.2); color: var(--green); }
+  .badge-llm, .badge-nls_only, .badge-llm_only { background: rgba(188,140,255,0.2); color: var(--purple); }
+  .badge-fallback { background: rgba(210,153,34,0.2); color: var(--orange); }
+  .result-actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .result-actions a, .result-actions button { padding: 8px 16px; border-radius: 6px; font-size: 15px;
+    text-decoration: none; cursor: pointer; border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); white-space: nowrap; }
+  .result-actions a:hover, .result-actions button:hover { border-color: var(--accent); }
+
+  .placeholder { color: var(--text-dim); text-align: center; margin-top: 80px; font-size: 18px; }
+
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Right panel */
+  .right { width: var(--right-w); min-width: 240px; max-width: 60vw; flex-shrink: 0;
+    background: var(--surface); overflow-y: auto; overflow-x: hidden; padding: 18px;
+    font-size: 18px; }
+  .right h3 { font-size: 18px; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 12px; letter-spacing: 0.5px; }
+  .debug-section { margin-bottom: 12px; }
+  .debug-section summary { cursor: pointer; font-weight: 600; font-size: 18px; padding: 6px 0;
+    color: var(--text); list-style: none; }
+  .debug-section summary::before { content: '\25b8 '; color: var(--text-dim); }
+  .debug-section[open] summary::before { content: '\25be '; }
+  .debug-section .content { padding: 10px 0 10px 16px; border-left: 2px solid var(--border);
+    margin-left: 4px; overflow-x: auto; }
+  .kv { display: flex; gap: 10px; margin-bottom: 5px; font-size: 17px; }
+  .kv .k { color: var(--text-dim); min-width: 70px; flex-shrink: 0; }
+  .kv .v { color: var(--text); word-break: break-all; overflow-wrap: anywhere; }
+  .curl-box { background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 12px; font-family: monospace; font-size: 16px; color: var(--text-dim);
+    word-break: break-all; overflow-wrap: anywhere; position: relative; white-space: pre-wrap; }
+  .curl-box .copy-btn { position: absolute; top: 6px; right: 6px; padding: 4px 10px;
+    font-size: 15px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; color: var(--text-dim); cursor: pointer; }
+  .intent-table { width: 100%; font-size: 17px; border-collapse: collapse; table-layout: fixed; }
+  .intent-table td { padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top;
+    overflow-wrap: anywhere; word-break: break-all; }
+  .intent-table td:first-child { color: var(--accent); font-weight: 500; white-space: nowrap;
+    width: 140px; overflow: hidden; text-overflow: ellipsis; }
+  .debug-placeholder { color: var(--text-dim); text-align: center; margin-top: 40px; font-size: 18px; }
+  .timing-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 8px 0 12px;
+    background: var(--border); }
+  .timing-bar .seg { height: 100%; }
+  .timing-bar .seg-ner { background: var(--green); }
+  .timing-bar .seg-llm { background: var(--purple); }
+  .timing-bar .seg-merge { background: var(--orange); }
+  .timing-legend { display: flex; gap: 16px; font-size: 16px; color: var(--text-dim); margin-bottom: 12px;
+    flex-wrap: wrap; }
+  .timing-legend span::before { content: ''; display: inline-block; width: 12px; height: 12px;
+    border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+  .timing-legend .l-ner::before { background: var(--green); }
+  .timing-legend .l-llm::before { background: var(--purple); }
+  .timing-legend .l-merge::before { background: var(--orange); }
+
+  .few-shot-ex { background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 10px 12px; margin-bottom: 8px; font-size: 16px; overflow: hidden; }
+  .few-shot-ex .nl { color: var(--text-dim); overflow-wrap: anywhere; }
+  .few-shot-ex .q { color: var(--green); font-family: monospace; margin-top: 4px;
+    overflow-wrap: anywhere; word-break: break-all; }
+  .field-card { background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px 12px; margin-bottom: 5px; font-size: 16px; color: var(--text-dim);
+    overflow-wrap: anywhere; }
+
+  /* Query suggestions (Nectar-style radio list) */
+  .suggestions-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px; margin-bottom: 18px; }
+  .suggestions-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .suggestions-header .label { font-size: 16px; font-weight: 600; color: var(--text); }
+  .suggestion-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px;
+    border-radius: 6px; cursor: pointer; transition: background 0.1s; margin-bottom: 4px; }
+  .suggestion-item:hover { background: rgba(88,166,255,0.08); }
+  .suggestion-item.selected { background: rgba(88,166,255,0.15); }
+  .suggestion-item input[type="radio"] { margin-top: 5px; accent-color: var(--accent);
+    width: 16px; height: 16px; flex-shrink: 0; }
+  .suggestion-item .sq { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 15px;
+    color: var(--text); line-height: 1.4; word-break: break-all; overflow-wrap: anywhere; }
+  .suggestion-item .sd { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+
+  /* Prevent text selection while dragging */
+  body.dragging { cursor: col-resize !important; user-select: none; -webkit-user-select: none; }
+  body.dragging * { cursor: col-resize !important; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <h1>NLS Pipeline</h1>
+  <div style="display:flex;gap:4px;margin-left:8px">
+    <a href="/demo" style="padding:4px 14px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;color:var(--accent);border:1px solid var(--accent);background:rgba(88,166,255,0.1)">Demo</a>
+    <a href="/demo/architecture" style="padding:4px 14px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;color:var(--text-dim);border:1px solid transparent">Architecture</a>
+  </div>
+  <div class="status-dot" id="status-dot" title="Disconnected"></div>
+  <label>Server:</label>
+  <input type="text" id="server-url" value="http://localhost:8001" onchange="saveSettings(); checkHealth()">
+  <label>ADS API Key:</label>
+  <input type="password" id="api-key" placeholder="optional" onchange="saveSettings()">
+</div>
+
+<!-- Main layout -->
+<div class="main">
+
+  <!-- Left panel -->
+  <div class="left" id="left-panel">
+    <div class="mode-section">
+      <h3>Mode</h3>
+      <button class="mode-btn" data-mode="heuristics" onclick="setMode('heuristics')">Heuristics only</button>
+      <button class="mode-btn" data-mode="llm" onclick="setMode('llm')">LLM only</button>
+      <button class="mode-btn" data-mode="hybrid" onclick="setMode('hybrid')">Hybrid</button>
+      <button class="mode-btn" data-mode="hybrid-rag" onclick="setMode('hybrid-rag')">Hybrid + RAG</button>
+    </div>
+
+    <div class="demo-section">
+      <h3>Basic</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers by Hawking on black holes from the 1970s">
+        papers by Hawking on black holes... <span class="tag">author+date</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="dark matter review articles since 2020">
+        dark matter review articles... <span class="tag">doctype+year</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="first author papers by Faber on stellar populations">
+        first author Faber on stellar... <span class="tag">first author</span></button>
+    </div>
+
+    <div class="demo-section">
+      <h3>Runtime Augmentation</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="JWST exoplanet atmosphere observations from STScI">
+        JWST exoplanet atmosphere... <span class="tag">inst+bibgroup</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="exoplanet atmospheres spectroscopy">
+        exoplanet atmospheres spectroscopy <span class="tag">UAT</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="Olympus Mons crater morphology on Mars">
+        Olympus Mons crater morphology... <span class="tag">planetary</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="dark matter papers from NASA">
+        dark matter papers from NASA <span class="tag">inst expand</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="cosmology papers from Max Planck">
+        cosmology from Max Planck <span class="tag">inst expand</span></button>
+    </div>
+
+    <div class="demo-section">
+      <h3>Software &amp; Data</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers that mention astropy">
+        papers that mention astropy <span class="tag">mention_count</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="studies using MAST archive data">
+        studies using MAST archive data <span class="tag">data:MAST</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers with data in SIMBAD about galaxy clusters">
+        papers with SIMBAD data... <span class="tag">data:SIMBAD</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="HST proposals about quasars">
+        HST proposals about quasars <span class="tag">bibstem+doctype</span></button>
+    </div>
+
+    <div class="demo-section">
+      <h3>LLM-Only Capabilities</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers citing the LIGO discovery">
+        papers citing the LIGO discovery <span class="tag">citations()</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="cosmology papers excluding preprints">
+        cosmology excluding preprints <span class="tag">negation</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="highly cited cosmology papers with more than 500 citations">
+        highly cited cosmology... <span class="tag">citation_count</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="useful papers about gravitational lensing">
+        useful gravitational lensing <span class="tag">useful()</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="similar papers to dark energy surveys">
+        similar to dark energy surveys <span class="tag">similar()</span></button>
+    </div>
+
+    <div class="demo-section">
+      <h3>Filters &amp; Properties</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="open access refereed cosmology papers in Nature">
+        OA refereed cosmology in Nature <span class="tag">property+bibstem</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers with full text about supernovae">
+        papers with full text... <span class="tag">has:body</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers that acknowledge NASA funding on exoplanets">
+        papers acknowledging NASA on... <span class="tag">ack</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="earth science papers about sea level rise">
+        earth science sea level rise <span class="tag">database</span></button>
+    </div>
+
+    <div class="demo-section">
+      <h3>Complex Features</h3>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="papers by El-Badry on binary stars">
+        papers by El-Badry... <span class="tag">author wildcard</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="PhD theses about galaxy evolution">
+        PhD theses about galaxy evolution <span class="tag">doctype</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="trending machine learning astronomy papers">
+        trending ML astronomy papers <span class="tag">trending()</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="recent JWST papers from this week">
+        recent JWST papers this week <span class="tag">entdate</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="supernova light curves in Nature or Science">
+        supernova in Nature or Science <span class="tag">OR journals</span></button>
+      <button class="demo-btn" onclick="runDemo(this)" data-q="Chandra X-ray observations of galaxy clusters with data in NED">
+        Chandra X-ray galaxy clusters... <span class="tag">multi-field</span></button>
+    </div>
+  </div>
+
+  <!-- Left drag handle -->
+  <div class="drag-handle" id="drag-left"></div>
+
+  <!-- Center panel -->
+  <div class="center" id="center-panel">
+    <div class="search-row">
+      <input type="text" id="search-input" placeholder="Enter a natural language query..."
+        onkeydown="if(event.key==='Enter')search()">
+      <button id="search-btn" onclick="search()">Search</button>
+    </div>
+    <div id="center-content">
+      <div class="placeholder">Select a demo query or type your own</div>
+    </div>
+  </div>
+
+  <!-- Right drag handle -->
+  <div class="drag-handle" id="drag-right"></div>
+
+  <!-- Right panel -->
+  <div class="right" id="right-panel">
+    <h3>Debug Output</h3>
+    <div id="debug-content">
+      <div class="debug-placeholder">Run a query to see debug output</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+let currentMode = 'hybrid-rag';
+let serverUrl = '';
+
+// ── Drag-to-resize ──────────────────────────────────────────────────
+(function initDrag() {
+  const leftPanel = $('#left-panel');
+  const rightPanel = $('#right-panel');
+  const dragLeft = $('#drag-left');
+  const dragRight = $('#drag-right');
+
+  let dragging = null; // 'left' | 'right' | null
+  let startX = 0;
+  let startW = 0;
+
+  function onMouseDown(side, e) {
+    e.preventDefault();
+    dragging = side;
+    startX = e.clientX;
+    startW = side === 'left' ? leftPanel.offsetWidth : rightPanel.offsetWidth;
+    document.body.classList.add('dragging');
+    (side === 'left' ? dragLeft : dragRight).classList.add('active');
+  }
+
+  dragLeft.addEventListener('mousedown', e => onMouseDown('left', e));
+  dragRight.addEventListener('mousedown', e => onMouseDown('right', e));
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    if (dragging === 'left') {
+      const newW = Math.max(150, Math.min(startW + dx, window.innerWidth * 0.5));
+      leftPanel.style.width = newW + 'px';
+    } else {
+      // Right panel grows when mouse moves left (negative dx)
+      const newW = Math.max(200, Math.min(startW - dx, window.innerWidth * 0.6));
+      rightPanel.style.width = newW + 'px';
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    document.body.classList.remove('dragging');
+    dragLeft.classList.remove('active');
+    dragRight.classList.remove('active');
+    // Persist widths
+    localStorage.setItem('nls-demo-left-w', leftPanel.style.width);
+    localStorage.setItem('nls-demo-right-w', rightPanel.style.width);
+    dragging = null;
+  });
+
+  // Restore saved widths
+  const savedLeft = localStorage.getItem('nls-demo-left-w');
+  const savedRight = localStorage.getItem('nls-demo-right-w');
+  if (savedLeft) leftPanel.style.width = savedLeft;
+  if (savedRight) rightPanel.style.width = savedRight;
+})();
+
+// ── Settings ────────────────────────────────────────────────────────
+function saveSettings() {
+  serverUrl = $('#server-url').value.replace(/\/+$/, '');
+  localStorage.setItem('nls-demo-server', serverUrl);
+  localStorage.setItem('nls-demo-apikey', $('#api-key').value);
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem('nls-demo-server');
+  if (saved) { $('#server-url').value = saved; }
+  const key = localStorage.getItem('nls-demo-apikey');
+  if (key) { $('#api-key').value = key; }
+  serverUrl = $('#server-url').value.replace(/\/+$/, '');
+}
+
+// ── Health / Config ─────────────────────────────────────────────────
+async function checkHealth() {
+  try {
+    const r = await fetch(`${serverUrl}/health`, {signal: AbortSignal.timeout(3000)});
+    const d = await r.json();
+    $('#status-dot').classList.toggle('ok', d.status === 'healthy');
+    $('#status-dot').title = d.status === 'healthy'
+      ? `Connected: ${d.model} on ${d.device}` : 'Unhealthy';
+    return d;
+  } catch {
+    $('#status-dot').classList.remove('ok');
+    $('#status-dot').title = 'Disconnected';
+    return null;
+  }
+}
+
+async function fetchConfig() {
+  try {
+    const r = await fetch(`${serverUrl}/config`);
+    const d = await r.json();
+    if (d.hybrid_mode && d.rag_enabled) currentMode = 'hybrid-rag';
+    else if (d.hybrid_mode) currentMode = 'hybrid';
+    else currentMode = 'heuristics';
+    updateModeButtons();
+  } catch { /* ignore */ }
+}
+
+function updateModeButtons() {
+  $$('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === currentMode));
+}
+
+async function setMode(mode) {
+  currentMode = mode;
+  updateModeButtons();
+  const configs = {
+    'heuristics':  {hybrid_mode: false, rag_enabled: false},
+    'llm':         {hybrid_mode: false, rag_enabled: false},
+    'hybrid':      {hybrid_mode: true,  rag_enabled: false},
+    'hybrid-rag':  {hybrid_mode: true,  rag_enabled: true},
+  };
+  try {
+    await fetch(`${serverUrl}/config`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(configs[mode]),
+    });
+  } catch { /* ignore */ }
+}
+
+function getDebugEndpoint(mode) {
+  switch (mode) {
+    case 'heuristics': return '/debug/pipeline';
+    case 'llm':        return '/debug/llm';
+    case 'hybrid':     return '/debug/hybrid';
+    case 'hybrid-rag': return '/debug/hybrid';
+    default:           return '/debug/hybrid';
+  }
+}
+
+// ── Search ──────────────────────────────────────────────────────────
+function runDemo(btn) {
+  const q = btn.dataset.q;
+  $('#search-input').value = q;
+  search();
+}
+
+async function search(query) {
+  const q = query || $('#search-input').value.trim();
+  if (!q) return;
+
+  $('#search-btn').disabled = true;
+  $('#search-btn').innerHTML = '<span class="spinner"></span>';
+  $('#center-content').innerHTML = '<div class="placeholder"><span class="spinner"></span> Running...</div>';
+  $('#debug-content').innerHTML = '<div class="debug-placeholder"><span class="spinner"></span> Running...</div>';
+
+  const endpoint = getDebugEndpoint(currentMode);
+  try {
+    const r = await fetch(`${serverUrl}${endpoint}?q=${encodeURIComponent(q)}`);
+    const data = await r.json();
+
+    if (data.error) {
+      $('#center-content').innerHTML = `<div class="result-box"><div style="color:var(--red)">Error: ${esc(data.error)}</div></div>`;
+      $('#debug-content').innerHTML = data.traceback
+        ? `<pre style="font-size:16px;color:var(--red);white-space:pre-wrap">${esc(data.traceback)}</pre>` : '';
+      return;
+    }
+
+    renderResult(data, q);
+    renderDebug(data, q);
+  } catch (e) {
+    $('#center-content').innerHTML = `<div class="result-box"><div style="color:var(--red)">Network error: ${esc(e.message)}</div></div>`;
+    $('#debug-content').innerHTML = '';
+  } finally {
+    $('#search-btn').disabled = false;
+    $('#search-btn').textContent = 'Search';
+  }
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// ── Query Variations (mirrors Nectar's generateQueryVariations) ─────
+function generateQueryVariations(baseQuery) {
+  const suggestions = [{ query: baseQuery, description: 'Best match' }];
+
+  const absMatches = baseQuery.match(/abs:["']?([^"'\s]+(?:\s+[^"'\s]+)*|"[^"]+")["']?/gi) || [];
+  const authorMatches = baseQuery.match(/author:["^]*["']?([^"'\s]+)["']?/gi) || [];
+  const pubdateMatches = baseQuery.match(/pubdate:\[[^\]]+\]/gi) || [];
+  const objectMatches = baseQuery.match(/object:["']?[^"'\s]+["']?/gi) || [];
+
+  const absTerms = [];
+  for (const match of absMatches) {
+    const m = match.match(/abs:["']?([^"']+)["']?/i);
+    if (m) absTerms.push(m[1].replace(/^"|"$/g, ''));
+  }
+
+  // Variation 2: AND terms version
+  if (baseQuery.includes('"') && absTerms.length > 0) {
+    const words = absTerms[0].split(/\s+/).filter(w => w.length > 2);
+    if (words.length >= 2) {
+      const andV = `abs:(${words.join(' AND ')})`;
+      const other = [...authorMatches, ...pubdateMatches, ...objectMatches].join(' ');
+      suggestions.push({ query: other ? `${andV} ${other}` : andV, description: 'Terms anywhere in abstract' });
+    }
+  }
+
+  // Variation 3: OR version for broader search
+  if (absTerms.length > 0) {
+    const words = absTerms[0].split(/\s+/).filter(w => w.length > 2);
+    if (words.length >= 2 && !baseQuery.includes(' OR ')) {
+      const orV = `abs:(${words.join(' OR ')})`;
+      const other = [...authorMatches, ...pubdateMatches, ...objectMatches].join(' ');
+      suggestions.push({ query: other ? `${orV} ${other}` : orV, description: 'Any term matches (broader)' });
+    }
+  }
+
+  // Variation 4: First author only
+  const hasOpAuthor = /\b(citations|references|trending|useful|similar|reviews)\s*\(\s*author:/i.test(baseQuery);
+  if (authorMatches.length > 0 && !baseQuery.includes('^author:') && !hasOpAuthor) {
+    const faQuery = baseQuery.replace(/author:("?)([^"\s]+)("?)/gi, '^author:$1$2$3');
+    if (faQuery !== baseQuery) {
+      suggestions.push({ query: faQuery, description: 'First author only' });
+    }
+  }
+
+  // Variation 5: High-citation filter
+  if (!baseQuery.includes('citation_count') && suggestions.length < 5) {
+    suggestions.push({ query: `${baseQuery} citation_count:[10 TO *]`, description: 'Cited papers (10+ citations)' });
+  }
+
+  return suggestions.slice(0, 5);
+}
+
+let currentSuggestions = [];
+let selectedSuggestionIndex = 0;
+
+function selectSuggestion(idx) {
+  selectedSuggestionIndex = idx;
+  // Update radio button UI
+  $$('.suggestion-item').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+    el.querySelector('input[type="radio"]').checked = (i === idx);
+  });
+  // Update actions (Open in SciX link + copy)
+  const q = currentSuggestions[idx]?.query || '';
+  const scixUrl = `https://scixplorer.org/search?q=${encodeURIComponent(q)}&sort=date+desc`;
+  const actionsEl = $('#suggestion-actions');
+  if (actionsEl) {
+    actionsEl.innerHTML = `
+      <a href="${scixUrl}" target="_blank" rel="noopener">Open in SciXplorer</a>
+      <button onclick="navigator.clipboard.writeText(currentSuggestions[selectedSuggestionIndex]?.query || '')">Copy query</button>`;
+  }
+}
+
+// ── Render ──────────────────────────────────────────────────────────
+function renderResult(data, query) {
+  const q = data.query || '';
+  const source = data.source || data.merge_source || 'unknown';
+  const badgeClass = source.includes('hybrid') ? 'hybrid'
+    : source.includes('ner') ? 'ner_only'
+    : source.includes('llm') || source.includes('nls') ? 'llm_only'
+    : source === 'fallback' ? 'fallback' : 'hybrid';
+
+  const timing = data.timing || {};
+  const totalMs = timing.total_ms || 0;
+
+  // Generate Nectar-style variations
+  currentSuggestions = generateQueryVariations(q);
+  selectedSuggestionIndex = 0;
+
+  const scixUrl = `https://scixplorer.org/search?q=${encodeURIComponent(q)}&sort=date+desc`;
+
+  let html = `<div class="suggestions-box">`;
+  html += `<div class="suggestions-header">`;
+  html += `  <span class="label">Query Suggestions:</span>`;
+  html += `  <span class="badge badge-${badgeClass}">${esc(source)}</span>`;
+  html += `  ${totalMs ? `<span style="color:var(--text-dim);font-size:15px">${Math.round(totalMs)}ms</span>` : ''}`;
+  html += `  ${data.confidence !== undefined ? `<span style="color:var(--text-dim);font-size:17px">conf: ${data.confidence}</span>` : ''}`;
+  html += `</div>`;
+
+  currentSuggestions.forEach((s, i) => {
+    html += `<div class="suggestion-item${i === 0 ? ' selected' : ''}" onclick="selectSuggestion(${i})">`;
+    html += `  <input type="radio" name="suggestion" ${i === 0 ? 'checked' : ''}>`;
+    html += `  <div><div class="sq">${esc(s.query)}</div><div class="sd">${esc(s.description)}</div></div>`;
+    html += `</div>`;
+  });
+
+  html += `<div class="result-actions" id="suggestion-actions">`;
+  html += `  <a href="${scixUrl}" target="_blank" rel="noopener">Open in SciXplorer</a>`;
+  html += `  <button onclick="navigator.clipboard.writeText(currentSuggestions[selectedSuggestionIndex]?.query || '')">Copy query</button>`;
+  html += `</div>`;
+  html += `</div>`;
+
+  $('#center-content').innerHTML = html;
+}
+
+function renderDebug(data, query) {
+  let html = '';
+
+  // Source + timing header
+  const source = data.source || 'unknown';
+  const timing = data.timing || {};
+  const totalMs = timing.total_ms || 0;
+  html += `<div style="margin-bottom:12px">`;
+  html += `<span class="badge badge-${source.includes('hybrid') ? 'hybrid' : source.includes('ner') ? 'ner_only' : 'llm_only'}">${esc(source)}</span> `;
+  html += `<span style="font-size:17px;color:var(--text-dim)">${Math.round(totalMs)}ms</span>`;
+  html += `</div>`;
+
+  // Timing bar
+  const nerMs = timing.ner_ms || 0;
+  const llmMs = timing.llm_ms || timing.nls_ms || 0;
+  const mergeMs = timing.merge_ms || 0;
+  const barTotal = nerMs + llmMs + mergeMs || totalMs || 1;
+  if (nerMs || llmMs || mergeMs) {
+    html += `<div class="timing-bar">`;
+    if (nerMs) html += `<div class="seg seg-ner" style="width:${nerMs/barTotal*100}%"></div>`;
+    if (llmMs) html += `<div class="seg seg-llm" style="width:${llmMs/barTotal*100}%"></div>`;
+    if (mergeMs) html += `<div class="seg seg-merge" style="width:${mergeMs/barTotal*100}%"></div>`;
+    html += `</div>`;
+    html += `<div class="timing-legend">`;
+    if (nerMs) html += `<span class="l-ner">Heuristics ${Math.round(nerMs)}ms</span>`;
+    if (llmMs) html += `<span class="l-llm">LLM ${Math.round(llmMs)}ms</span>`;
+    if (mergeMs) html += `<span class="l-merge">Merge ${Math.round(mergeMs)}ms</span>`;
+    html += `</div>`;
+  }
+
+  // Intents (hybrid mode)
+  if (data.intents) {
+    if (data.intents.ner) {
+      html += renderIntentSection('Heuristics Intent', data.intents.ner, true);
+    }
+    if (data.intents.llm) {
+      html += renderIntentSection('LLM Intent', data.intents.llm, true);
+    }
+    if (data.intents.merged) {
+      html += renderIntentSection('Merged Intent', data.intents.merged, true);
+    }
+  }
+
+  // Single intent (pipeline or llm-only)
+  if (data.intent && !data.intents) {
+    html += renderIntentSection('Intent', data.intent, true);
+  }
+
+  // Fields injected
+  if (data.fields_injected && data.fields_injected.length) {
+    html += `<details class="debug-section" open><summary>Fields Injected</summary><div class="content">`;
+    html += data.fields_injected.map(f => `<span class="badge badge-hybrid">${esc(f)}</span> `).join('');
+    html += `</div></details>`;
+  }
+
+  // RAG context
+  if (data.rag && data.rag.enabled) {
+    html += `<details class="debug-section"><summary>RAG Context (${data.rag.few_shot_count || 0} examples)</summary><div class="content">`;
+    if (data.rag.few_shot_examples && data.rag.few_shot_examples.length) {
+      for (const ex of data.rag.few_shot_examples) {
+        html += `<div class="few-shot-ex"><div class="nl">${esc(ex.nl)}</div>`;
+        html += `<div class="q">${esc(JSON.stringify(ex.intent_json))}</div></div>`;
+      }
+    }
+    if (data.rag.field_cards && data.rag.field_cards.length) {
+      html += `<div style="margin-top:6px;font-size:16px;color:var(--text-dim)">Field cards:</div>`;
+      for (const c of data.rag.field_cards) {
+        html += `<div class="field-card">${esc(c)}</div>`;
+      }
+    }
+    html += `</div></details>`;
+  }
+
+  // Raw queries
+  if (data.nls_query || data.ner_query) {
+    html += `<details class="debug-section"><summary>Raw Queries</summary><div class="content">`;
+    if (data.ner_query) html += `<div class="kv"><span class="k">Heuristics:</span><span class="v" style="font-family:monospace">${esc(data.ner_query)}</span></div>`;
+    if (data.nls_query) html += `<div class="kv"><span class="k">NLS:</span><span class="v" style="font-family:monospace">${esc(data.nls_query)}</span></div>`;
+    html += `</div></details>`;
+  }
+
+  // Raw LLM response (llm-only mode)
+  if (data.raw_response) {
+    html += `<details class="debug-section"><summary>Raw LLM Response</summary><div class="content">`;
+    html += `<pre style="font-size:16px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text-dim)">${esc(data.raw_response)}</pre>`;
+    html += `</div></details>`;
+  }
+
+  // curl command
+  const endpoint = getDebugEndpoint(currentMode);
+  const curlCmd = `curl '${serverUrl}${endpoint}?q=${encodeURIComponent(query)}'`;
+  html += `<details class="debug-section"><summary>curl command</summary><div class="content">`;
+  html += `<div class="curl-box"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent.replace('Copy','').trim())">Copy</button>${esc(curlCmd)}</div>`;
+  html += `</div></details>`;
+
+  $('#debug-content').innerHTML = html;
+}
+
+function renderIntentSection(title, intent, open) {
+  if (!intent || typeof intent !== 'object') return '';
+  const entries = Object.entries(intent).filter(([k, v]) => {
+    if (v === null || v === undefined || v === '' || v === false) return false;
+    if (Array.isArray(v) && v.length === 0) return false;
+    if (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0) return false;
+    return true;
+  });
+  if (entries.length === 0) return '';
+
+  let html = `<details class="debug-section"${open ? ' open' : ''}><summary>${esc(title)}</summary><div class="content">`;
+  html += `<table class="intent-table">`;
+  for (const [k, v] of entries) {
+    const val = typeof v === 'object' ? JSON.stringify(v) : String(v);
+    html += `<tr><td>${esc(k)}</td><td>${esc(val)}</td></tr>`;
+  }
+  html += `</table></div></details>`;
+  return html;
+}
+
+// ── Init ────────────────────────────────────────────────────────────
+loadSettings();
+checkHealth();
+fetchConfig();
+setInterval(checkHealth, 15000);
+</script>
+</body>
+</html>

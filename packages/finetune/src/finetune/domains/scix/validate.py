@@ -84,6 +84,10 @@ def lint_query(query: str) -> ValidationResult:
     if bracket_count != 0:
         errors.append("Unbalanced brackets")
 
+    # Check for curly braces (never valid in ADS query syntax)
+    if '{' in query or '}' in query:
+        errors.append("Query contains curly braces (invalid ADS syntax)")
+
     # Check for invalid field prefixes
     # Use a more specific pattern that requires at least 2 characters and word boundary
     # This avoids false positives from coordinate notation like "05h23m34.6s" where 's' is seconds

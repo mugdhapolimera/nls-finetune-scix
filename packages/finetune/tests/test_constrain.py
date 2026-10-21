@@ -335,6 +335,188 @@ class TestUnquotedOperatorValueRepair:
         assert "exoplanet" in result
 
 
+class TestMisplacedFieldValueRepair:
+    """Tests for _fix_misplaced_field_values — abs:/title: terms that belong in doctype:/property:."""
+
+    def test_not_abs_preprint_to_not_doctype_eprint(self):
+        """NOT abs:"preprint" -> NOT doctype:eprint."""
+        result = constrain_query_output('abs:"cosmology" NOT abs:"preprint"')
+        assert 'NOT doctype:eprint' in result
+        assert 'abs:"cosmology"' in result
+        assert 'abs:"preprint"' not in result
+
+    def test_abs_preprint_positive(self):
+        """abs:"preprint" alone -> doctype:eprint."""
+        result = constrain_query_output('abs:"preprint"')
+        assert result == "doctype:eprint"
+
+    def test_not_abs_refereed(self):
+        """NOT abs:"refereed" -> NOT property:refereed."""
+        result = constrain_query_output('abs:"dark matter" NOT abs:"refereed"')
+        assert "NOT property:refereed" in result
+        assert 'abs:"refereed"' not in result
+
+    def test_abs_open_access(self):
+        """abs:"open access" -> property:openaccess."""
+        result = constrain_query_output('abs:"open access"')
+        assert result == "property:openaccess"
+
+    def test_dash_negation_abs_preprint(self):
+        """-abs:"preprint" -> -doctype:eprint."""
+        result = constrain_query_output('abs:"cosmology" -abs:"preprint"')
+        assert "-doctype:eprint" in result
+        assert 'abs:"preprint"' not in result
+
+    def test_unquoted_abs_preprint(self):
+        """abs:preprint -> doctype:eprint (unquoted form)."""
+        result = constrain_query_output("abs:preprint")
+        assert result == "doctype:eprint"
+
+    def test_title_preprint(self):
+        """title:"preprint" -> doctype:eprint (also catches title: field)."""
+        result = constrain_query_output('title:"preprint"')
+        assert result == "doctype:eprint"
+
+    def test_preserves_real_abs_terms(self):
+        """Real abstract terms should NOT be redirected."""
+        query = 'abs:"dark matter" abs:"cosmology"'
+        assert constrain_query_output(query) == query
+
+    def test_complex_query_with_redirect(self):
+        """Full query: cosmology papers excluding preprints."""
+        result = constrain_query_output(
+            'abs:"cosmology" property:eprint NOT abs:"preprint"'
+        )
+        assert 'abs:"cosmology"' in result
+        assert "property:eprint" in result
+        assert "NOT doctype:eprint" in result
+        assert 'abs:"preprint"' not in result
+
+    def test_not_abs_peer_reviewed(self):
+        """NOT abs:"peer-reviewed" -> NOT property:refereed."""
+        result = constrain_query_output('abs:"galaxy" NOT abs:"peer-reviewed"')
+        assert "NOT property:refereed" in result
+
+    def test_abs_software_not_redirected(self):
+        """abs:"software" should NOT be redirected — software is a valid abstract topic."""
+        query = 'abs:"software"'
+        result = constrain_query_output(query)
+        assert result == query  # Unchanged — "software" is ambiguous
+
+    # ============================================================
+    # Data-driven redirect: auto-detected enum values
+    # ============================================================
+
+    def test_abs_nonarticle_redirected(self):
+        """abs:"nonarticle" -> property:nonarticle (auto-detected from FIELD_ENUMS)."""
+        result = constrain_query_output('abs:"nonarticle"')
+        assert result == "property:nonarticle"
+
+    def test_abs_notrefereed_redirected(self):
+        """abs:"notrefereed" -> property:notrefereed (auto-detected)."""
+        result = constrain_query_output('abs:"notrefereed"')
+        assert result == "property:notrefereed"
+
+    def test_abs_phdthesis_redirected(self):
+        """abs:"phdthesis" -> doctype:phdthesis (auto-detected)."""
+        result = constrain_query_output('abs:"phdthesis"')
+        assert result == "doctype:phdthesis"
+
+    def test_abs_erratum_redirected(self):
+        """abs:"erratum" -> doctype:erratum (auto-detected)."""
+        result = constrain_query_output('abs:"erratum"')
+        assert result == "doctype:erratum"
+
+    def test_abs_pressrelease_redirected(self):
+        """abs:"pressrelease" -> doctype:pressrelease (auto-detected)."""
+        result = constrain_query_output('abs:"pressrelease"')
+        assert result == "doctype:pressrelease"
+
+    def test_abs_pub_pdf_redirected(self):
+        """abs:"PUB_PDF" -> esources:PUB_PDF (auto-detected)."""
+        result = constrain_query_output('abs:"PUB_PDF"')
+        assert result == "esources:PUB_PDF"
+
+    def test_abs_ads_scan_redirected(self):
+        """abs:"ADS_SCAN" -> esources:ADS_SCAN (auto-detected)."""
+        result = constrain_query_output('abs:"ADS_SCAN"')
+        assert result == "esources:ADS_SCAN"
+
+    def test_abs_eprint_redirected(self):
+        """abs:"eprint" -> doctype:eprint (via reverse index, not just synonym)."""
+        result = constrain_query_output('abs:"eprint"')
+        assert result == "doctype:eprint"
+
+    def test_abs_openaccess_redirected(self):
+        """abs:"openaccess" -> property:openaccess (via reverse index)."""
+        result = constrain_query_output('abs:"openaccess"')
+        assert result == "property:openaccess"
+
+    def test_not_abs_nonarticle(self):
+        """NOT abs:"nonarticle" -> NOT property:nonarticle."""
+        result = constrain_query_output('abs:"dark energy" NOT abs:"nonarticle"')
+        assert "NOT property:nonarticle" in result
+        assert 'abs:"dark energy"' in result
+
+    def test_unquoted_eprint_redirected(self):
+        """abs:eprint -> doctype:eprint (unquoted, auto-detected)."""
+        result = constrain_query_output("abs:eprint")
+        assert result == "doctype:eprint"
+
+    # ============================================================
+    # Safelist: values that must NOT be redirected
+    # ============================================================
+
+    def test_abs_astronomy_not_redirected(self):
+        """abs:"astronomy" should NOT be redirected (common topic word)."""
+        query = 'abs:"astronomy"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_book_not_redirected(self):
+        """abs:"book" should NOT be redirected (common English word)."""
+        query = 'abs:"book"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_data_not_redirected(self):
+        """abs:"data" should NOT be redirected (common word)."""
+        query = 'abs:"data"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_circular_not_redirected(self):
+        """abs:"circular" should NOT be redirected (circular polarization, etc.)."""
+        query = 'abs:"circular"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_kepler_not_redirected(self):
+        """abs:"kepler" should NOT be redirected (telescope name in abstracts)."""
+        query = 'abs:"kepler"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_chandra_not_redirected(self):
+        """abs:"Chandra" should NOT be redirected (telescope name in abstracts)."""
+        query = 'abs:"Chandra"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_mast_not_redirected(self):
+        """abs:"MAST" should NOT be redirected (archive name in abstracts)."""
+        query = 'abs:"MAST"'
+        assert constrain_query_output(query) == query
+
+    def test_abs_grant_not_redirected(self):
+        """abs:"grant" should NOT be redirected (has: value, semantic mismatch)."""
+        query = 'abs:"grant"'
+        assert constrain_query_output(query) == query
+
+    def test_multiple_redirects_in_one_query(self):
+        """Multiple misplaced values should all be redirected."""
+        result = constrain_query_output(
+            'abs:"phdthesis" NOT abs:"preprint" abs:"dark matter"'
+        )
+        assert "doctype:phdthesis" in result
+        assert "NOT doctype:eprint" in result
+        assert 'abs:"dark matter"' in result
+
+
 class TestEnumMisspellingRepair:
     """Tests for _fix_common_enum_misspellings."""
 
@@ -367,3 +549,173 @@ class TestEnumMisspellingRepair:
     def test_conference_to_inproceedings(self):
         """doctype:conference -> doctype:inproceedings."""
         assert constrain_query_output("doctype:conference") == "doctype:inproceedings"
+
+
+class TestSpacedOutRangeRepair:
+    """Tests for _fix_spaced_out_ranges — LLM tokenization artifact."""
+
+    def test_spaced_out_numeric_range(self):
+        """[1 0 0 T O *] → [100 TO *]."""
+        result = constrain_query_output("citation_count:[1 0 0 T O *]")
+        assert result == "citation_count:[100 TO *]"
+
+    def test_spaced_out_year_range(self):
+        """[2 0 2 0 T O 2 0 2 5] → [2020 TO 2025]."""
+        result = constrain_query_output("pubdate:[2 0 2 0 T O 2 0 2 5]")
+        assert result == "pubdate:[2020 TO 2025]"
+
+    def test_spaced_out_with_star(self):
+        """[1 0 T O *] → [10 TO *]."""
+        result = constrain_query_output("citation_count:[1 0 T O *]")
+        assert result == "citation_count:[10 TO *]"
+
+    def test_normal_range_unchanged(self):
+        """Already correct range should not change."""
+        query = "pubdate:[2020 TO 2025]"
+        assert constrain_query_output(query) == query
+
+    def test_normal_star_range_unchanged(self):
+        """Star range should not change."""
+        query = "citation_count:[100 TO *]"
+        assert constrain_query_output(query) == query
+
+    def test_spaced_out_in_complex_query(self):
+        """Spaced-out range in larger query."""
+        result = constrain_query_output(
+            'abs:"dark matter" citation_count:[1 0 0 T O *]'
+        )
+        assert 'abs:"dark matter"' in result
+        assert "[100 TO *]" in result
+
+    def test_spaced_out_inside_operator(self):
+        """Spaced-out bare range inside operator parens is stripped (no field prefix)."""
+        result = constrain_query_output('useful(abs:"test") [1 0 T O *]')
+        # Bare range without field prefix is meaningless — gets stripped
+        assert "[10 TO *]" not in result
+        assert 'useful(abs:"test")' in result
+
+    def test_chains_with_backwards_year_fix(self):
+        """Spaced-out range that is also backwards gets both fixes."""
+        result = constrain_query_output("pubdate:[2 0 2 5 T O 2 0 2 0]")
+        assert result == "pubdate:[2020 TO 2025]"
+
+
+class TestUnbalancedQuoteRepair:
+    """Tests for _fix_unbalanced_quotes — missing closing quote."""
+
+    def test_missing_closing_quote_at_end(self):
+        """abs:"dark matter → abs:"dark matter"."""
+        result = constrain_query_output('abs:"dark matter')
+        assert result == 'abs:"dark matter"'
+
+    def test_missing_closing_quote_before_field(self):
+        """Missing close before next field."""
+        result = constrain_query_output('abs:"dark matter pubdate:[2020 TO 2025]')
+        assert 'abs:"dark matter"' in result
+        assert "pubdate:[2020 TO 2025]" in result
+
+    def test_balanced_quotes_unchanged(self):
+        """Balanced quotes should not change."""
+        query = 'abs:"dark matter" author:"Hawking"'
+        assert constrain_query_output(query) == query
+
+    def test_stray_quote_not_after_field_left_alone(self):
+        """Stray quote not preceded by field: is left alone."""
+        # Odd quote count but not after a field: — don't try to fix
+        query = '"dark matter'
+        result = constrain_query_output(query)
+        # Should not crash; exact behavior depends on downstream cleanup
+        assert result is not None
+
+    def test_missing_quote_with_title_field(self):
+        """title:"gravitational waves → title:"gravitational waves"."""
+        result = constrain_query_output('title:"gravitational waves')
+        assert result == 'title:"gravitational waves"'
+
+
+class TestStripNonAdsSyntax:
+    """Tests for _strip_non_ads_syntax via constrain_query_output."""
+
+    def test_strip_json_fragment(self):
+        """JSON fragment appended to valid query should be stripped."""
+        result = constrain_query_output('abs:"test" {"k": "v"}')
+        assert result == 'abs:"test"'
+
+    def test_strip_complex_json(self):
+        """Complex JSON object should be stripped."""
+        result = constrain_query_output('abs:"supernova" {"journals": ["Nature", "Science"]}')
+        assert result == 'abs:"supernova"'
+
+    def test_strip_unknown_field(self):
+        """Unknown field:value pairs should be stripped."""
+        result = constrain_query_output('abs:"test" journals:"Nature"')
+        assert result == 'abs:"test"'
+
+    def test_strip_unknown_field_topics(self):
+        """Unknown field 'topics' should be stripped."""
+        result = constrain_query_output('abs:"test" topics:"exoplanets"')
+        assert result == 'abs:"test"'
+
+    def test_preserve_known_fields(self):
+        """Known fields should be preserved."""
+        query = 'abs:"test" bibstem:"ApJ"'
+        assert constrain_query_output(query) == query
+
+    def test_preserve_pubdate_range(self):
+        """pubdate range should be preserved."""
+        query = "pubdate:[2020 TO 2025]"
+        assert constrain_query_output(query) == query
+
+    def test_preserve_citation_count(self):
+        """citation_count field should be preserved."""
+        query = "citation_count:[100 TO *]"
+        assert constrain_query_output(query) == query
+
+    def test_strip_json_keep_valid_query(self):
+        """JSON + valid query: JSON stripped, valid part kept."""
+        result = constrain_query_output(
+            'abs:"supernova light curves" bibstem:"Natur" {"journals": ["Nature", "Science"]}'
+        )
+        assert "abs:" in result
+        assert "bibstem:" in result
+        assert "{" not in result
+        assert "}" not in result
+
+    def test_empty_after_strip(self):
+        """Query that is entirely JSON should become empty."""
+        result = constrain_query_output('{"query": "test"}')
+        assert result == ""
+
+    def test_nested_json(self):
+        """Nested JSON should be fully stripped."""
+        result = constrain_query_output('abs:"test" {"a": {"b": "c"}}')
+        assert result == 'abs:"test"'
+
+
+class TestBareRangeStripping:
+    """Tests for stripping bare [X TO Y] ranges without a field prefix."""
+
+    def test_bare_range_stripped(self):
+        """[100 TO *] without field prefix should be stripped."""
+        result = constrain_query_output('abs:"test" [100 TO *]')
+        assert result == 'abs:"test"'
+
+    def test_bare_range_with_field_preserved(self):
+        """citation_count:[100 TO *] should be preserved."""
+        query = 'abs:"test" citation_count:[100 TO *]'
+        assert constrain_query_output(query) == query
+
+    def test_bare_pubdate_range_with_field_preserved(self):
+        """pubdate:[2020 TO 2025] should be preserved."""
+        query = "pubdate:[2020 TO 2025]"
+        assert constrain_query_output(query) == query
+
+    def test_bare_range_inside_operator(self):
+        """Bare range after operator should be stripped."""
+        result = constrain_query_output('useful(abs:"test") [100 TO *]')
+        assert result == 'useful(abs:"test")'
+
+    def test_multiple_bare_ranges_stripped(self):
+        """Multiple bare ranges should all be stripped."""
+        result = constrain_query_output('abs:"test" [10 TO *] [2020 TO 2025]')
+        assert result == 'abs:"test"'

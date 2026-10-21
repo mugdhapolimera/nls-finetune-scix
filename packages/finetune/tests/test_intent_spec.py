@@ -149,6 +149,67 @@ class TestFromDictUnknownKeys:
         assert intent.property == {"refereed"}
 
 
+class TestStringToListCoercion:
+    """Tests for from_compact_dict / from_dict coercing strings to lists."""
+
+    def test_string_passthrough_coerced_to_list(self):
+        """String passthrough_clauses should be wrapped in a list."""
+        intent = IntentSpec.from_compact_dict({
+            "passthrough_clauses": "citation_count:[100 TO *]",
+        })
+        assert isinstance(intent.passthrough_clauses, list)
+        assert intent.passthrough_clauses == ["citation_count:[100 TO *]"]
+
+    def test_string_free_text_coerced_to_list(self):
+        """String free_text_terms should be wrapped in a list."""
+        intent = IntentSpec.from_compact_dict({
+            "free_text_terms": "dark matter",
+        })
+        assert isinstance(intent.free_text_terms, list)
+        assert intent.free_text_terms == ["dark matter"]
+
+    def test_string_authors_coerced_to_list(self):
+        """String authors should be wrapped in a list."""
+        intent = IntentSpec.from_compact_dict({
+            "authors": "Hawking, S",
+        })
+        assert isinstance(intent.authors, list)
+        assert intent.authors == ["Hawking, S"]
+
+    def test_list_values_unchanged(self):
+        """Normal list values should not be changed."""
+        intent = IntentSpec.from_compact_dict({
+            "passthrough_clauses": ["citation_count:[100 TO *]"],
+            "free_text_terms": ["dark matter", "cosmology"],
+        })
+        assert intent.passthrough_clauses == ["citation_count:[100 TO *]"]
+        assert intent.free_text_terms == ["dark matter", "cosmology"]
+
+    def test_from_dict_also_coerces(self):
+        """from_dict should also coerce strings to lists."""
+        intent = IntentSpec.from_dict({
+            "passthrough_clauses": "[100 TO *]",
+        })
+        assert isinstance(intent.passthrough_clauses, list)
+        assert intent.passthrough_clauses == ["[100 TO *]"]
+
+    def test_no_character_explosion_in_assembler(self):
+        """String passthrough should not explode into characters during assembly."""
+        from finetune.domains.scix.assembler import assemble_query
+
+        intent = IntentSpec.from_compact_dict({
+            "operator": "useful",
+            "free_text_terms": ["gravitational lensing"],
+            "passthrough_clauses": "[100 TO *]",
+        })
+        query = assemble_query(intent)
+        # Should NOT contain spaced-out characters
+        assert "1 0 0" not in query
+        # Bare range is stripped (no field prefix = meaningless)
+        assert "[100 TO *]" not in query
+        assert "gravitational lensing" in query
+
+
 class TestRoundTripWithAssembler:
     def test_compact_dict_to_assembler(self):
         """IntentSpec → compact dict → from_compact_dict → assemble → valid query."""

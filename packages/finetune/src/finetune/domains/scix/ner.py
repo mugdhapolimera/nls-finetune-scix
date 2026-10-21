@@ -81,6 +81,7 @@ DOCTYPE_SYNONYMS: dict[str, str] = {
 
 BIBGROUP_SYNONYMS: dict[str, str] = {
     # Space telescopes - human-friendly names to codes
+    # Only includes bibgroups verified to exist in ADS (March 2026)
     "hubble": "HST",
     "hubble space telescope": "HST",
     "hst": "HST",
@@ -95,23 +96,13 @@ BIBGROUP_SYNONYMS: dict[str, str] = {
     "kepler": "Kepler",
     "kepler mission": "Kepler",
     "tess": "TESS",
-    "fermi": "Fermi",
-    "fermi gamma": "Fermi",
-    "gaia": "Gaia",
     "xmm": "XMM",
     "xmm-newton": "XMM",
     # Ground-based
-    "sloan": "SDSS",
-    "sdss": "SDSS",
-    "sloan digital sky survey": "SDSS",
     "alma": "ALMA",
-    "vlt": "VLT",
-    "very large telescope": "VLT",
     "keck": "Keck",
     "gemini": "Gemini",
     "subaru": "Subaru",
-    # Gravitational wave observatory (NOT gravitational wave topics)
-    "ligo": "LIGO",
 }
 
 COLLECTION_SYNONYMS: dict[str, str] = {

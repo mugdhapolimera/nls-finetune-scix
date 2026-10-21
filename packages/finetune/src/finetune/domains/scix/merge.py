@@ -30,6 +30,7 @@ import time
 from dataclasses import dataclass, field
 
 from .assembler import assemble_query
+from .constrain import constrain_query_output
 from .intent_spec import IntentSpec
 from .parse_query import parse_query_to_intent
 from .pipeline import PipelineResult
@@ -292,16 +293,18 @@ def merge_intents(
     # Authors: prefer NER (better name formatting via NER patterns)
     merged.authors = ner.authors if ner.authors else llm.authors
 
-    # Free text: prefer LLM (understands context/intent better).
-    # If LLM produced other fields (operator, citation_count, negation, etc.)
-    # but left free_text_terms empty, trust that — don't backfill NER's residual
-    # noise (NER dumps unrecognized text into free_text_terms as a catch-all).
+    # Free text: prefer LLM if it provided any, otherwise fall back to NER.
+    # The only case where empty LLM free_text is intentional is when the LLM
+    # produced an operator (e.g., citations(abs:"X")) — the topic lives inside
+    # the operator target, not in free_text_terms.
     if llm.free_text_terms:
         merged.free_text_terms = llm.free_text_terms
-    elif not llm.has_content():
-        # LLM produced nothing at all — fall back to NER
+    elif llm.operator and llm.operator_target:
+        # LLM used an operator — topic is in operator_target, not free_text
+        pass
+    elif ner.free_text_terms:
+        # LLM didn't extract topics — fall back to NER's extraction
         merged.free_text_terms = ner.free_text_terms
-    # else: LLM has content in other fields but no free_text — intentionally empty
     merged.or_terms = llm.or_terms if llm.or_terms else ner.or_terms
 
     # Years: prefer NER if it extracted them
@@ -482,7 +485,8 @@ def merge_ner_and_nls_intent(
     else:
         confidence = 0.8
 
-    source = "hybrid" if fields_injected else "nls_only"
+    # Both NER and LLM ran and contributed — label as hybrid
+    source = "hybrid" if ner_intent.has_content() else "nls_only"
 
     merge_ms = (time.perf_counter() - merge_start) * 1000
 
@@ -561,7 +565,7 @@ def merge_ner_and_nls(
     if not nls_valid and ner_valid:
         merge_ms = (time.perf_counter() - merge_start) * 1000
         return MergeResult(
-            query=ner_query,
+            query=constrain_query_output(ner_query),
             source="ner_only",
             nls_query=nls_query or "",
             ner_query=ner_query,
@@ -578,12 +582,13 @@ def merge_ner_and_nls(
         # Validate the assembled query
         assembled_lint = lint_query(clean_query)
         if not assembled_lint.valid or not clean_query.strip():
-            # Assembly broke something — fall back to raw NLS
-            clean_query = nls_query
+            # Assembly broke something — prefer NER result over raw NLS
+            # (raw NLS may contain non-ADS syntax like JSON fragments)
+            clean_query = ner_query if ner_query else constrain_query_output(nls_query)
 
         merge_ms = (time.perf_counter() - merge_start) * 1000
         return MergeResult(
-            query=clean_query,
+            query=constrain_query_output(clean_query),
             source="nls_only",
             nls_query=nls_query,
             ner_query=ner_query or "",
@@ -628,7 +633,7 @@ def merge_ner_and_nls(
         )
         merge_ms = (time.perf_counter() - merge_start) * 1000
         return MergeResult(
-            query=nls_query,
+            query=constrain_query_output(nls_query),
             source="nls_only",
             nls_query=nls_query,
             ner_query=ner_query,
@@ -648,12 +653,13 @@ def merge_ner_and_nls(
     else:
         confidence = 0.8
 
-    source = "hybrid" if fields_injected else "nls_only"
+    # Both NER and LLM ran and contributed — label as hybrid
+    source = "hybrid" if ner_intent.has_content() else "nls_only"
 
     merge_ms = (time.perf_counter() - merge_start) * 1000
 
     return MergeResult(
-        query=merged_query,
+        query=constrain_query_output(merged_query),
         source=source,
         nls_query=nls_query,
         ner_query=ner_query,

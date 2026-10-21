@@ -1,0 +1,1760 @@
+{
+  "benchmark_file": "data/datasets/benchmark/benchmark_queries_v2.json",
+  "configs": [
+    {
+      "name": "NER-only",
+      "backend": "ner"
+    },
+    {
+      "name": "NER+augmentation",
+      "backend": "ner",
+      "with_augmentation": true
+    }
+  ],
+  "results": [
+    {
+      "name": "NER-only",
+      "elapsed_s": 26.63,
+      "timestamp": "2026-03-18T17:17:21.538674",
+      "benchmark_file": "data/datasets/benchmark/benchmark_queries_v2.json",
+      "backend": "ner",
+      "total_tests": 421,
+      "passed_tests": 399,
+      "overall_stats": {
+        "total_tests": 421,
+        "passed_tests": 399,
+        "pass_rate": 94.8,
+        "exact_match_count": 52,
+        "exact_match_rate": 12.4,
+        "syntax_valid_count": 407,
+        "syntax_valid_rate": 96.7,
+        "constraint_valid_count": 417,
+        "constraint_valid_rate": 99.0,
+        "pattern_tests": 44,
+        "pattern_match_count": 37,
+        "pattern_match_rate": 84.1,
+        "avg_field_f1": 44.8,
+        "v1_tests": 301,
+        "v1_passed": 293,
+        "v1_pass_rate": 97.3,
+        "v2_tests": 120,
+        "v2_passed": 106,
+        "v2_pass_rate": 88.3
+      },
+      "category_stats": {
+        "field_types": {
+          "total": 66,
+          "passed": 66,
+          "pass_rate": 100.0,
+          "exact_match": 6,
+          "exact_match_rate": 9.1,
+          "syntax_valid": 66,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "content": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 6,
+              "syntax_valid": 15,
+              "avg_field_f1": 66.7
+            },
+            "author": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15,
+              "avg_field_f1": 68.7
+            },
+            "identifier": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 30.6
+            },
+            "metric": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 16.7
+            },
+            "date": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 18.1
+            }
+          },
+          "avg_field_f1": 42.6,
+          "pattern_match": 66
+        },
+        "operators": {
+          "total": 105,
+          "passed": 101,
+          "pass_rate": 96.2,
+          "exact_match": 43,
+          "exact_match_rate": 41.0,
+          "syntax_valid": 104,
+          "syntax_valid_rate": 99.0,
+          "subcategories": {
+            "citations": {
+              "total": 15,
+              "passed": 13,
+              "pass_rate": 86.7,
+              "exact_match": 4,
+              "syntax_valid": 15
+            },
+            "references": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 4,
+              "syntax_valid": 14
+            },
+            "trending": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 5,
+              "syntax_valid": 15
+            },
+            "similar": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 10,
+              "syntax_valid": 15
+            },
+            "useful": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 11,
+              "syntax_valid": 15
+            },
+            "reviews": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 9,
+              "syntax_valid": 15
+            },
+            "topn": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15
+            }
+          },
+          "pattern_match": 105
+        },
+        "enum_fields": {
+          "total": 55,
+          "passed": 54,
+          "pass_rate": 98.2,
+          "exact_match": 1,
+          "exact_match_rate": 1.8,
+          "syntax_valid": 55,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "property": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15
+            },
+            "doctype": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 0,
+              "syntax_valid": 15
+            },
+            "bibgroup": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 1,
+              "syntax_valid": 15
+            },
+            "database": {
+              "total": 10,
+              "passed": 10,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 10
+            }
+          },
+          "pattern_match": 55
+        },
+        "runtime_augmentation": {
+          "total": 25,
+          "passed": 21,
+          "pass_rate": 84.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 25,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "uat": {
+              "total": 8,
+              "passed": 6,
+              "pass_rate": 75.0,
+              "exact_match": 0,
+              "syntax_valid": 8
+            },
+            "planetary_feature": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5
+            },
+            "institution_expansion": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5
+            },
+            "bibstem_normalization": {
+              "total": 4,
+              "passed": 2,
+              "pass_rate": 50.0,
+              "exact_match": 0,
+              "syntax_valid": 4
+            },
+            "author_wildcarding": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3
+            }
+          },
+          "pattern_match": 21
+        },
+        "new_fields": {
+          "total": 30,
+          "passed": 30,
+          "pass_rate": 100.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 30,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "object": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5,
+              "avg_field_f1": 26.7
+            },
+            "has": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5,
+              "avg_field_f1": 53.3
+            },
+            "data_archives": {
+              "total": 4,
+              "passed": 4,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 4,
+              "avg_field_f1": 45.8
+            },
+            "esources": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 38.9
+            },
+            "grant_ack": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 0.0
+            },
+            "arxiv_class": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 13.3
+            },
+            "orcid": {
+              "total": 2,
+              "passed": 2,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 2,
+              "avg_field_f1": 0.0
+            },
+            "mention_credit": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 55.6
+            },
+            "caption": {
+              "total": 2,
+              "passed": 2,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 2,
+              "avg_field_f1": 0.0
+            }
+          },
+          "avg_field_f1": 30.2,
+          "pattern_match": 30
+        },
+        "edge_cases": {
+          "total": 60,
+          "passed": 52,
+          "pass_rate": 86.7,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 52,
+          "syntax_valid_rate": 86.7,
+          "subcategories": {
+            "edge": {
+              "total": 60,
+              "passed": 52,
+              "pass_rate": 86.7,
+              "exact_match": 0,
+              "syntax_valid": 52
+            }
+          },
+          "pattern_match": 57
+        },
+        "regression_tests": {
+          "total": 50,
+          "passed": 45,
+          "pass_rate": 90.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 45,
+          "syntax_valid_rate": 90.0,
+          "subcategories": {
+            "regression": {
+              "total": 50,
+              "passed": 45,
+              "pass_rate": 90.0,
+              "exact_match": 0,
+              "syntax_valid": 45
+            }
+          },
+          "pattern_match": 50
+        },
+        "compound_queries": {
+          "total": 20,
+          "passed": 20,
+          "pass_rate": 100.0,
+          "exact_match": 2,
+          "exact_match_rate": 10.0,
+          "syntax_valid": 20,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "compound": {
+              "total": 20,
+              "passed": 20,
+              "pass_rate": 100.0,
+              "exact_match": 2,
+              "syntax_valid": 20,
+              "avg_field_f1": 91.5
+            }
+          },
+          "avg_field_f1": 91.5,
+          "pattern_match": 20
+        },
+        "reference_parsing": {
+          "total": 10,
+          "passed": 10,
+          "pass_rate": 100.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 10,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "reference": {
+              "total": 10,
+              "passed": 10,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 10,
+              "avg_field_f1": 0.0
+            }
+          },
+          "avg_field_f1": 0.0,
+          "pattern_match": 10
+        }
+      },
+      "difficulty_stats": {
+        "simple": {
+          "total": 212,
+          "passed": 207,
+          "pass_rate": 97.6,
+          "syntax_valid": 211
+        },
+        "medium": {
+          "total": 99,
+          "passed": 95,
+          "pass_rate": 96.0,
+          "syntax_valid": 99
+        },
+        "complex": {
+          "total": 18,
+          "passed": 17,
+          "pass_rate": 94.4,
+          "syntax_valid": 18
+        },
+        "hard": {
+          "total": 17,
+          "passed": 17,
+          "pass_rate": 100.0,
+          "syntax_valid": 17
+        },
+        "edge": {
+          "total": 25,
+          "passed": 18,
+          "pass_rate": 72.0,
+          "syntax_valid": 17
+        },
+        "regression": {
+          "total": 50,
+          "passed": 45,
+          "pass_rate": 90.0,
+          "syntax_valid": 45
+        }
+      },
+      "failed_tests": [
+        {
+          "test_id": "citations-006",
+          "category": "operators",
+          "subcategory": "citations",
+          "natural_language": "research citing JWST observations",
+          "expected_query": "citations(bibgroup:JWST)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "citations(abs:\"observations bibgroup:JWST\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'JWST\"' (did you mean: JWST?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "citations-013",
+          "category": "operators",
+          "subcategory": "citations",
+          "natural_language": "refereed papers citing ALMA observations",
+          "expected_query": "citations(bibgroup:ALMA) property:refereed",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "citations(abs:\"observations property:refereed bibgroup:ALMA\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "references-004",
+          "category": "operators",
+          "subcategory": "references",
+          "natural_language": "what does Einstein cite",
+          "expected_query": "references(author:Einstein)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "similar-006",
+          "category": "operators",
+          "subcategory": "similar",
+          "natural_language": "papers resembling ALMA observations research",
+          "expected_query": "similar(bibgroup:ALMA)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "similar(abs:\"observations bibgroup:ALMA\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "doctype-013",
+          "category": "enum_fields",
+          "subcategory": "doctype",
+          "natural_language": "book reviews on cosmology",
+          "expected_query": "doctype:bookreview abs:\"cosmology\"",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "reviews(abs:\"cosmology doctype:book\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid doctype value: 'book\"' (did you mean: book, bookreview?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "uat-001",
+          "category": "runtime_augmentation",
+          "subcategory": "uat",
+          "natural_language": "papers about dark matter",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "uat:\"Dark matter\"",
+            "abs:\"dark matter\""
+          ],
+          "actual_query": "abs:\"dark matter\"",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "uat:\"Dark matter\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "uat-002",
+          "category": "runtime_augmentation",
+          "subcategory": "uat",
+          "natural_language": "stellar evolution research",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "uat:\"Stellar evolution\"",
+            "abs:\"stellar evolution\""
+          ],
+          "actual_query": "abs:\"stellar evolution\"",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "uat:\"Stellar evolution\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "bibstem-norm-003",
+          "category": "runtime_augmentation",
+          "subcategory": "bibstem_normalization",
+          "natural_language": "papers published in Astronomy and Astrophysics",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "bibstem:\"A&A\""
+          ],
+          "actual_query": "abs:published collection:astronomy",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "bibstem:\"A&A\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "bibstem-norm-004",
+          "category": "runtime_augmentation",
+          "subcategory": "bibstem_normalization",
+          "natural_language": "Nature papers on black holes",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "bibstem:\"Natur\""
+          ],
+          "actual_query": "abs:\"nature black holes\"",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "bibstem:\"Natur\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-050",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "author:\"Hawking, S\" abs:cosmology",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-051",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "citations(abs:\"gravitational waves\")",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-052",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "bibstem:ApJ pubdate:[2020 TO 2023]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-v2-005",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "can you find me recent work on dark energy by Riess?",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:",
+            "author:"
+          ],
+          "actual_query": "abs:\"dark energy riess\" pubdate:[2021 TO 2026]",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "author:"
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-007",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "^author:\"Smith\" abs:\"dark matter\"",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-009",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "preprint papers on cosmology",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:\"cosmology\""
+          ],
+          "actual_query": "abs:cosmology property:eprint",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "abs:\"cosmology\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-014",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "astrophysics database papers on dark matter",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:\"dark matter\""
+          ],
+          "actual_query": "abs:\"database dark matter\" collection:astronomy",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "abs:\"dark matter\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-015",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "citations(abs:dark matter)",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-009",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "aff:Berkeley abs:\"dark matter\"",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-013",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "abs:\"dark matter\" property:refereed",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-014",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "author:\"Hawking\" abs:\"black holes\" pubdate:[2000 TO 2020]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-016",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "similar(abs:\"dark matter\") entdate:[NOW-7DAYS TO *]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-017",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "trending(useful(abs:\"cosmology\"))",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        }
+      ]
+    },
+    {
+      "name": "NER+augmentation",
+      "elapsed_s": 27.23,
+      "timestamp": "2026-03-18T17:17:48.836704",
+      "benchmark_file": "data/datasets/benchmark/benchmark_queries_v2.json",
+      "backend": "ner+augmentation",
+      "total_tests": 421,
+      "passed_tests": 401,
+      "overall_stats": {
+        "total_tests": 421,
+        "passed_tests": 401,
+        "pass_rate": 95.2,
+        "exact_match_count": 18,
+        "exact_match_rate": 4.3,
+        "syntax_valid_count": 407,
+        "syntax_valid_rate": 96.7,
+        "constraint_valid_count": 417,
+        "constraint_valid_rate": 99.0,
+        "pattern_tests": 44,
+        "pattern_match_count": 39,
+        "pattern_match_rate": 88.6,
+        "avg_field_f1": 43.3,
+        "v1_tests": 301,
+        "v1_passed": 293,
+        "v1_pass_rate": 97.3,
+        "v2_tests": 120,
+        "v2_passed": 108,
+        "v2_pass_rate": 90.0
+      },
+      "category_stats": {
+        "field_types": {
+          "total": 66,
+          "passed": 66,
+          "pass_rate": 100.0,
+          "exact_match": 3,
+          "exact_match_rate": 4.5,
+          "syntax_valid": 66,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "content": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 3,
+              "syntax_valid": 15,
+              "avg_field_f1": 60.0
+            },
+            "author": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15,
+              "avg_field_f1": 68.7
+            },
+            "identifier": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 30.6
+            },
+            "metric": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 16.7
+            },
+            "date": {
+              "total": 12,
+              "passed": 12,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 12,
+              "avg_field_f1": 17.2
+            }
+          },
+          "avg_field_f1": 41.0,
+          "pattern_match": 66
+        },
+        "operators": {
+          "total": 105,
+          "passed": 101,
+          "pass_rate": 96.2,
+          "exact_match": 13,
+          "exact_match_rate": 12.4,
+          "syntax_valid": 104,
+          "syntax_valid_rate": 99.0,
+          "subcategories": {
+            "citations": {
+              "total": 15,
+              "passed": 13,
+              "pass_rate": 86.7,
+              "exact_match": 3,
+              "syntax_valid": 15
+            },
+            "references": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 2,
+              "syntax_valid": 14
+            },
+            "trending": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15
+            },
+            "similar": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 3,
+              "syntax_valid": 15
+            },
+            "useful": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 4,
+              "syntax_valid": 15
+            },
+            "reviews": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 1,
+              "syntax_valid": 15
+            },
+            "topn": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15
+            }
+          },
+          "pattern_match": 105
+        },
+        "enum_fields": {
+          "total": 55,
+          "passed": 54,
+          "pass_rate": 98.2,
+          "exact_match": 1,
+          "exact_match_rate": 1.8,
+          "syntax_valid": 55,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "property": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 15
+            },
+            "doctype": {
+              "total": 15,
+              "passed": 14,
+              "pass_rate": 93.3,
+              "exact_match": 0,
+              "syntax_valid": 15
+            },
+            "bibgroup": {
+              "total": 15,
+              "passed": 15,
+              "pass_rate": 100.0,
+              "exact_match": 1,
+              "syntax_valid": 15
+            },
+            "database": {
+              "total": 10,
+              "passed": 10,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 10
+            }
+          },
+          "pattern_match": 55
+        },
+        "runtime_augmentation": {
+          "total": 25,
+          "passed": 23,
+          "pass_rate": 92.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 25,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "uat": {
+              "total": 8,
+              "passed": 8,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 8
+            },
+            "planetary_feature": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5
+            },
+            "institution_expansion": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5
+            },
+            "bibstem_normalization": {
+              "total": 4,
+              "passed": 2,
+              "pass_rate": 50.0,
+              "exact_match": 0,
+              "syntax_valid": 4
+            },
+            "author_wildcarding": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3
+            }
+          },
+          "pattern_match": 23
+        },
+        "new_fields": {
+          "total": 30,
+          "passed": 30,
+          "pass_rate": 100.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 30,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "object": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5,
+              "avg_field_f1": 26.7
+            },
+            "has": {
+              "total": 5,
+              "passed": 5,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 5,
+              "avg_field_f1": 53.3
+            },
+            "data_archives": {
+              "total": 4,
+              "passed": 4,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 4,
+              "avg_field_f1": 45.8
+            },
+            "esources": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 38.9
+            },
+            "grant_ack": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 0.0
+            },
+            "arxiv_class": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 13.3
+            },
+            "orcid": {
+              "total": 2,
+              "passed": 2,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 2,
+              "avg_field_f1": 0.0
+            },
+            "mention_credit": {
+              "total": 3,
+              "passed": 3,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 3,
+              "avg_field_f1": 55.6
+            },
+            "caption": {
+              "total": 2,
+              "passed": 2,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 2,
+              "avg_field_f1": 0.0
+            }
+          },
+          "avg_field_f1": 30.2,
+          "pattern_match": 30
+        },
+        "edge_cases": {
+          "total": 60,
+          "passed": 52,
+          "pass_rate": 86.7,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 52,
+          "syntax_valid_rate": 86.7,
+          "subcategories": {
+            "edge": {
+              "total": 60,
+              "passed": 52,
+              "pass_rate": 86.7,
+              "exact_match": 0,
+              "syntax_valid": 52
+            }
+          },
+          "pattern_match": 57
+        },
+        "regression_tests": {
+          "total": 50,
+          "passed": 45,
+          "pass_rate": 90.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 45,
+          "syntax_valid_rate": 90.0,
+          "subcategories": {
+            "regression": {
+              "total": 50,
+              "passed": 45,
+              "pass_rate": 90.0,
+              "exact_match": 0,
+              "syntax_valid": 45
+            }
+          },
+          "pattern_match": 50
+        },
+        "compound_queries": {
+          "total": 20,
+          "passed": 20,
+          "pass_rate": 100.0,
+          "exact_match": 1,
+          "exact_match_rate": 5.0,
+          "syntax_valid": 20,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "compound": {
+              "total": 20,
+              "passed": 20,
+              "pass_rate": 100.0,
+              "exact_match": 1,
+              "syntax_valid": 20,
+              "avg_field_f1": 88.2
+            }
+          },
+          "avg_field_f1": 88.2,
+          "pattern_match": 20
+        },
+        "reference_parsing": {
+          "total": 10,
+          "passed": 10,
+          "pass_rate": 100.0,
+          "exact_match": 0,
+          "exact_match_rate": 0.0,
+          "syntax_valid": 10,
+          "syntax_valid_rate": 100.0,
+          "subcategories": {
+            "reference": {
+              "total": 10,
+              "passed": 10,
+              "pass_rate": 100.0,
+              "exact_match": 0,
+              "syntax_valid": 10,
+              "avg_field_f1": 0.0
+            }
+          },
+          "avg_field_f1": 0.0,
+          "pattern_match": 10
+        }
+      },
+      "difficulty_stats": {
+        "simple": {
+          "total": 212,
+          "passed": 209,
+          "pass_rate": 98.6,
+          "syntax_valid": 211
+        },
+        "medium": {
+          "total": 99,
+          "passed": 95,
+          "pass_rate": 96.0,
+          "syntax_valid": 99
+        },
+        "complex": {
+          "total": 18,
+          "passed": 17,
+          "pass_rate": 94.4,
+          "syntax_valid": 18
+        },
+        "hard": {
+          "total": 17,
+          "passed": 17,
+          "pass_rate": 100.0,
+          "syntax_valid": 17
+        },
+        "edge": {
+          "total": 25,
+          "passed": 18,
+          "pass_rate": 72.0,
+          "syntax_valid": 17
+        },
+        "regression": {
+          "total": 50,
+          "passed": 45,
+          "pass_rate": 90.0,
+          "syntax_valid": 45
+        }
+      },
+      "failed_tests": [
+        {
+          "test_id": "citations-006",
+          "category": "operators",
+          "subcategory": "citations",
+          "natural_language": "research citing JWST observations",
+          "expected_query": "citations(bibgroup:JWST)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "citations(abs:\"observations bibgroup:JWST\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'JWST\"' (did you mean: JWST?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "citations-013",
+          "category": "operators",
+          "subcategory": "citations",
+          "natural_language": "refereed papers citing ALMA observations",
+          "expected_query": "citations(bibgroup:ALMA) property:refereed",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "citations(abs:\"observations property:refereed bibgroup:ALMA\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "references-004",
+          "category": "operators",
+          "subcategory": "references",
+          "natural_language": "what does Einstein cite",
+          "expected_query": "references(author:Einstein)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "similar-006",
+          "category": "operators",
+          "subcategory": "similar",
+          "natural_language": "papers resembling ALMA observations research",
+          "expected_query": "similar(bibgroup:ALMA)",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "similar(abs:\"observations bibgroup:ALMA\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid bibgroup value: 'ALMA\"' (did you mean: ALMA?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "doctype-013",
+          "category": "enum_fields",
+          "subcategory": "doctype",
+          "natural_language": "book reviews on cosmology",
+          "expected_query": "doctype:bookreview abs:\"cosmology\"",
+          "expected_behavior": null,
+          "expected_patterns": [],
+          "actual_query": "reviews(abs:\"cosmology doctype:book\")",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [
+            "Invalid doctype value: 'book\"' (did you mean: book, bookreview?)"
+          ],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "bibstem-norm-003",
+          "category": "runtime_augmentation",
+          "subcategory": "bibstem_normalization",
+          "natural_language": "papers published in Astronomy and Astrophysics",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "bibstem:\"A&A\""
+          ],
+          "actual_query": "abs:published collection:astronomy",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "bibstem:\"A&A\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "bibstem-norm-004",
+          "category": "runtime_augmentation",
+          "subcategory": "bibstem_normalization",
+          "natural_language": "Nature papers on black holes",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "bibstem:\"Natur\""
+          ],
+          "actual_query": "abs:\"nature black holes\"",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "bibstem:\"Natur\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-050",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "author:\"Hawking, S\" abs:cosmology",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-051",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "citations(abs:\"gravitational waves\")",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-052",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "bibstem:ApJ pubdate:[2020 TO 2023]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v1"
+        },
+        {
+          "test_id": "edge-v2-005",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "can you find me recent work on dark energy by Riess?",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:",
+            "author:"
+          ],
+          "actual_query": "abs:\"dark energy riess\" pubdate:[2021 TO 2026]",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "author:"
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-007",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "^author:\"Smith\" abs:\"dark matter\"",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-009",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "preprint papers on cosmology",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:\"cosmology\""
+          ],
+          "actual_query": "abs:cosmology property:eprint",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "abs:\"cosmology\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-014",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "astrophysics database papers on dark matter",
+          "expected_query": null,
+          "expected_behavior": null,
+          "expected_patterns": [
+            "abs:\"dark matter\""
+          ],
+          "actual_query": "abs:\"database dark matter\" collection:astronomy",
+          "exact_match": false,
+          "syntax_valid": true,
+          "syntax_errors": [],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [
+            "abs:\"dark matter\""
+          ],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "edge-v2-015",
+          "category": "edge_cases",
+          "subcategory": "edge",
+          "natural_language": "citations(abs:dark matter)",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-009",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "aff:Berkeley abs:\"dark matter\"",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-013",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "abs:\"dark matter\" property:refereed",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-014",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "author:\"Hawking\" abs:\"black holes\" pubdate:[2000 TO 2020]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-016",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "similar(abs:\"dark matter\") entdate:[NOW-7DAYS TO *]",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        },
+        {
+          "test_id": "regression-v2-017",
+          "category": "regression_tests",
+          "subcategory": "regression",
+          "natural_language": "trending(useful(abs:\"cosmology\"))",
+          "expected_query": null,
+          "expected_behavior": "passthrough",
+          "expected_patterns": [],
+          "actual_query": "",
+          "exact_match": false,
+          "syntax_valid": false,
+          "syntax_errors": [
+            "Empty query"
+          ],
+          "constraint_errors": [],
+          "forbidden_matched": [],
+          "patterns_missing": [],
+          "field_f1": 0.0,
+          "added_in": "v2"
+        }
+      ]
+    }
+  ]
+}

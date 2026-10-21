@@ -68,10 +68,13 @@ RAG retrieval (<20ms) runs in parallel with NER. Injects 2-3 similar gold exampl
 - **Fallback:** When both NER and LLM fail, returns `abs:"<original text>"` with `source="fallback"` and `confidence=0.1` instead of empty query
 
 ### Query Repair (`constrain.py`)
-Post-assembly deterministic repairs applied before enum constraint filtering:
+Post-assembly deterministic repairs applied before enum constraint filtering. **Always runs** on every merge result (not just fallbacks) since merge.py now wraps all return paths with `constrain_query_output()`.
+- **Spaced-out range fix:** `[1 0 0 T O *]` → `[100 TO *]` (LLM tokenization artifact — collapses single-char sequences by type: digits with digits, letters with letters)
+- **Unbalanced quote fix:** `abs:"dark matter` → `abs:"dark matter"` (adds missing closing quote when preceded by `field:`)
 - **First-author caret fix:** `^author:"Last"` → `author:"^Last"` (prevents ADS 400 error)
 - **Backwards year range:** `pubdate:[2025 TO 2020]` → `pubdate:[2020 TO 2025]`
 - **Unquoted operator values:** `citations(abs:dark matter)` → `citations(abs:"dark matter")`
+- **Misplaced field value redirect (data-driven):** Auto-redirects any FIELD_ENUMS value found in `abs:`/`title:` to its correct field using a reverse index. User synonyms handle natural terms (`preprint`→`doctype:eprint`, `peer-reviewed`→`property:refereed`, `open access`→`property:openaccess`). A common-words safelist (~80 entries: common English words, telescope names, archive names, all `has:` values) prevents over-redirecting legitimate abstract search terms.
 - **Enum misspelling correction:** 21 common misspellings auto-corrected (e.g., `doctype:preprint`→`eprint`, `property:peer-reviewed`→`refereed`, `database:astrophysics`→`astronomy`)
 
 ### Parse Query Module (`parse_query.py`)
@@ -85,9 +88,12 @@ Post-assembly deterministic repairs applied before enum constraint filtering:
 - **Large response guard:** LLM responses >10KB skip JSON parsing (returns raw text)
 - **Production telemetry:** Structured JSON logging for every query via `nls.telemetry` logger (source, confidence, latency, errors, repairs)
 
-### Debug Endpoints
+### Debug & Demo Endpoints
 - `GET /debug/hybrid?q=...` — Run hybrid merge, returns: final query, source, raw NLS/NER queries, **intent traces** (NER/LLM/merged IntentSpec dicts), fields_injected, timing
 - `GET /debug/pipeline?q=...` — Run NER pipeline only, returns result or error
+- `GET /debug/llm?q=...` — Run LLM-only path (with optional RAG), returns: query, raw_response, intent, timing, rag context
+- `GET /config` / `POST /config` — Read/update runtime config (hybrid_mode, rag_enabled, rag_num_examples, rag_max_cards, llm_timeout)
+- `GET /demo` — Interactive demo dashboard (single-page HTML, no dependencies). Provides mode switching (Heuristics/LLM/Hybrid/Hybrid+RAG), 16 preset demo queries, generated query display with SciXplorer link, and debug panel showing intent traces, timing, RAG context, and curl commands.
 
 ### Environment Variables
 - `HYBRID_MODE=true` — Enable hybrid merge (default). Set `false` for NER-only when pipeline available.
@@ -99,9 +105,25 @@ Post-assembly deterministic repairs applied before enum constraint filtering:
 ## Training Data
 
 - **Format:** JSONL with chat messages (system/user/assistant)
-- **Gold examples:** `data/datasets/raw/gold_examples.json` (4,924 pairs)
-- **Processed train/val:** `data/datasets/processed/train.jsonl` (5,185) / `val.jsonl` (577)
+- **Gold examples:** `data/datasets/raw/gold_examples.json` (4,975 pairs)
+- **Processed train/val:** `data/datasets/processed/train.jsonl` (3,725) / `val.jsonl` (414) (intent format)
 - **Categories:** 21 types (first_author, unfielded, author, content, publication, operator, filters, compound, conversational, etc.)
+
+### Training Scripts
+- `scripts/train_local_mps.py` — **Local Apple Silicon** (MLX, 4-bit LoRA). Best for M2/M3/M4 Macs. ~7 min for 1.7B.
+- `scripts/train_1.7b_colab.ipynb` — **Google Colab T4** (PyTorch QLoRA). Trains both 1.7B and 4B.
+- `scripts/train_standalone.py` — **Any CUDA GPU** (unsloth). For AWS/Lambda/etc.
+
+### Best Training Config (1.7B, MLX)
+```bash
+python scripts/train_local_mps.py \
+    --base-model Qwen/Qwen3-1.7B \
+    --batch-size 1 --grad-accum 16 \
+    --num-lora-layers 16 --epochs 2 \
+    --grad-checkpoint --learning-rate 2e-4
+```
+- Val loss: 0.150, training time: 7 min on M2 Pro 32GB
+- 4B model tested extensively — insufficient data (3,725 examples) for 4B to learn structured output
 
 ### Example pair (gold_examples.json)
 ```json
@@ -194,7 +216,7 @@ Full syntax: https://ui.adsabs.harvard.edu/help/search/search-syntax
 | `doctype` | 22 | article, eprint, phdthesis, inproceedings, software |
 | `property` | 21 | refereed, openaccess, eprint, nonarticle |
 | `database` | 4 | astronomy, physics, general, earthscience |
-| `bibgroup` | 53 | HST, JWST, Chandra, SDSS, ALMA, Gaia, LIGO |
+| `bibgroup` | 47 | HST, JWST, Chandra, ALMA, Spitzer, CfA, SETI |
 | `esources` | 8 | PUB_PDF, EPRINT_PDF, ADS_SCAN |
 | `data` | 24 | MAST, NED, SIMBAD, VizieR, IRSA |
 | `has` | 34 | body, ack, data, grant, orcid_pub, mention |
@@ -361,12 +383,27 @@ All template-based, deterministic (seeded), output to `data/datasets/generated/`
 - `scripts/generate_coverage_gap_examples.py` — Coverage audit gap-fill: 210 examples across 17 categories (esources, data, NOT, has, grant, ack, keyword, arxiv_class, orcid, entry_date, object, proximity, exact author, cross-domain, mentions, verbose NL, similar, references)
 - `scripts/fix_validation_issues.py` — Fixes for validation issues in coverage-gap examples (idempotent)
 - `scripts/generate_blog_examples.py` — Blog-sourced patterns: nested operators (trending(useful(...))), similar()+entdate, property:(...) multi-value, bibstem wildcards/OR, full: field, data-linking, earth science collection (91 examples)
+- `scripts/generate_kurtz2020_examples.py` — Kurtz 2020 second-order operators paper: nested operators (trending(useful(...)), useful(citations(...)), reviews(references(...))), topn() with multiple sort orders (read_count/score/date/citation_count desc), exclusion patterns (-author/-references), author/reader modeling via trending(), full: text filtering inside operators, bibliometric coupling, co-citation analysis (196 examples from 50 unique queries)
 - `scripts/clean_gold_examples.py` — Removes non-academic entries, fixes encoding/authors/alignment in gold_examples.json
 - `scripts/realism_cleanup.py` — Realism cleanup: removes broken queries (docs hashes, DOIs in abs, year:1641), deduplicates content-field cross-products, rewrites template NL (bibgroup, field-reference, syntax, has:, exact-match), reduces OA subtype over-representation (118 removed, 205 rewritten)
+- `scripts/audit_bibgroup_dates.py` — Audits bibgroup+date examples against ADS API; identifies 0-result queries from historical missions + recent dates
+- `scripts/fix_bibgroup_examples.py` — Removes 145 invalid bibgroup examples (24 bibgroup values that don't exist in ADS), fixes ESO→ESO/Telescopes (23 examples)
 - `scripts/generate_training_improvements.py` — Coverage gap improvements: reference parsing, UAT, negation, software mentions, date diversity, caption, arxiv IDs, count filters (98 examples + 15 planetary_feature)
 - `scripts/convert_to_intent_format.py` — Converts gold_examples.json to intent format (IntentSpec JSON + think traces) for Phase B training
 - `scripts/remove_synonym_expansion.py` — Removes 24 examples teaching LLM synonym expansion (OR-lists, fabricated abs: terms, broken queries), fixes 4 abbreviation swaps, adds 13 clean replacements
 - `scripts/build_rag_dataset.py` — Builds RAG-augmented training JSONL: for each example, retrieves k nearest neighbors as few-shot context (Phase C)
+
+### Benchmark & Evaluation Scripts
+- `scripts/create_benchmark_v2.py` — Generates benchmark v2 (421 tests: 301 v1 + 120 v2) at `data/datasets/benchmark/benchmark_queries_v2.json`
+- `scripts/evaluate_benchmark.py` — Evaluates NL-to-ADS pipeline against benchmark. Supports NER (`--backend ner`) and server (`--backend server`) backends, runtime augmentation (`--with-augmentation`), pattern matching, field F1, optional semantic overlap (`--semantic`), CSV output (`--csv`)
+- `scripts/benchmark_comparison.py` — Multi-config comparison runner. Runs evaluator across multiple backends and produces comparison table, diff report, latency report
+
+### Benchmark v2 (data/datasets/benchmark/benchmark_queries_v2.json)
+- **421 tests total**: 301 v1 (backward compat) + 120 v2 (new capabilities)
+- **v2 categories**: runtime_augmentation (UAT, planetary_feature, inst expansion, bibstem normalization, author wildcarding), new_fields (object, has, data, esources, grant/ack, arxiv_class, orcid, mention/credit, caption), compound_queries, reference_parsing, edge_cases, regression_tests
+- **Pattern-based tests**: `expected_patterns` / `forbidden_patterns` for tests where exact match is impossible (runtime augmentation adds terms)
+- **NER-only baseline**: 94.8% pass, 12.4% exact match, 44.8% field F1
+- **NER+augmentation baseline**: 95.2% pass, 88.6% pattern match
 
 ## Reference Material for Training Data Generation
 
@@ -449,4 +486,8 @@ Raw blog posts are archived in `data/reference/blog/` (60 files, 2015–2025) fo
 `data/reference/Gazetteer_of_Planetary_Nomenclature_Exported_Nov_7_2024.csv` — USGS planetary nomenclature (16,243 features, 48 targets, 56 feature types). Used as reference for `planetary_feature:` training examples. Source: https://github.com/adsabs/ADSPlanetaryNamesPipeline
 
 `data/model/planetary_feature_synonyms.json` maps 8,915 terms (feature names, feature types, targets) to canonical forms from the USGS Gazetteer. Runtime module `planetary_feature_lookup.py` augments `abs:"feature name"` with `OR planetary_feature:"Canonical Name"` when there's a match. NER also extracts multi-word feature names (e.g. "Olympus Mons", "Valles Marineris") directly into IntentSpec.
+
+### Source 9: Kurtz 2020 Second-Order Operators Paper
+
+`data/datasets/raw/kurtz2020_extracted.json` — 50 ADS queries with research scenarios extracted from "Second Order Operators in the NASA ADS" (Kurtz & Chyla, BAAS 2020, DOI: 10.3847/25c2cfeb.8d12c399). Covers nested operators, topn() with multiple sort orders, exclusion patterns, author/reader modeling, bibliometric coupling, and co-citation analysis. Used to generate 196 training examples via `scripts/generate_kurtz2020_examples.py`.
 

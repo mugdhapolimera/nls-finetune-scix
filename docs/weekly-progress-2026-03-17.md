@@ -34,7 +34,20 @@
 | RAG few-shot retrieval | Injects 2-3 similar gold examples into LLM prompt |
 | Field reference cards | Injects valid enum values into LLM prompt to reduce hallucination |
 
-### Ready for retraining (needs GPU time)
+### Retrained (March 18)
+
+| Model | Platform | Config | Val Loss | Time | Status |
+|---|---|---|---|---|---|
+| **Qwen3-1.7B** | Colab T4 (QLoRA) | 3 epochs, batch=2×8, fp32 LoRA | 0.127 | ~2.5 hrs | Training complete |
+| **Qwen3-1.7B** | Local M2 Pro (MLX) | 2 epochs, batch=1×16, 16 LoRA layers | **0.150** | **7 min** | Fused model ready |
+| Qwen3-4B | Local M2 Pro (MLX) | 1 epoch, 16 LoRA layers | 0.309 | 8 min | Poor eval (repetition, no JSON) |
+| Qwen3-4B | Local M2 Pro (MLX) | 2 epochs, all layers, lr=5e-5 | 0.158 | crashed | Metal crash at step 230; checkpoint eval poor |
+
+**Winner: Qwen3-1.7B** — best val loss, generates valid `<think>` + IntentSpec JSON, fast training.
+
+**Key finding:** 3,725 training examples is insufficient for 4B to learn the structured output format. The 4B model consistently fails to produce valid JSON across all configurations.
+
+### Ready for retraining (alternative formats)
 
 | Dataset | Command | Description |
 |---|---|---|
@@ -601,7 +614,7 @@ python scripts/evaluate_benchmark.py \
 | NER-only baseline | 98.7% | 11.6% | Measured Jan 23 |
 | Hybrid NER+LLM (current model) | ~98-99% | ~15-20%? | Needs measurement |
 | + Phase C RAG (no retrain) | ~99% | ~20-25%? | Needs measurement |
-| + Intent format retrain | ~99% | ~25-35%? | Needs GPU |
+| + Intent format retrain | ~99% | ~25-35%? | **Retrained Mar 18 — needs benchmark** |
 | + RAG-augmented retrain | ~99% | ~30-40%? | Needs GPU |
 
 > The benchmark was created Jan 22 and predates UAT, planetary features, coverage gap fills, intent format, and RAG. **Consider updating the benchmark.**
@@ -610,14 +623,14 @@ python scripts/evaluate_benchmark.py \
 
 ## 10. Decisions Needed
 
-1. **Retrain with intent format?**
-   - Recommended. Training data is ready (`--format intent`). ~3 hours GPU.
-   - The model needs to be retrained to produce IntentSpec JSON instead of query strings.
+1. ~~**Retrain with intent format?**~~ **DONE (Mar 18)**
+   - Retrained Qwen3-1.7B with intent format on both Colab T4 and local M2 Pro (MLX).
+   - Local MLX training: 7 min for 2 epochs, val loss 0.150. Fused model at `output/NLQT-Qwen3-1.7B-v2/fused/`.
+   - **Next step:** Compare Colab vs local model quality, push best to HuggingFace.
 
-2. **Deploy RAG with current model or wait for retrain?**
-   - Option A: Deploy now → immediate improvement, no GPU needed
-   - Option B: Retrain first → model learns to leverage few-shot context
-   - Option C: Both → deploy now, retrain later for further improvement
+2. **Deploy RAG with retrained model?**
+   - Retrained model outputs IntentSpec JSON — compatible with RAG few-shot format.
+   - **Next step:** Benchmark retrained model with and without RAG to measure improvement.
 
 3. **Update the benchmark?**
    - Current benchmark (301 queries) predates UAT, planetary features, coverage gap fills, intent format, and RAG.
@@ -625,7 +638,7 @@ python scripts/evaluate_benchmark.py \
 
 4. **Adjust merge policies?**
    - Current policies prefer NER for authors/affiliations/bibstems and LLM for topics/operators/negation.
-   - After benchmarking with the model, we can shift trust toward the LLM for fields where it outperforms.
+   - After benchmarking with the retrained model, we can shift trust toward the LLM for fields where it outperforms.
 
 5. **Fill remaining coverage gaps?**
    - 7/24 data archives, ~14/34 has: values, lang/page/issue fields.
@@ -993,6 +1006,89 @@ LLM_TIMEOUT=10 HYBRID_MODE=false RAG_ENABLED=false PYTHONPATH=packages/finetune/
 
 ---
 
+## 12. Model Training Results (March 18)
+
+### Training infrastructure
+
+Two training paths were tested:
+
+| Platform | Framework | Quantization | Model load | Training speed |
+|---|---|---|---|---|
+| **Google Colab T4** | PyTorch + peft + trl | 4-bit NF4 (bitsandbytes) | ~2 GB | 0.07 it/sec |
+| **Local M2 Pro 32GB** | MLX + mlx-lm | 4-bit (MLX native) | ~1 GB | 1.4 it/sec |
+
+MLX on Apple Silicon is **~20x faster** than PyTorch QLoRA on T4 for this model size.
+
+### Training configurations tested
+
+| # | Model | Layers | Epochs | LR | Batch | Val Loss | Eval | Notes |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 1.7B | 16 | 1 | 2e-4 | 1×16 | 0.284 | Missing fields | Undertrained |
+| **2** | **1.7B** | **16** | **2** | **2e-4** | **1×16** | **0.150** | **Valid JSON** | **Best result** |
+| 3 | 4B | 16 | 1 | 2e-4 | 1×16 | 0.309 | Repetition loops | Too few layers |
+| 4 | 4B | all | 1 | 2e-4 | 2×8 | — | — | Gradient explosion at step 280 |
+| 5 | 4B | all | 2 | 5e-5 | 1×16 | 0.158 | No JSON output | Metal crash at step 230 |
+
+### Key findings
+
+1. **1.7B > 4B at this data scale (3,725 examples).** The 4B model has too much capacity for the data — it either overfits, explodes, or fails to learn the output format.
+
+2. **2 epochs is the sweet spot for 1.7B.** 1 epoch undertrained (missing fields), 3 epochs overfit (loss rising after epoch 1 on Colab).
+
+3. **16 LoRA layers is the stable limit on Apple Silicon.** `--num-lora-layers -1` (all layers) consistently triggers Metal driver crashes (`[METAL] Command buffer execution failed: Internal Error`), regardless of batch size or gradient checkpointing.
+
+4. **`--mask-prompt` is important.** Training only on assistant output (not the system/user prompt) focuses the model on learning the `<think>` + JSON format.
+
+5. **Overfitting signal from Colab 1.7B:** Train loss bottomed at 0.127 (step 80), then rose to 0.183 (step 120). Val loss would confirm — the Colab notebook runs val eval after training.
+
+### Sample outputs (1.7B, 2 epochs, local MLX)
+
+| Query | Output |
+|---|---|
+| papers about exoplanets published in 2023 | `{"free_text_terms": ["exoplanets"], "year_from": 2023, "year_to": 2023}` |
+| highly cited papers about dark matter | `{"free_text_terms": ["dark matter"], "doctype": ["article"]}` |
+| Hawking radiation papers from the 1970s | `{"free_text_terms": ["radiation"], "year_from": 1970, "year_to": 1979}` |
+| refereed reviews about fast radio bursts | `{"free_text_terms": ["fast radio bursts"], "doctype": ["review"]}` |
+
+The model correctly generates `<think>` reasoning blocks followed by compact IntentSpec JSON. Some fields still weak (negation, operators, citation counts) — these are supplemented by the hybrid NER+LLM merge at runtime.
+
+### Local training script
+
+```bash
+# Full pipeline: build dataset + train + fuse + eval
+python scripts/train_local_mps.py
+
+# Best config (used for winning model):
+python scripts/train_local_mps.py \
+    --skip-dataset-build \
+    --base-model Qwen/Qwen3-1.7B \
+    --batch-size 1 --grad-accum 16 \
+    --num-lora-layers 16 \
+    --epochs 2 \
+    --grad-checkpoint \
+    --learning-rate 2e-4
+
+# Requirements: pip install mlx-lm
+```
+
+### Artifacts
+
+| Path | Description |
+|---|---|
+| `output/NLQT-Qwen3-1.7B-v2/adapters/` | MLX LoRA adapter weights |
+| `output/NLQT-Qwen3-1.7B-v2/fused/` | Fused fp16 model (ready for deployment) |
+| `scripts/train_local_mps.py` | MLX training script for Apple Silicon |
+| `scripts/train_1.7b_colab.ipynb` | Colab training notebook (PyTorch QLoRA) |
+
+### Next steps
+
+1. Compare Colab vs local 1.7B model outputs on benchmark
+2. Push better model to HuggingFace (`adsabs/NLQT-Qwen3-1.7B-v2`)
+3. Benchmark retrained model with and without RAG
+4. Consider increasing training data (>10K examples) before revisiting 4B
+
+---
+
 ## Files Changed This Week
 
 ### New modules
@@ -1024,6 +1120,15 @@ LLM_TIMEOUT=10 HYBRID_MODE=false RAG_ENABLED=false PYTHONPATH=packages/finetune/
 | `scripts/build_rag_dataset.py` | RAG-augmented training JSONL |
 | `scripts/remove_synonym_expansion.py` | Cleanup bad synonym examples |
 | `scripts/demo_improvements.py` | Interactive demo of all improvements |
+| `scripts/train_local_mps.py` | Local Apple Silicon training via MLX (LoRA fine-tuning) |
+| `scripts/normalize_year_syntax.py` | Converts `year:YYYY` → `pubdate:YYYY` in gold_examples.json |
+
+### Modified scripts
+
+| File | Changes |
+|---|---|
+| `scripts/train_1.7b_colab.ipynb` | Now trains both 1.7B and 4B; fixed `max_seq_length`→`max_length`, `fp16=False/bf16=False` for T4 |
+| `scripts/build_dataset.py` | Added `--format intent` and `--gold-only` flags |
 
 ### New data files
 
